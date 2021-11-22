@@ -5,10 +5,10 @@ contract Greeter {
     string private _greeting = "Hello, World!";
     address private _owner;
 
-    modifier onlyOwner() {
-        require(msg.sender == _owner, "Ownable: caller is not the owner");
-        _;
-    }
+    // modifier onlyOwner() {
+    //     require(msg.sender == _owner, "Ownable: caller is not the owner");
+    //     _;
+    // }
 
     constructor() {
         _owner = msg.sender;
