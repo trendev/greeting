@@ -48,8 +48,8 @@ module.exports = {
     // },
     rinkeby: {
       provider: () => {
-        let mnemonic = process.env["MNEMONIC"]
-        let project_id = process.env["INFURA_PROJECT_ID"]
+        const mnemonic = process.env["MNEMONIC"]
+        const project_id = process.env["INFURA_PROJECT_ID"]
         
         return new HDWalletProvider(
           mnemonic,
@@ -57,11 +57,11 @@ module.exports = {
       },
       network_id: "*"
     },
-    
+
     goerli: {
       provider: () => {
-        let mnemonic = process.env["MNEMONIC"]
-        let project_id = process.env["INFURA_PROJECT_ID"]
+        const mnemonic = process.env["MNEMONIC"]
+        const project_id = process.env["INFURA_PROJECT_ID"]
         
         return new HDWalletProvider(
           mnemonic,
@@ -69,12 +69,20 @@ module.exports = {
       },
       network_id: "*"
     },
-    // Useful for private networks
-    // private: {
-    // provider: () => new HDWalletProvider(mnemonic, `https://network.io`),
-    // network_id: 2111,   // This network is yours, in the cloud.
-    // production: true    // Treats this network as if it was a public net. (default: false)
-    // }
+
+    // avalanche testnet
+    fuji: {
+      provider: () => {
+        const mnemonic = process.env["AVAX_MNEMONIC"]
+        
+        return new HDWalletProvider(
+          mnemonic,
+          `https://api.avax-test.network/ext/bc/C/rpc`);
+      },
+      network_id: "*",
+      timeoutBlocks: 200,
+      skipDryRun: true
+    }
   },
 
   // Set default mocha options here, use special reporters etc.
