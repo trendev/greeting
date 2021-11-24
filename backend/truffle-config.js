@@ -57,6 +57,18 @@ module.exports = {
       },
       network_id: "*"
     },
+    
+    goerli: {
+      provider: () => {
+        let mnemonic = process.env["MNEMONIC"]
+        let project_id = process.env["INFURA_PROJECT_ID"]
+        
+        return new HDWalletProvider(
+          mnemonic,
+          `https://goerli.infura.io/v3/${project_id}`);
+      },
+      network_id: "*"
+    },
     // Useful for private networks
     // private: {
     // provider: () => new HDWalletProvider(mnemonic, `https://network.io`),
