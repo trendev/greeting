@@ -22,7 +22,7 @@ contract("Greeter", (accounts) => {
             try {
                 await instance.send(web3.utils.toWei("1", "ether"));
             } catch (err) {
-                assert(err.message.endsWith("revert"),"error message should end with 'revert'");
+                assert(err.message,"fallback() should throw an error message");
                 return;
             }
             assert(false, "should never occur");
@@ -58,8 +58,7 @@ contract("Greeter: update greeting", (accounts) => {
             try {
                 await instance.setGreeting(grt, { from: accounts[1] });
             } catch (err) {
-                const errmsg = "Ownable: caller is not the owner";
-                assert.equal(err.reason, errmsg);
+                assert(err.message,"setGreeting() should throw an error message");
             }
             const g2 = await instance.greet();
             assert.equal(g1, g2);
