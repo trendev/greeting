@@ -22,7 +22,7 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 //
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
-
+const mnemonic = process.env["MNEMONIC"];
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -48,7 +48,6 @@ module.exports = {
     // },
     rinkeby: {
       provider: () => {
-        const mnemonic = process.env["MNEMONIC"]
         const project_id = process.env["INFURA_PROJECT_ID"]
         
         return new HDWalletProvider(
@@ -60,7 +59,6 @@ module.exports = {
 
     goerli: {
       provider: () => {
-        const mnemonic = process.env["MNEMONIC"]
         const project_id = process.env["INFURA_PROJECT_ID"]
         
         return new HDWalletProvider(
@@ -72,9 +70,7 @@ module.exports = {
 
     // avalanche testnet
     fuji: {
-      provider: () => {
-        const mnemonic = process.env["AVAX_MNEMONIC"]
-        
+      provider: () => {        
         return new HDWalletProvider(
           mnemonic,
           `https://api.avax-test.network/ext/bc/C/rpc`);
