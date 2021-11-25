@@ -1,21 +1,23 @@
 const GreeterContract = artifacts.require("Greeter");
 
-let deployed = [];
+let deployed = {};
 
 contract("Greeter", (accounts) => {
     let instance;
     beforeEach(async () => {
         instance = await GreeterContract.deployed(); // provides the same deployed contract
         // instance = await GreeterContract.new(); // provides new contracts
-        deployed.push(Promise.resolve(instance.address));
+        
+        if(!deployed[instance.address]){
+            deployed[instance.address] = 0;
+        }
+        deployed[instance.address] += 1;
     });
 
     after(() => {
-        Promise.all(deployed).then(dc => {
-            r = dc.filter((e, i) => dc.indexOf(e) == i); // 
-            console.log(`** [${r && r.length}] GreeterContract deployed / called ${dc.length} times **`);
-            r.forEach(c => console.log(`address : ${c}`));
-        });
+        let contracts = Object.keys(deployed);
+        console.log(`** [${contracts.length}] GreeterContract deployed **`);
+        contracts.forEach(a => console.log(`address : ${a} / called [${deployed[a]}] times`));
     });
 
     it("has been deployed successfully", async () => {
