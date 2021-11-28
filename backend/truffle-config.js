@@ -68,6 +68,17 @@ module.exports = {
       network_id: "*"
     },
 
+    ropsten: {
+      provider: () => {
+        const project_id = process.env["ALCHEMY_PROJECT_ID"]
+        
+        return new HDWalletProvider(
+          mnemonic,
+          `https://eth-ropsten.alchemyapi.io/v2/${project_id}`);
+      },
+      network_id: "*"
+    },
+
     // avalanche testnet
     fuji: {
       provider: () => {        
