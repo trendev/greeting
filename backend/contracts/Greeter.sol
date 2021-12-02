@@ -19,7 +19,7 @@ contract Greeter is Ownable {
         // dont receive ether via fallback method (by not having 'payable' modifier on this function).
     }
 
-    function isContract(address a) public view returns (bool result) {
+    function isContract(address a) public view returns (bool) {
         uint256 size;
         assembly {
             size := extcodesize(a)
