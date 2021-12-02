@@ -23,6 +23,10 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 const mnemonic = process.env["MNEMONIC"];
+
+const etherscan_api_key = process.env["ETHERSCAN_API"];
+const snowtrace_api_key = process.env["SNOWTRACE_API"];
+
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -49,18 +53,18 @@ module.exports = {
     rinkeby: {
       provider: () => {
         const project_id = process.env["INFURA_PROJECT_ID"]
-        
+
         return new HDWalletProvider(
           mnemonic,
           `https://rinkeby.infura.io/v3/${project_id}`);
       },
-      network_id: "*"
+      network_id: 4
     },
 
     goerli: {
       provider: () => {
         const project_id = process.env["INFURA_PROJECT_ID"]
-        
+
         return new HDWalletProvider(
           mnemonic,
           `https://goerli.infura.io/v3/${project_id}`);
@@ -71,22 +75,22 @@ module.exports = {
     ropsten: {
       provider: () => {
         const project_id = process.env["ALCHEMY_PROJECT_ID"]
-        
+
         return new HDWalletProvider(
           mnemonic,
           `https://eth-ropsten.alchemyapi.io/v2/${project_id}`);
       },
-      network_id: "*"
+      network_id: 3
     },
 
     // avalanche testnet
     fuji: {
-      provider: () => {        
+      provider: () => {
         return new HDWalletProvider(
           mnemonic,
           `https://api.avax-test.network/ext/bc/C/rpc`);
       },
-      network_id: "*",
+      network_id: 1,
       timeoutBlocks: 200,
       skipDryRun: true
     }
@@ -111,6 +115,13 @@ module.exports = {
       // }
     }
   },
+  plugins: [
+    'truffle-plugin-verify'
+  ],
+  api_keys: {
+    etherscan: etherscan_api_key,
+    snowtrace: snowtrace_api_key
+  }
 
   // Truffle DB is currently disabled by default; to enable it, change enabled:
   // false to enabled: true. The default storage location can also be
