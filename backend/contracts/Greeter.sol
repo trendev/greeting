@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Greeter is Ownable {
     string private _greeting = "Hello, World!";
-    
+
     function greet() external view returns (string memory) {
         return _greeting;
     }
@@ -17,5 +17,13 @@ contract Greeter is Ownable {
 
     fallback() external {
         // dont receive ether via fallback method (by not having 'payable' modifier on this function).
+    }
+
+    function isContract(address a) public view returns (bool result) {
+        uint256 size;
+        assembly {
+            size := extcodesize(a)
+        }
+        return size > 0;
     }
 }

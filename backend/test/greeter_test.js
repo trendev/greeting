@@ -7,8 +7,8 @@ contract("Greeter", (accounts) => {
     beforeEach(async () => {
         instance = await GreeterContract.deployed(); // provides the same deployed contract
         // instance = await GreeterContract.new(); // provides new contracts
-        
-        if(!deployed[instance.address]){
+
+        if (!deployed[instance.address]) {
             deployed[instance.address] = 0;
         }
         deployed[instance.address] += 1;
@@ -41,6 +41,16 @@ contract("Greeter", (accounts) => {
                 return;
             }
             assert(false, "should never occur");
+        });
+    });
+
+    describe("isContract()", () => {
+        it("Greeter is a contract", async () => {
+            assert.ok(await instance.isContract(instance.address), "Greeter is a contract");
+        });
+
+        it("account[0] is not a contract", async () => {
+            assert.equal(false, await instance.isContract(accounts[0]), "account[0] is not a contract");
         });
     });
 
