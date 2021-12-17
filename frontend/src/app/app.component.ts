@@ -7,19 +7,23 @@ import { from } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   greeting = 'hello world 😘';
-  blockn = 0;
-  network: any;
+  blockn: Promise<number>;
+  network: Promise<ethers.providers.Network>;
+  provider: ethers.providers.Web3Provider;
 
-  ngOnInit() {
-    const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+  constructor() {
+    this.provider = new ethers.providers.Web3Provider((window as any).ethereum);
     // const signer = provider.getSigner();
-    if (provider) {
-      from(provider.getBlockNumber()).subscribe(v => this.blockn = v);
-      from(provider.getNetwork()).subscribe(v => this.network = JSON.stringify(v, null, 2));
+    if (this.provider) {
+      this.fetchData();
     }
+  }
 
+  private async fetchData() {
+    this.blockn = this.provider.getBlockNumber();
+    this.network = this.provider.getNetwork();
   }
 
 }
