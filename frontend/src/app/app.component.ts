@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ethers } from 'ethers';
-import { from } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,14 +13,22 @@ export class AppComponent {
   provider: ethers.providers.Web3Provider;
 
   constructor() {
-    this.provider = new ethers.providers.Web3Provider((window as any).ethereum);
+    this.provider = new ethers.providers.Web3Provider((window as any).ethereum, 'any');
     // const signer = provider.getSigner();
     if (this.provider) {
+
+      this.provider.on("network", (newNetwork, oldNetwork) => {
+        if (oldNetwork) {
+          console.log(`changing network from ${oldNetwork} to ${newNetwork}`);
+          window.location.reload();
+        }
+      });
+
       this.fetchData();
     }
   }
 
-  private async fetchData() {
+  private fetchData() {
     this.blockn = this.provider.getBlockNumber();
     this.network = this.provider.getNetwork();
   }
