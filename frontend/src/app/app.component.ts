@@ -23,28 +23,20 @@ export class AppComponent implements OnInit {
     const provider = await detectEthereumProvider() as any;
 
     if (provider) {
+
       provider.on('chainChanged', () => {
-        console.log(`chain changed`);
+        window.location.reload();
+      });
+
+      provider.on('accountsChanged', () => {
         window.location.reload();
       });
 
       await provider.request({ method: 'eth_requestAccounts' });
 
-      //@TODO : improve this one
-      provider.on('accountsChanged', (accounts: any)=>{
-        console.info('accounts changed');
-        // window.location.reload();
-      });
-      
       this._provider = new providers.Web3Provider(provider, 'any');
       this._signer = this._provider.getSigner();
 
-      // this._provider.on("network", (newNetwork, oldNetwork) => {
-      //   if (oldNetwork) {
-      //     console.log(`changing network from ${oldNetwork} to ${newNetwork}`);
-      //     window.location.reload();
-      //   }
-      // });
       this.fetchData();
     } else {
       console.error(`metamask must be installed`);
