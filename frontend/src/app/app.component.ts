@@ -1,36 +1,63 @@
-import { Component } from '@angular/core';
-import { ethers } from 'ethers';
+import { Component, OnInit } from '@angular/core';
+import { BigNumber, providers, utils } from 'ethers';
+import detectEthereumProvider from '@metamask/detect-provider';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  private _provider: providers.Web3Provider;
+  private _signer: providers.JsonRpcSigner;
+
   greeting = 'hello world 😘';
-  blockn: Promise<number>;
-  network: Promise<ethers.providers.Network>;
-  provider: ethers.providers.Web3Provider;
+  blockNumber: Promise<number>;
+  network: Promise<providers.Network>;
+  balance: string;
+  address: Promise<string>;
 
-  constructor() {
-    this.provider = new ethers.providers.Web3Provider((window as any).ethereum, 'any');
-    // const signer = provider.getSigner();
-    if (this.provider) {
+  //@TODO : move setup in dedicated and injectable service
+  async ngOnInit() {
+    const provider = await detectEthereumProvider() as any;
 
-      this.provider.on("network", (newNetwork, oldNetwork) => {
-        if (oldNetwork) {
-          console.log(`changing network from ${oldNetwork} to ${newNetwork}`);
-          window.location.reload();
-        }
+    if (provider) {
+      provider.on('chainChanged', () => {
+        console.log(`chain changed`);
+        window.location.reload();
       });
 
+      await provider.request({ method: 'eth_requestAccounts' });
+
+      //@TODO : improve this one
+      provider.on('accountsChanged', (accounts: any)=>{
+        console.info('accounts changed');
+        // window.location.reload();
+      });
+      
+      this._provider = new providers.Web3Provider(provider, 'any');
+      this._signer = this._provider.getSigner();
+
+      // this._provider.on("network", (newNetwork, oldNetwork) => {
+      //   if (oldNetwork) {
+      //     console.log(`changing network from ${oldNetwork} to ${newNetwork}`);
+      //     window.location.reload();
+      //   }
+      // });
       this.fetchData();
+    } else {
+      console.error(`metamask must be installed`);
     }
+
   }
 
-  private fetchData() {
-    this.blockn = this.provider.getBlockNumber();
-    this.network = this.provider.getNetwork();
+  private async fetchData() {
+    this.blockNumber = this._provider.getBlockNumber();
+    this.network = this._provider.getNetwork();
+    this.address = this._signer.getAddress();
+    const balance = await this._signer.getBalance('latest');
+    this.balance = utils.formatUnits(balance, 18);
   }
 
 }
