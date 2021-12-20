@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { BigNumber, providers, utils } from 'ethers';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { providers, utils } from 'ethers';
 import detectEthereumProvider from '@metamask/detect-provider';
 
 @Component({
@@ -17,6 +17,10 @@ export class AppComponent implements OnInit {
   network: Promise<providers.Network>;
   balance: string;
   address: Promise<string>;
+  isConnected: boolean;
+
+  constructor(private ngZone: NgZone) { // metamask events are not in Zone "angular"
+  }
 
   //@TODO : move setup in dedicated and injectable service
   async ngOnInit() {
@@ -24,24 +28,33 @@ export class AppComponent implements OnInit {
 
     if (provider) {
 
-      provider.on('chainChanged', () => {
-        window.location.reload();
+      provider.on('chainChanged', (chainID: string) => {
+        console.log('chainChanged', `new chain id : "${chainID}"(hex) "${parseInt(chainID, 16)}"(dec)`);
+        this.initProviderAndFetchData(provider);
       });
 
-      provider.on('accountsChanged', () => {
-        window.location.reload();
+      provider.on('accountsChanged', (accounts: string[]) => {
+        if (accounts.length === 0) { // disconnect from metamask
+          this.ngZone.run(() => this.isConnected = false); // metamask events are not in Zone "angular"
+        } else {
+          console.log('accountsChanged', `new account = ${accounts[0]}`);
+          this.initProviderAndFetchData(provider);
+        }
       });
 
+      this.initProviderAndFetchData(provider);
+    }
+  }
+
+  private async initProviderAndFetchData(provider: any) {
+    this.ngZone.run(async () => {
       await provider.request({ method: 'eth_requestAccounts' });
 
       this._provider = new providers.Web3Provider(provider, 'any');
       this._signer = this._provider.getSigner();
 
       this.fetchData();
-    } else {
-      console.error(`metamask must be installed`);
-    }
-
+    });
   }
 
   private async fetchData() {
@@ -49,7 +62,8 @@ export class AppComponent implements OnInit {
     this.network = this._provider.getNetwork();
     this.address = this._signer.getAddress();
     const balance = await this._signer.getBalance('latest');
-    this.balance = utils.formatUnits(balance, 18);
+    this.balance = utils.formatUnits(balance, 18); //@TODO : create a Directive
+    this.isConnected = true;
   }
 
 }
