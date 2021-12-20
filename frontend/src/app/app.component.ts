@@ -29,17 +29,21 @@ export class AppComponent implements OnInit {
     if (provider) {
 
       provider.on('chainChanged', (chainID: string) => {
-        console.log('chainChanged', `new chain id : "${chainID}"(hex) "${parseInt(chainID, 16)}"(dec)`);
-        this.initProviderAndFetchData(provider);
+        this.ngZone.run(() => { // metamask events are not in Zone "angular"
+          console.log('chainChanged', `new chain id : "${chainID}"(hex) "${parseInt(chainID, 16)}"(dec)`);
+          this.initProviderAndFetchData(provider);
+        });
       });
 
       provider.on('accountsChanged', (accounts: string[]) => {
-        if (accounts.length === 0) { // disconnect from metamask
-          this.ngZone.run(() => this.isConnected = false); // metamask events are not in Zone "angular"
-        } else {
-          console.log('accountsChanged', `new account = ${accounts[0]}`);
-          this.initProviderAndFetchData(provider);
-        }
+        this.ngZone.run(() => { // metamask events are not in Zone "angular"
+          if (accounts.length === 0) { // disconnect from metamask
+            this.isConnected = false;
+          } else {
+            console.log('accountsChanged', `new account = ${accounts[0]}`);
+            this.initProviderAndFetchData(provider);
+          }
+        });
       });
 
       this.initProviderAndFetchData(provider);
@@ -47,14 +51,12 @@ export class AppComponent implements OnInit {
   }
 
   private async initProviderAndFetchData(provider: any) {
-    this.ngZone.run(async () => {
-      await provider.request({ method: 'eth_requestAccounts' });
+    await provider.request({ method: 'eth_requestAccounts' });
 
-      this._provider = new providers.Web3Provider(provider, 'any');
-      this._signer = this._provider.getSigner();
+    this._provider = new providers.Web3Provider(provider, 'any');
+    this._signer = this._provider.getSigner();
 
-      this.fetchData();
-    });
+    this.fetchData();
   }
 
   private async fetchData() {
