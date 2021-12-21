@@ -37,7 +37,7 @@ module.exports = {
    *
    * $ truffle test --network <network-name>
    */
-
+  contracts_build_directory: "../frontend/src/contracts",
   networks: {
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
@@ -69,7 +69,7 @@ module.exports = {
           mnemonic,
           `https://goerli.infura.io/v3/${project_id}`);
       },
-      network_id: "*"
+      network_id: 5
     },
 
     ropsten: {

@@ -1,6 +1,7 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { providers, utils } from 'ethers';
+import { ethers, providers, utils } from 'ethers';
 import detectEthereumProvider from '@metamask/detect-provider';
+import GreeterContract from '../contracts/Greeter.json';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +13,13 @@ export class AppComponent implements OnInit {
   private _provider: providers.Web3Provider;
   private _signer: providers.JsonRpcSigner;
 
-  greeting = 'hello world 😘';
+  greeting: string;
   blockNumber: Promise<number>;
-  network: Promise<providers.Network>;
+  network: providers.Network;
   balance: string;
   address: Promise<string>;
   isConnected: boolean;
+  greeterContractInstance: ethers.Contract;
 
   constructor(private ngZone: NgZone) { // metamask events are not in Zone "angular"
   }
@@ -61,7 +63,21 @@ export class AppComponent implements OnInit {
 
   private async fetchData() {
     this.blockNumber = this._provider.getBlockNumber();
-    this.network = this._provider.getNetwork();
+    this.network = await this._provider.getNetwork();
+
+    const netID = this.network.chainId;
+    const networks = GreeterContract.networks as any
+    const greeterContractAddress = networks[netID] && networks[netID].address;
+    if(greeterContractAddress){
+      this.greeterContractInstance = new ethers.Contract(
+        greeterContractAddress,
+        GreeterContract.abi,
+        this._signer
+      );
+      
+      this.greeting = await this.greeterContractInstance.greet();
+    }
+
     this.address = this._signer.getAddress();
     const balance = await this._signer.getBalance('latest');
     this.balance = utils.formatUnits(balance, 18); //@TODO : create a Directive
