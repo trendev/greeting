@@ -68,14 +68,16 @@ export class AppComponent implements OnInit {
     const netID = this.network.chainId;
     const networks = GreeterContract.networks as any
     const greeterContractAddress = networks[netID] && networks[netID].address;
-    if(greeterContractAddress){
+    if (greeterContractAddress) {
       this.greeterContractInstance = new ethers.Contract(
         greeterContractAddress,
         GreeterContract.abi,
         this._signer
       );
-      
+
       this.greeting = await this.greeterContractInstance.greet();
+    } else {
+      this.greeting = "NO SMART CONTRACT DEPLOYED IN THIS NETWORK";
     }
 
     this.address = this._signer.getAddress();
