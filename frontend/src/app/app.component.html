@@ -1,4 +1,4 @@
-<div *ngIf="isConnected; else elseBlock">
+<div *ngIf="isConnected; else notConnected">
     <h1>Greeting D-App</h1>
     <h3>Message in the Smart Contract :</h3>
     <code style="font-size: larger;">{{greeting}}</code>
@@ -11,6 +11,6 @@
     <h3>Your Balance : </h3>
     <code>{{balance}}</code>
 </div>
-<ng-template #elseBlock=>
+<ng-template #notConnected>
     <h1 style="color: red; text-align: center;">Authentication with Metamask required...</h1>
 </ng-template>
