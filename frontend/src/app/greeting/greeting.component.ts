@@ -20,4 +20,8 @@ export class GreetingComponent implements OnInit {
     return this.instance.address;
   }
 
+  updateGreeting(message: string){
+    console.log(message);
+  }
+
 }

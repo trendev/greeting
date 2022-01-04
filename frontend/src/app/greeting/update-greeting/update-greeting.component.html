@@ -1,0 +1,5 @@
+<div style="margin-top: 16px;">
+    <label for="input">Update Greeting Message:</label>
+    <input type="text" id="input" #newMessage required>
+    <button (click)="updateGreeting(newMessage.value)">Save in Blockchain</button>
+</div>
