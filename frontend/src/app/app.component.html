@@ -1,15 +1,16 @@
 <div *ngIf="isConnected; else notConnected">
     <h1>Greeting D-App</h1>
-    <h3>Message in the Smart Contract :</h3>
-    <code style="font-size: larger;">{{greeting}}</code>
-    <h3>Network : </h3>
-    <code>{{network | json}}</code>
-    <h3>Block Number : </h3>
-    <code>{{blockNumber | async}}</code>
-    <h3>Your Address : </h3>
-    <code>{{address | async}}</code>
-    <h3>Your Balance : </h3>
-    <code>{{balance}}</code>
+    <div class="info">
+        <h3>Network : </h3>
+        <code>{{network | json}}</code>
+        <h3>Block Number : </h3>
+        <code>{{blockNumber | async}}</code>
+        <h3>Your Address : </h3>
+        <code>{{address | async}}</code>
+        <h3>Your Balance : </h3>
+        <code>{{balance}}</code>
+    </div>
+    <app-greeting *ngIf="deployed" [greeting]="greeting" [instance]="greeterContractInstance"></app-greeting>
 </div>
 <ng-template #notConnected>
     <h1 style="color: red; text-align: center;">Authentication with Metamask required...</h1>

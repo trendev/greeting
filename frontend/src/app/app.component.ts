@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   balance: string;
   address: Promise<string>;
   isConnected: boolean;
+  deployed: boolean;
   greeterContractInstance: ethers.Contract;
 
   constructor(private ngZone: NgZone) { // metamask events are not in Zone "angular"
@@ -75,9 +76,11 @@ export class AppComponent implements OnInit {
         this._signer
       );
 
+      this.deployed = true;
+
       this.greeting = await this.greeterContractInstance.greet();
     } else {
-      this.greeting = "NO SMART CONTRACT DEPLOYED IN THIS NETWORK";
+      this.deployed = false;
     }
 
     this.address = this._signer.getAddress();
