@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { of } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { GreeterContractService } from '../greeter-contract.service';
 
 @Component({
@@ -7,11 +6,13 @@ import { GreeterContractService } from '../greeter-contract.service';
   templateUrl: './greeting.component.html',
   styleUrls: ['./greeting.component.sass']
 })
-export class GreetingComponent {
+export class GreetingComponent implements OnInit {
 
   greet: string;
 
-  constructor(private greeterContractService: GreeterContractService) {
+  constructor(private greeterContractService: GreeterContractService) { }
+
+  ngOnInit() {
     this.init();
   }
 
