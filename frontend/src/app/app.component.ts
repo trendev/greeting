@@ -1,7 +1,7 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { GreeterContractService } from './greeter-contract.service';
+import { EthService } from './eth.service';
+import { Component, OnInit } from '@angular/core';
 import { ethers, providers, utils } from 'ethers';
-import detectEthereumProvider from '@metamask/detect-provider';
-import GreeterContract from '../contracts/Greeter.json';
 
 @Component({
   selector: 'app-root',
@@ -10,83 +10,35 @@ import GreeterContract from '../contracts/Greeter.json';
 })
 export class AppComponent implements OnInit {
 
-  private _provider: providers.Web3Provider;
-  private _signer: providers.JsonRpcSigner;
-
-  greeting: string;
   blockNumber: Promise<number>;
   network: providers.Network;
   balance: string;
   address: Promise<string>;
-  isConnected: boolean;
-  deployed: boolean;
-  greeterContractInstance: ethers.Contract;
+  private _isConnected: boolean;
 
-  constructor(private ngZone: NgZone) { // metamask events are not in Zone "angular"
+  constructor(private ethService: EthService) { }
+
+  ngOnInit() {
+    this.initProviderAndFetchData();
   }
 
-  //@TODO : move setup in dedicated and injectable service
-  async ngOnInit() {
-    const provider = await detectEthereumProvider() as any;
-
-    if (provider) {
-
-      provider.on('chainChanged', (chainID: string) => {
-        this.ngZone.run(() => { // metamask events are not in Zone "angular"
-          console.log('chainChanged', `new chain id : "${chainID}"(hex) "${parseInt(chainID, 16)}"(dec)`);
-          this.initProviderAndFetchData(provider);
-        });
-      });
-
-      provider.on('accountsChanged', (accounts: string[]) => {
-        this.ngZone.run(() => { // metamask events are not in Zone "angular"
-          if (accounts.length === 0) { // disconnect from metamask
-            this.isConnected = false;
-          } else {
-            console.log('accountsChanged', `new account = ${accounts[0]}`);
-            this.initProviderAndFetchData(provider);
-          }
-        });
-      });
-
-      this.initProviderAndFetchData(provider);
-    }
-  }
-
-  private async initProviderAndFetchData(provider: any) {
-    await provider.request({ method: 'eth_requestAccounts' });
-
-    this._provider = new providers.Web3Provider(provider, 'any');
-    this._signer = this._provider.getSigner();
-
+  private async initProviderAndFetchData() {
+    await this.ethService.init();
     this.fetchData();
   }
 
+  get isConnected(): boolean {
+    return this.ethService.isConnected() && this._isConnected;
+  }
+  
   private async fetchData() {
-    this.blockNumber = this._provider.getBlockNumber();
-    this.network = await this._provider.getNetwork();
+    this.blockNumber = this.ethService.getBlockNumber();
+    this.network = await this.ethService.getNetwork();
 
-    const netID = this.network.chainId;
-    const networks = GreeterContract.networks as any
-    const greeterContractAddress = networks[netID] && networks[netID].address;
-    if (greeterContractAddress) {
-      this.greeterContractInstance = new ethers.Contract(
-        greeterContractAddress,
-        GreeterContract.abi,
-        this._signer
-      );
-
-      this.deployed = true;
-
-      this.greeting = await this.greeterContractInstance.greet();
-    } else {
-      this.deployed = false;
-    }
-
-    this.address = this._signer.getAddress();
-    const balance = await this._signer.getBalance('latest');
+    this.address = this.ethService.getSigner().getAddress();
+    const balance = await this.ethService.getSigner().getBalance('latest');
     this.balance = utils.formatUnits(balance, 18); //@TODO : create a Directive
-    this.isConnected = true;
+    this._isConnected = true;
   }
 
 }

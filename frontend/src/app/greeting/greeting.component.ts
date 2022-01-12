@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ethers } from 'ethers';
+import { GreeterContractService } from '../greeter-contract.service';
 
 @Component({
   selector: 'app-greeting',
@@ -8,19 +9,25 @@ import { ethers } from 'ethers';
 })
 export class GreetingComponent implements OnInit {
 
-  @Input() greeting = '';
-  @Input() instance!: ethers.Contract;
+  constructor(private greeterContractService: GreeterContractService) { }
 
-  constructor() { }
+  ngOnInit() {
+    this.greeterContractService.init();
+  }
 
-  ngOnInit(): void {
+  isDeployed(): boolean {
+    return this.greeterContractService.isDeployed();
   }
 
   get address(): string {
-    return this.instance.address;
+    return this.greeterContractService.getAddress();
   }
 
-  updateGreeting(message: string){
+  get greeting(): string {
+    return this.greeterContractService.greet();
+  }
+
+  updateGreeting(message: string) {
     console.log(message);
   }
 
