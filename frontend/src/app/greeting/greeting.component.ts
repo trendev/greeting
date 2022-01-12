@@ -17,7 +17,7 @@ export class GreetingComponent {
 
   private async init() {
     await this.greeterContractService.init();
-    this.greet = await this.greeterContractService.greet() as string;
+    this.greet = await this.greeterContractService.greet();
   }
 
   get isDeployed(): boolean {

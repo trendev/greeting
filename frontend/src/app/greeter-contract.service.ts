@@ -43,11 +43,11 @@ export class GreeterContractService {
   }
 
   greet() {
-    return this._greeterContractInstance.greet();
+    return this._greeterContractInstance?.greet();
   }
 
   getAddress(): string {
-    return this._greeterContractInstance.address;
+    return this._greeterContractInstance?.address;
   }
 
 }
