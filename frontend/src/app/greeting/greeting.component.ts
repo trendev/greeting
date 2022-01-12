@@ -15,7 +15,7 @@ export class GreetingComponent implements OnInit {
     this.greeterContractService.init();
   }
 
-  isDeployed(): boolean {
+  get isDeployed(): boolean {
     return this.greeterContractService.isDeployed();
   }
 
