@@ -1,6 +1,6 @@
 <div *ngIf="isDeployed; else notDeployed">
     <h3>Message saved in the Smart Contract {{address}}:</h3>
-    <code style="font-size: larger;">{{greeting}}</code>
+    <code style="font-size: larger;">{{greet}}</code>
     <app-update-greeting (message)="updateGreeting($event)"></app-update-greeting>
 </div>
 <ng-template #notDeployed>

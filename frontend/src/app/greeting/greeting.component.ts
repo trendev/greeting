@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ethers } from 'ethers';
+import { Component } from '@angular/core';
+import { of } from 'rxjs';
 import { GreeterContractService } from '../greeter-contract.service';
 
 @Component({
@@ -7,12 +7,17 @@ import { GreeterContractService } from '../greeter-contract.service';
   templateUrl: './greeting.component.html',
   styleUrls: ['./greeting.component.sass']
 })
-export class GreetingComponent implements OnInit {
+export class GreetingComponent {
 
-  constructor(private greeterContractService: GreeterContractService) { }
+  greet: string;
 
-  ngOnInit() {
-    this.greeterContractService.init();
+  constructor(private greeterContractService: GreeterContractService) {
+    this.init();
+  }
+
+  private async init() {
+    await this.greeterContractService.init();
+    this.greet = await this.greeterContractService.greet() as string;
   }
 
   get isDeployed(): boolean {
@@ -21,10 +26,6 @@ export class GreetingComponent implements OnInit {
 
   get address(): string {
     return this.greeterContractService.getAddress();
-  }
-
-  get greeting(): string {
-    return this.greeterContractService.greet();
   }
 
   updateGreeting(message: string) {

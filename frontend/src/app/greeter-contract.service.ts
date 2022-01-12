@@ -34,7 +34,6 @@ export class GreeterContractService {
       } else {
         this._deployed = false;
       }
-
       this.initialized = true;
     } // else; already initialized
   }
@@ -48,7 +47,7 @@ export class GreeterContractService {
   }
 
   getAddress(): string {
-    return this._greeterContractInstance?.address;
+    return this._greeterContractInstance.address;
   }
 
 }
