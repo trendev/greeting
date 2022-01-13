@@ -16,11 +16,10 @@ export class GreeterContractService {
   async init() {
     if (!this.initialized) {
       await this.ethService.init();
-      const network = await this.ethService.getNetwork();
+      const { chainId } = await this.ethService.getNetwork();
 
-      const netID = network.chainId;
       const networks = GreeterContract.networks as any
-      const greeterContractAddress = networks[netID] && networks[netID].address;
+      const greeterContractAddress = networks[chainId] && networks[chainId].address;
 
       if (greeterContractAddress) {
         this._greeterContractInstance = new ethers.Contract(
