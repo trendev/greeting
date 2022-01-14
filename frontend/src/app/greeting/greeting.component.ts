@@ -37,7 +37,7 @@ export class GreetingComponent implements OnInit {
       .pipe(
         finalize(() => this.disabled = false),
         catchError(e => {
-          console.error(e);
+          console.error('setGreeting()', e);
           return of(0);
         }))
       .subscribe(status => this.greet = status ? message : this.greet);
