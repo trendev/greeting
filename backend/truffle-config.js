@@ -62,6 +62,17 @@ module.exports = {
       network_id: 4
     },
 
+    kovan: {
+      provider: () => {
+        const project_id = process.env["INFURA_PROJECT_ID"]
+
+        return new HDWalletProvider(
+          mnemonic,
+          `https://kovan.infura.io/v3/${project_id}`);
+      },
+      network_id: 42
+    },
+
     goerli: {
       provider: () => {
         const project_id = process.env["INFURA_PROJECT_ID"]
