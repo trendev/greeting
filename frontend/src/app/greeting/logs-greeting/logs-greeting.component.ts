@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-logs-greeting',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./logs-greeting.component.sass']
 })
 export class LogsGreetingComponent implements OnInit {
+
+  @Input() logs: string[] = [];
 
   constructor() { }
 

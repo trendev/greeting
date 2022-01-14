@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Event } from 'ethers';
-import { catchError, finalize, Observable, of } from 'rxjs';
+import { catchError, finalize, Observable, of, tap } from 'rxjs';
 import { GreeterContractService } from '../greeter-contract.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class GreetingComponent implements OnInit {
 
   greet: string;
   disabled = false;
-  logs: string[] = [];
+  previousGreets: string[] = [];
 
   constructor(private greeterContractService: GreeterContractService) { }
 
@@ -26,15 +26,16 @@ export class GreetingComponent implements OnInit {
     this.greet = await this.greeterContractService.greet();
 
     this.greeterContractService.greetingUpdates()
-      .subscribe(g => this.greet = g);
+      .subscribe(log => {
+        this.previousGreets.push(log[0]);
+        this.greet = log[1];
+      });
 
     this.greeterContractService.logs()
       .pipe(catchError(e => of([])))
-      .subscribe(logs => {
+      .subscribe(logs =>
         logs.sort((l1, l2) => l1.blockNumber - l2.blockNumber)
-          .forEach(l => this.logs.push(l.args?.oldGreeting));
-        console.log(this.logs);
-      });
+          .forEach(l => this.previousGreets.push(l.args?.oldGreeting)));
   }
 
   get isDeployed(): boolean {

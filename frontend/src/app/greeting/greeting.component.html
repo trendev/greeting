@@ -3,7 +3,7 @@
     <h4>{{address}}</h4>
     <code style="font-size: larger;">{{greet}}</code>
     <app-update-greeting (message)="setGreeting($event)" [disabled]="disabled"></app-update-greeting>
-    <app-logs-greeting></app-logs-greeting>
+    <app-logs-greeting [logs]="previousGreets"></app-logs-greeting>
 </div>
 <ng-template #notDeployed>
     <h3 style="color: lightcoral;">No Smart Contract deployed</h3>

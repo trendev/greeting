@@ -1,1 +1,8 @@
-<p>logs-greeting works!</p>
+<table>
+    <tr>
+        <th>Previous Greets</th>
+    </tr>
+    <tr *ngFor="let log of logs">
+        <td><code>{{ log }}</code></td>
+    </tr>
+</table>

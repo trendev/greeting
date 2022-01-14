@@ -12,7 +12,7 @@ export class GreeterContractService {
   private _deployed: boolean;
   private contract: ethers.Contract;
 
-  private greetingUpdate$ = new Subject<string>();
+  private greetingUpdate$ = new Subject<string[]>();
 
   constructor(private ethService: EthService) { }
 
@@ -38,7 +38,7 @@ export class GreeterContractService {
           this.contract = contract;
 
           this.contract.on('GreetingUpdated',
-            (address, oldGreeting, greeting) => this.greetingUpdate$.next(greeting));
+            (address, oldGreeting, greeting) => this.greetingUpdate$.next([oldGreeting, greeting]));
 
         } catch (err) {
           console.warn(err); // contract not deployed
