@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { GreetingComponent } from './greeting/greeting.component';
 import { UpdateGreetingComponent } from './greeting/update-greeting/update-greeting.component';
 import { LogsGreetingComponent } from './greeting/logs-greeting/logs-greeting.component';
+import { SupportedNetworkComponent } from './supported-network/supported-network.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GreetingComponent,
     UpdateGreetingComponent,
-    LogsGreetingComponent
+    LogsGreetingComponent,
+    SupportedNetworkComponent
   ],
   imports: [
     BrowserModule,

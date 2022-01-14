@@ -1,0 +1,25 @@
+<h2>"Greeter" Smart Contract is deployed on:</h2>
+<table>
+    <tr>
+        <th>
+            Network
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Testnet
+        </th>
+    </tr>
+    <tr *ngFor="let n of networks">
+        <td>
+            <code>{{n.protocol}}</code>
+        </td>
+        <td>
+            <code>{{n.name}}</code>
+        </td>
+        <td>
+            <code>{{n.testnet ? '✔️':''}}</code>
+        </td>
+    </tr>
+</table>
