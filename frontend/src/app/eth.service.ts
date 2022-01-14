@@ -1,7 +1,6 @@
-import { Inject, Injectable, InjectionToken, NgZone } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { providers } from 'ethers';
-import { from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

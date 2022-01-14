@@ -2,7 +2,7 @@ import { EthService } from './eth.service';
 import { Injectable } from '@angular/core';
 import { ethers } from 'ethers';
 import GreeterContract from '../contracts/Greeter.json';
-import { from, map, of, Subject, switchMap, take, tap, zipAll, zipWith } from 'rxjs';
+import { from, map, Subject, switchMap, take, zipWith } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

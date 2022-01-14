@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Event } from 'ethers';
-import { catchError, finalize, Observable, of, tap } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { catchError, finalize, Observable, of } from 'rxjs';
 import { GreeterContractService } from '../greeter-contract.service';
 
 @Component({

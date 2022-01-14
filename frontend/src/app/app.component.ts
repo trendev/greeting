@@ -1,7 +1,6 @@
-import { GreeterContractService } from './greeter-contract.service';
 import { EthService } from './eth.service';
 import { Component, OnInit } from '@angular/core';
-import { ethers, providers, utils } from 'ethers';
+import { providers, utils } from 'ethers';
 
 @Component({
   selector: 'app-root',
