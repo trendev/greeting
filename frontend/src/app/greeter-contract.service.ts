@@ -9,7 +9,7 @@ import GreeterContract from '../contracts/Greeter.json';
 export class GreeterContractService {
   private initialized: boolean;
   private _deployed: boolean;
-  private _greeterContractInstance: ethers.Contract;
+  private contract: ethers.Contract;
 
   constructor(private ethService: EthService) { }
 
@@ -19,19 +19,22 @@ export class GreeterContractService {
       const { chainId } = await this.ethService.getNetwork();
 
       const networks = GreeterContract.networks as any
-      const greeterContractAddress = networks[chainId] && networks[chainId].address;
+      const address = networks[chainId]?.address;
 
-      if (greeterContractAddress) {
-        this._greeterContractInstance = new ethers.Contract(
-          greeterContractAddress,
+      if (address) {
+        const contract = new ethers.Contract(
+          address,
           GreeterContract.abi,
           this.ethService.getSigner()
         );
 
-        this._deployed = true;
-
-      } else {
-        this._deployed = false;
+        try {
+          await contract.deployed(); // control contract is deployed
+          this._deployed = true;
+          this.contract = contract;
+        } catch (err) {
+          console.warn(err); // contract not deployed
+        }
       }
       this.initialized = true;
     } // else; already initialized
@@ -42,11 +45,11 @@ export class GreeterContractService {
   }
 
   greet() {
-    return this._greeterContractInstance?.greet();
+    return this.contract?.greet();
   }
 
   getAddress(): string {
-    return this._greeterContractInstance?.address;
+    return this.contract?.address;
   }
 
 }
