@@ -6551,12 +6551,6 @@
     "version": "0.8.10+commit.fc410830.Emscripten.clang"
   },
   "networks": {
-    "43113": {
-      "events": {},
-      "links": {},
-      "address": "0x97365BecdD17ed5A9E2489c121775AFC88E21260",
-      "transactionHash": "0x634fe64420aa619e879c6370bc6af82d30a9bc169ca5484b89c48975267efaf1"
-    },
     "4": {
       "events": {},
       "links": {},
@@ -6570,14 +6564,65 @@
       "transactionHash": "0xbfd25122519d61823b62c87bf0ca91613d584034576ec8c4c4e64058d76728f6"
     },
     "1337": {
-      "events": {},
+      "events": {
+        "0xac23bbf1dfe4fe7c4ec7d5851c97ad91e40e71eba310b5b101902299ce7eeb33": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "writer",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "oldGreeting",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "newGreeting",
+              "type": "string"
+            }
+          ],
+          "name": "GreetingUpdated",
+          "type": "event"
+        },
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        }
+      },
       "links": {},
       "address": "0xb3d3D851661ca42CB2dE66E3E446C3C38D072cdB",
       "transactionHash": "0x26739bf0e4241aa3535f2568158e7a5bd102d082c5fb2a6dfbffe3195ed4ff9f"
+    },
+    "43113": {
+      "events": {},
+      "links": {},
+      "address": "0x97365BecdD17ed5A9E2489c121775AFC88E21260",
+      "transactionHash": "0x634fe64420aa619e879c6370bc6af82d30a9bc169ca5484b89c48975267efaf1"
     }
   },
-  "schemaVersion": "3.4.3",
-  "updatedAt": "2022-01-13T17:34:21.719Z",
+  "schemaVersion": "3.4.4",
+  "updatedAt": "2022-01-14T11:36:47.195Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
