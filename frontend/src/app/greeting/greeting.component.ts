@@ -10,6 +10,7 @@ import { GreeterContractService } from '../greeter-contract.service';
 export class GreetingComponent implements OnInit {
 
   greet: string;
+  greetClass: 'done' | 'pending';
   disabled = false;
   previousGreets: string[] = [];
   isOwner$: Observable<boolean>;
@@ -24,6 +25,7 @@ export class GreetingComponent implements OnInit {
     await this.greeterContractService.init();
 
     this.greet = await this.greeterContractService.greet();
+    this.greetClass = 'done';
 
     this.greeterContractService.greetingUpdates()
       .subscribe(log => {
@@ -50,9 +52,13 @@ export class GreetingComponent implements OnInit {
 
   setGreeting(message: string) {
     this.disabled = true;
+    this.greetClass = 'pending';
     this.greeterContractService.setGreeting(message)
       .pipe(
-        finalize(() => this.disabled = false),
+        finalize(() => {
+          this.disabled = false;
+          this.greetClass = 'done'
+        }),
         catchError(e => {
           console.error('setGreeting()', e);
           return of(0);
