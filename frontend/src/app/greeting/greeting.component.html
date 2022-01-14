@@ -4,7 +4,7 @@
     <h3>Greeting:</h3>
     <code style="font-size: xx-large; background-color: lightgreen;">{{greet}}</code>
     <app-update-greeting *ngIf="isOwner$ | async" (message)="setGreeting($event)" [disabled]="disabled"></app-update-greeting>
-    <app-logs-greeting [logs]="previousGreets"></app-logs-greeting>
+    <app-logs-greeting *ngIf="previousGreets.length" [logs]="previousGreets"></app-logs-greeting>
 </div>
 <ng-template #notDeployed>
     <h3 style="color: lightcoral;">No Smart Contract deployed</h3>
