@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { catchError, finalize, of } from 'rxjs';
 import { GreeterContractService } from '../greeter-contract.service';
 
 @Component({
@@ -30,9 +31,16 @@ export class GreetingComponent implements OnInit {
     return this.greeterContractService.getAddress();
   }
 
-  updateGreeting(message: string) {
+  setGreeting(message: string) {
     this.disabled = true;
-    console.log(message);
+    this.greeterContractService.setGreeting(message)
+      .pipe(
+        finalize(() => this.disabled = false),
+        catchError(e => {
+          console.error(e);
+          return of(0);
+        }))
+      .subscribe(status => this.greet = status ? message : this.greet);
   }
 
 }
