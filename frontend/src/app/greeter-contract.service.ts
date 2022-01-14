@@ -2,7 +2,7 @@ import { EthService } from './eth.service';
 import { Injectable } from '@angular/core';
 import { ethers } from 'ethers';
 import GreeterContract from '../contracts/Greeter.json';
-import { from, map, switchMap, take } from 'rxjs';
+import { from, map, Subject, switchMap, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,8 @@ export class GreeterContractService {
   private initialized: boolean;
   private _deployed: boolean;
   private contract: ethers.Contract;
+
+  private greetingUpdate$ = new Subject<string>();
 
   constructor(private ethService: EthService) { }
 
@@ -37,6 +39,7 @@ export class GreeterContractService {
 
           this.contract.on('GreetingUpdated', (address, oldGreeting, greeting) => {
             console.log(`GreetingUpdated: ${address} changed "${oldGreeting}" into "${greeting}"`);
+            this.greetingUpdate$.next(greeting);
           });
         } catch (err) {
           console.warn(err); // contract not deployed
@@ -66,6 +69,10 @@ export class GreeterContractService {
       switchMap(t => t.wait()),
       map(r => r.status),
     );
+  }
+
+  greetingUpdates() {
+    return this.greetingUpdate$;
   }
 
 }

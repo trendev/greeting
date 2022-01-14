@@ -20,7 +20,11 @@ export class GreetingComponent implements OnInit {
 
   private async init() {
     await this.greeterContractService.init();
+
     this.greet = await this.greeterContractService.greet();
+
+    this.greeterContractService.greetingUpdates()
+      .subscribe(g => this.greet = g);
   }
 
   get isDeployed(): boolean {
