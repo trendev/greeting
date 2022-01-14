@@ -29,7 +29,7 @@ export class GreeterContractService {
         );
 
         try {
-          await contract.deployed(); // control contract is deployed
+          await contract.deployed(); // control contract is deployed & valid
           this._deployed = true;
           this.contract = contract;
         } catch (err) {

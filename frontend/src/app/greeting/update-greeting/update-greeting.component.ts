@@ -1,5 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { stringify } from 'querystring';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-update-greeting',
@@ -9,6 +8,7 @@ import { stringify } from 'querystring';
 export class UpdateGreetingComponent implements OnInit {
 
   @Output() message = new EventEmitter<string>();
+  @Input() disabled: boolean = true;
 
   constructor() { }
 

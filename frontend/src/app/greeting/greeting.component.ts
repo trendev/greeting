@@ -9,6 +9,7 @@ import { GreeterContractService } from '../greeter-contract.service';
 export class GreetingComponent implements OnInit {
 
   greet: string;
+  disabled = false;
 
   constructor(private greeterContractService: GreeterContractService) { }
 
@@ -30,6 +31,7 @@ export class GreetingComponent implements OnInit {
   }
 
   updateGreeting(message: string) {
+    this.disabled = true;
     console.log(message);
   }
 
