@@ -13,6 +13,7 @@ export class GreetingComponent implements OnInit {
   greet: string;
   disabled = false;
   previousGreets: string[] = [];
+  isOwner$: Observable<boolean>;
 
   constructor(private greeterContractService: GreeterContractService) { }
 
@@ -36,6 +37,8 @@ export class GreetingComponent implements OnInit {
       .subscribe(logs =>
         logs.sort((l1, l2) => l1.blockNumber - l2.blockNumber)
           .forEach(l => this.previousGreets.push(l.args?.oldGreeting)));
+
+    this.isOwner$ = this.greeterContractService.isOwner();
   }
 
   get isDeployed(): boolean {
