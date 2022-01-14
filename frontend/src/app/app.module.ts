@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GreetingComponent } from './greeting/greeting.component';
 import { UpdateGreetingComponent } from './greeting/update-greeting/update-greeting.component';
+import { LogsGreetingComponent } from './greeting/logs-greeting/logs-greeting.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GreetingComponent,
-    UpdateGreetingComponent
+    UpdateGreetingComponent,
+    LogsGreetingComponent
   ],
   imports: [
     BrowserModule,
