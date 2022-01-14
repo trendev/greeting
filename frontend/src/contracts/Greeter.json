@@ -6575,57 +6575,6 @@
       "address": "0xb3d3D851661ca42CB2dE66E3E446C3C38D072cdB",
       "transactionHash": "0x654f0a9bbd384a544648909d3d593c81d8cfc32280e4f33999cf87a06a81bb2e"
     },
-    "1337": {
-      "events": {
-        "0xac23bbf1dfe4fe7c4ec7d5851c97ad91e40e71eba310b5b101902299ce7eeb33": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "writer",
-              "type": "address"
-            },
-            {
-              "indexed": false,
-              "internalType": "string",
-              "name": "oldGreeting",
-              "type": "string"
-            },
-            {
-              "indexed": false,
-              "internalType": "string",
-              "name": "newGreeting",
-              "type": "string"
-            }
-          ],
-          "name": "GreetingUpdated",
-          "type": "event"
-        },
-        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "previousOwner",
-              "type": "address"
-            },
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "newOwner",
-              "type": "address"
-            }
-          ],
-          "name": "OwnershipTransferred",
-          "type": "event"
-        }
-      },
-      "links": {},
-      "address": "0xF9cD9330772CfBA6354E2c68f9b304a7d6193bfd",
-      "transactionHash": "0xe1b071ece057e0f589d577cd4ee2fb7181f8609fe5a4031ddb61db70405bd26d"
-    },
     "1338": {
       "events": {},
       "links": {},
