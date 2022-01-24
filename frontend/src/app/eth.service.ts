@@ -40,10 +40,14 @@ export class EthService {
         await provider.request({ method: 'eth_requestAccounts' }); // login
         this._provider = new providers.Web3Provider(provider, 'any');
         this._signer = this._provider.getSigner();
-        this.initialized = true;
         this._connected = true;
       }
-    } // else; already initialized
+    }
+    this.initialized = true;
+  }
+
+  isInitialized(){
+    return this.initialized;
   }
 
   isConnected() {

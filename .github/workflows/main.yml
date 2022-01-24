@@ -29,10 +29,10 @@ jobs:
     - name: Setup
       run: npm ci
       working-directory: frontend
-    # - name: Test
-    #   run: |
-    #       npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
-        # working-directory: frontend
+    - name: Test
+      run: |
+          npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+      working-directory: frontend
     - name: Build
       run: npm run build --if-present -- --base-href "/greeting/"
       working-directory: frontend
