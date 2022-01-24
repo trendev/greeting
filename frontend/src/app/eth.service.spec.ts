@@ -76,17 +76,19 @@ describe('EthService', () => {
           service.getBlockNumber().then(block => expect(block).toBeGreaterThanOrEqual(0))
             .finally(() => done());
         });
-      });
+      })
+        .finally(() => done());
     });
 
     it('should get the Network', (done: DoneFn) => {
       service.init().then(() => {
         testGetter(() => {
-          expect(service.getBlockNumber()).toBeTruthy();
+          expect(service.getNetwork()).toBeTruthy();
           service.getNetwork().then(net => expect(net.chainId).not.toEqual(0))
             .finally(() => done());
         });
-      });
+      })
+        .finally(() => done());
     });
 
   });
