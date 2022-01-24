@@ -102,7 +102,7 @@ module.exports = {
           mnemonic,
           `https://api.avax-test.network/ext/bc/C/rpc`);
       },
-      network_id: 1,
+      network_id: 43113,
       timeoutBlocks: 200,
       skipDryRun: true
     }
