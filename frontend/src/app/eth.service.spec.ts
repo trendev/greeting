@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { EthService } from './eth.service';
 
 describe('EthService', () => {
@@ -9,6 +8,17 @@ describe('EthService', () => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(EthService);
   });
+
+  const testGetter = (web3Fn: () => void, noWeb3Fn?: () => void) => {
+    if (window.ethereum) {
+      web3Fn();
+    } else {
+      expect(window.ethereum).toBeFalsy();
+      if (noWeb3Fn) {
+        noWeb3Fn();
+      }
+    }
+  };
 
   it('should be created', () => {
     expect(service).toBeTruthy();
@@ -22,103 +32,180 @@ describe('EthService', () => {
     expect(service.isConnected()).toBeFalsy();
   });
 
-  it('should get an empty Provider', () => {
-    expect(service.getProvider()).toBeFalsy();
+  describe('is initialized/connected', () => {
+
+    it('and should get a valid Provider', (done: DoneFn) => {
+      testGetter(
+        () => {
+          service.getProvider()
+            .then(v => {
+              expect(v).toBeTruthy();
+              expect(service.isInitialized()).toBeTrue();
+              expect(service.isConnected()).toBeTrue();
+            })
+            .finally(() => done());
+        },
+        () => {
+          service.getProvider()
+            .then(v => expect(v).toBeFalsy())
+            .finally(() => {
+              expect(service.isInitialized()).toBeTrue();
+              expect(service.isConnected()).toBeFalse();
+              done();
+            });
+        }
+      );
+    });
+
+    it('and should get a valid Signer', (done: DoneFn) => {
+      testGetter(
+        () => {
+          service.getSigner()
+            .then(v => {
+              expect(v).toBeTruthy();
+              expect(service.isInitialized()).toBeTrue();
+              expect(service.isConnected()).toBeTrue();
+            })
+            .finally(() => done());
+        },
+        () => {
+          service.getSigner()
+            .catch(err => {
+              expect(err).toBeTruthy();
+              expect(err).toBeInstanceOf(TypeError);
+              if (err instanceof TypeError) {
+                expect(err.message).toContain(`Cannot read properties of undefined`);
+              }
+            })
+            .finally(() => {
+              expect(service.isInitialized()).toBeTrue();
+              expect(service.isConnected()).toBeFalse();
+              done();
+            });
+        }
+      );
+    });
+
+    it('and should get a valid BlockNumber', (done: DoneFn) => {
+      testGetter(
+        () => {
+          service.getBlockNumber()
+            .then(v => {
+              expect(v).toBeTruthy();
+              expect(v).toBeGreaterThanOrEqual(1); // even with a fresh Ganache setup, you may have more than 1 block...
+              expect(service.isInitialized()).toBeTrue();
+              expect(service.isConnected()).toBeTrue();
+            })
+            .finally(() => done());
+        },
+        () => {
+          service.getBlockNumber()
+            .catch(err => {
+              expect(err).toBeTruthy();
+              expect(err).toBeInstanceOf(TypeError);
+              if (err instanceof TypeError) {
+                expect(err.message).toContain(`Cannot read properties of undefined`);
+              }
+            })
+            .finally(() => {
+              expect(service.isInitialized()).toBeTrue();
+              expect(service.isConnected()).toBeFalse();
+              done();
+            });
+        }
+      );
+    });
   });
 
-  it('should get an empty Signer', () => {
-    expect(service.getSigner()).toBeFalsy();
-  });
-
-  it('should get an empty blocknumber', () => {
-    expect(service.getBlockNumber()).toBeFalsy();
-  });
-
-  it('should get an empty network', () => {
-    expect(service.getNetwork()).toBeFalsy();
-  });
-
-  it('should get an empty address', () => {
-    expect(service.getAddress()).toBeFalsy();
-  });
-
-  it('should get an empty balance', () => {
-    expect(service.getBalance()).toBeFalsy();
-  });
-
-  it('should init and be initialized', (done: DoneFn) => {
-    service.init().then(() => expect(service.isInitialized()).toBeTrue())
-      .finally(() => done());
-  });
-
-  describe('is initialized', () => {
-    const testGetter = (expectation: () => void) => {
-      if (window.ethereum) {
-        expectation();
-      } else {
-        expect(window.ethereum).toBeFalsy();
+  it('and should get a valid Network', (done: DoneFn) => {
+    testGetter(
+      () => {
+        service.getNetwork()
+          .then(v => {
+            expect(v).toBeTruthy();
+            expect(v.chainId).toBeGreaterThanOrEqual(1);
+            expect(v.name).toBeTruthy(); //unknown is truthy
+            expect(service.isInitialized()).toBeTrue();
+            expect(service.isConnected()).toBeTrue();
+          })
+          .finally(() => done());
+      },
+      () => {
+        service.getNetwork()
+          .catch(err => {
+            expect(err).toBeTruthy();
+            expect(err).toBeInstanceOf(TypeError);
+            if (err instanceof TypeError) {
+              expect(err.message).toContain(`Cannot read properties of undefined`);
+            }
+          })
+          .finally(() => {
+            expect(service.isInitialized()).toBeTrue();
+            expect(service.isConnected()).toBeFalse();
+            done();
+          });
       }
-    };
-
-    it('should be connected', (done: DoneFn) => {
-      service.init().then(() => testGetter(() => expect(service.isConnected()).toBeTrue()))
-        .finally(() => done());
-    });
-
-    it('should get an Ethereum Provider', (done: DoneFn) => {
-      service.init().then(() => testGetter(() => expect(service.getProvider()).toBeTruthy()))
-        .finally(() => done());
-    });
-
-    it('should get an Ethereum Signer', (done: DoneFn) => {
-      service.init().then(() => testGetter(() => expect(service.getSigner()).toBeTruthy()))
-        .finally(() => done());
-    });
-
-    it('should get the BlockNumber', (done: DoneFn) => {
-      service.init().then(() => {
-        testGetter(() => {
-          expect(service.getBlockNumber()).toBeTruthy();
-          service.getBlockNumber().then(block => expect(block).toBeGreaterThanOrEqual(0))
-            .finally(() => done());
-        });
-      })
-        .finally(() => done());
-    });
-
-    it('should get the Network', (done: DoneFn) => {
-      service.init().then(() => {
-        testGetter(() => {
-          expect(service.getNetwork()).toBeTruthy();
-          service.getNetwork().then(net => expect(net.chainId).not.toEqual(0))
-            .finally(() => done());
-        });
-      })
-        .finally(() => done());
-    });
-
-    it('should get the Address', (done: DoneFn) => {
-      service.init().then(() => {
-        testGetter(() => {
-          expect(service.getAddress()).toBeTruthy();
-          service.getAddress().then(a => expect(a).toContain('0x'))
-            .finally(() => done());
-        });
-      })
-        .finally(() => done());
-    });
-
-    it('should get the Balance', (done: DoneFn) => {
-      service.init().then(() => {
-        testGetter(() => {
-          expect(service.getBalance()).toBeTruthy();
-          service.getBalance().then(b => expect(b).toBeGreaterThanOrEqual(0))
-            .finally(() => done());
-        });
-      })
-        .finally(() => done());
-    });
-
+    );
   });
 
+  it('and should get a valid Balance', (done: DoneFn) => {
+    testGetter(
+      () => {
+        service.getBalance()
+          .then(v => {
+            expect(v).toBeTruthy();
+            expect(v._isBigNumber).toBeTrue();
+            expect(service.isInitialized()).toBeTrue();
+            expect(service.isConnected()).toBeTrue();
+          })
+          .finally(() => done());
+      },
+      () => {
+        service.getBalance()
+          .catch(err => {
+            expect(err).toBeTruthy();
+            expect(err).toBeInstanceOf(TypeError);
+            if (err instanceof TypeError) {
+              expect(err.message).toContain(`Cannot read properties of undefined`);
+            }
+          })
+          .finally(() => {
+            expect(service.isInitialized()).toBeTrue();
+            expect(service.isConnected()).toBeFalse();
+            done();
+          });
+      }
+    );
+  });
+
+  it('and should get a valid Address', (done: DoneFn) => {
+    testGetter(
+      () => {
+        service.getAddress()
+          .then(v => {
+            expect(v).toBeTruthy();
+            expect(v).toContain('0x');
+            expect(v.length).toBeLessThanOrEqual(42); //Ethereum address has a maximum length of 42 characters
+            expect(service.isInitialized()).toBeTrue();
+            expect(service.isConnected()).toBeTrue();
+          })
+          .finally(() => done());
+      },
+      () => {
+        service.getAddress()
+          .catch(err => {
+            expect(err).toBeTruthy();
+            expect(err).toBeInstanceOf(TypeError);
+            if (err instanceof TypeError) {
+              expect(err.message).toContain(`Cannot read properties of undefined`);
+            }
+          })
+          .finally(() => {
+            expect(service.isInitialized()).toBeTrue();
+            expect(service.isConnected()).toBeFalse();
+            done();
+          });
+      }
+    );
+  });
 });

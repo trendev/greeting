@@ -9,17 +9,16 @@ import { providers, utils } from 'ethers';
 })
 export class AppComponent implements OnInit {
 
-  blockNumber: Promise<number>;
-  network: Promise<providers.Network>;
-  balance: Promise<string>;
-  address: Promise<string>;
+  blockNumber: number;
+  network: providers.Network;
+  balance: string;
+  address: string;
   private _canFetchData = false;
 
   constructor(private ethService: EthService) { }
 
   ngOnInit() {
-    this.ethService.init()
-      .then(() => this.fetchData())
+    this.fetchData()
       .then(result => this._canFetchData = result);
   }
 
@@ -29,10 +28,10 @@ export class AppComponent implements OnInit {
 
   private async fetchData() {
     try {
-      this.blockNumber = this.ethService.getBlockNumber();
-      this.network = this.ethService.getNetwork();
-      this.address = this.ethService.getAddress();
-      this.balance = this.ethService.getBalance()?.then(balance => utils.formatUnits(balance, 18)); //@TODO : create a Directive
+      this.blockNumber = await this.ethService.getBlockNumber();
+      this.network = await this.ethService.getNetwork();
+      this.address = await this.ethService.getAddress();
+      this.balance = await this.ethService.getBalance()?.then(balance => utils.formatUnits(balance, 18)); //@TODO : create a Directive
     } catch (err) {
       console.error(err);
       return false;

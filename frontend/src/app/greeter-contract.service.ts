@@ -18,8 +18,10 @@ export class GreeterContractService {
 
   async init() {
     if (!this.initialized) {
-      // await this.ethService.init();
-      const { chainId } = await this.ethService.getNetwork();
+      const [{ chainId }, signer] = await Promise.all([
+        this.ethService.getNetwork(),
+        this.ethService.getSigner()
+      ]);
 
       const networks = GreeterContract.networks as any
       const address = networks[chainId]?.address;
@@ -28,7 +30,7 @@ export class GreeterContractService {
         const contract = new ethers.Contract(
           address,
           GreeterContract.abi,
-          this.ethService.getSigner()
+          signer
         );
 
         try {
@@ -84,7 +86,7 @@ export class GreeterContractService {
 
   isOwner() {
     return from(this.contract.owner()).pipe(
-      zipWith(from(this.ethService.getSigner().getAddress())),
+      zipWith(from(this.ethService.getAddress())),
       map(v => v[0] === v[1]),
       take(1)
     );

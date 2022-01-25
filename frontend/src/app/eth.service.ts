@@ -9,13 +9,14 @@ export class EthService {
 
   private _provider: providers.Web3Provider;
 
-  private initialized: boolean;
-  private _connected: boolean;
+  private initialized = false;
+  private _connected = false;
 
   constructor(private ngZone: NgZone) { }
 
-  async init() {
+  private async init() {
     if (!this.initialized) {
+      this.initialized = true;
       const provider = await detectEthereumProvider() as any;
 
       if (provider) {
@@ -42,7 +43,6 @@ export class EthService {
         this._connected = true;
       }
     }
-    this.initialized = true;
     return this._provider;
   }
 
@@ -55,27 +55,31 @@ export class EthService {
   }
 
   getProvider() {
-    return this._provider;
+    return this.init();
   }
 
   getSigner() {
-    return this.getProvider()?.getSigner();
+    return this.getProvider()
+      .then(p => p.getSigner());
   }
 
   getBlockNumber() {
-    return this.getProvider()?.getBlockNumber();
+    return this.getProvider()
+      .then(p => p.getBlockNumber());
   }
 
   getNetwork() {
-    return this.getProvider()?.getNetwork();
+    return this.getProvider()
+      .then(p => p.getNetwork());
   }
 
   getBalance() {
-    return this.getSigner()?.getBalance('latest');
+    return this.getSigner()
+      .then(s => s.getBalance('latest'));
   }
 
   getAddress() {
-    return this.getSigner()?.getAddress();
+    return this.getSigner()
+      .then(s => s.getAddress());
   }
-
 }
