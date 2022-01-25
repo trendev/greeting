@@ -10,7 +10,7 @@ import { providers, utils } from 'ethers';
 export class AppComponent implements OnInit {
 
   blockNumber: Promise<number>;
-  network: providers.Network;
+  network: Promise<providers.Network>;
   balance: string;
   address: Promise<string>;
   private _isConnected: boolean;
@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
   
   private async fetchData() {
     this.blockNumber = this.ethService.getBlockNumber();
-    this.network = await this.ethService.getNetwork();
+    this.network = this.ethService.getNetwork();
 
     this.address = this.ethService.getSigner().getAddress();
     const balance = await this.ethService.getSigner().getBalance('latest');

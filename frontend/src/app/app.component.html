@@ -2,7 +2,7 @@
     <div>
         <h1>Greeting D-App</h1>
         <h3>Network : </h3>
-        <code>{{network | json}}</code>
+        <code>{{network | async | json}}</code>
         <h3>Block Number : </h3>
         <code>{{blockNumber | async}}</code>
         <h3>Your Address : </h3>
