@@ -13,18 +13,18 @@ export class AppComponent implements OnInit {
   network: Promise<providers.Network>;
   balance: Promise<string>;
   address: Promise<string>;
-  private _isConnected = false;
+  private _canFetchData = false;
 
   constructor(private ethService: EthService) { }
 
   ngOnInit() {
     this.ethService.init()
       .then(() => this.fetchData())
-      .then(connected => this._isConnected = connected);
+      .then(result => this._canFetchData = result);
   }
 
-  get isConnected(): boolean {
-    return this.ethService.isConnected() && this._isConnected;
+  get canFetchData(): boolean {
+    return this.ethService.isConnected() && this._canFetchData;
   }
 
   private async fetchData() {
