@@ -18,7 +18,7 @@ export class GreeterContractService {
 
   async init() {
     if (!this.initialized) {
-      await this.ethService.init();
+      // await this.ethService.init();
       const { chainId } = await this.ethService.getNetwork();
 
       const networks = GreeterContract.networks as any

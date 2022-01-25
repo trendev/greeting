@@ -8,7 +8,6 @@ import { providers } from 'ethers';
 export class EthService {
 
   private _provider: providers.Web3Provider;
-  private _signer: providers.JsonRpcSigner;
 
   private initialized: boolean;
   private _connected: boolean;
@@ -38,12 +37,13 @@ export class EthService {
           });
         });
         await provider.request({ method: 'eth_requestAccounts' }); // login
+
         this._provider = new providers.Web3Provider(provider, 'any');
-        this._signer = this._provider.getSigner();
         this._connected = true;
       }
     }
     this.initialized = true;
+    return this._provider;
   }
 
   isInitialized() {
@@ -59,23 +59,23 @@ export class EthService {
   }
 
   getSigner() {
-    return this._signer;
+    return this.getProvider()?.getSigner();
   }
 
   getBlockNumber() {
-    return this._provider.getBlockNumber();
+    return this.getProvider()?.getBlockNumber();
   }
 
   getNetwork() {
-    return this._provider.getNetwork();
+    return this.getProvider()?.getNetwork();
   }
 
   getBalance() {
-    return this.getSigner().getBalance('latest');
+    return this.getSigner()?.getBalance('latest');
   }
 
   getAddress() {
-    return this.getSigner().getAddress();
+    return this.getSigner()?.getAddress();
   }
 
 }

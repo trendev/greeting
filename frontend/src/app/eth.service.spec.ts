@@ -30,14 +30,20 @@ describe('EthService', () => {
     expect(service.getSigner()).toBeFalsy();
   });
 
-  it('should throw an error reading blocknumber', () => {
-    expect(() => service.getBlockNumber())
-      .toThrowError(`Cannot read properties of undefined (reading 'getBlockNumber')`);
+  it('should get an empty blocknumber', () => {
+    expect(service.getBlockNumber()).toBeFalsy();
   });
 
-  it('should throw an error reading network', () => {
-    expect(() => service.getNetwork())
-      .toThrowError(`Cannot read properties of undefined (reading 'getNetwork')`);
+  it('should get an empty network', () => {
+    expect(service.getNetwork()).toBeFalsy();
+  });
+
+  it('should get an empty address', () => {
+    expect(service.getAddress()).toBeFalsy();
+  });
+
+  it('should get an empty balance', () => {
+    expect(service.getBalance()).toBeFalsy();
   });
 
   it('should init and be initialized', (done: DoneFn) => {
@@ -85,6 +91,28 @@ describe('EthService', () => {
         testGetter(() => {
           expect(service.getNetwork()).toBeTruthy();
           service.getNetwork().then(net => expect(net.chainId).not.toEqual(0))
+            .finally(() => done());
+        });
+      })
+        .finally(() => done());
+    });
+
+    it('should get the Address', (done: DoneFn) => {
+      service.init().then(() => {
+        testGetter(() => {
+          expect(service.getAddress()).toBeTruthy();
+          service.getAddress().then(a => expect(a).toContain('0x'))
+            .finally(() => done());
+        });
+      })
+        .finally(() => done());
+    });
+
+    it('should get the Balance', (done: DoneFn) => {
+      service.init().then(() => {
+        testGetter(() => {
+          expect(service.getBalance()).toBeTruthy();
+          service.getBalance().then(b => expect(b).toBeGreaterThanOrEqual(0))
             .finally(() => done());
         });
       })

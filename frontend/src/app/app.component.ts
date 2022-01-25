@@ -32,8 +32,7 @@ export class AppComponent implements OnInit {
       this.blockNumber = this.ethService.getBlockNumber();
       this.network = this.ethService.getNetwork();
       this.address = this.ethService.getAddress();
-      this.balance = this.ethService.getBalance()
-        .then(balance => utils.formatUnits(balance, 18)); //@TODO : create a Directive
+      this.balance = this.ethService.getBalance()?.then(balance => utils.formatUnits(balance, 18)); //@TODO : create a Directive
     } catch (err) {
       console.error(err);
       return false;
