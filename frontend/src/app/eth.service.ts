@@ -46,7 +46,7 @@ export class EthService {
     this.initialized = true;
   }
 
-  isInitialized(){
+  isInitialized() {
     return this.initialized;
   }
 
@@ -68,6 +68,14 @@ export class EthService {
 
   getNetwork() {
     return this._provider.getNetwork();
+  }
+
+  getBalance() {
+    return this.getSigner().getBalance('latest');
+  }
+
+  getAddress() {
+    return this.getSigner().getAddress();
   }
 
 }
