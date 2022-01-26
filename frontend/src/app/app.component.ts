@@ -33,7 +33,6 @@ export class AppComponent implements OnInit {
       this.address = await this.ethService.getAddress();
       this.balance = await this.ethService.getBalance()?.then(balance => utils.formatUnits(balance, 18)); //@TODO : create a Directive
     } catch (err) {
-      console.error(err);
       return false;
     }
     return true;
