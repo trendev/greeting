@@ -36,13 +36,15 @@ export class SupportedNetworkComponent implements OnInit {
   ];
 
   ngOnInit() {
-    this.networks.sort((n1, n2) => {
-      const pDiff = n1.protocol.localeCompare(n2.protocol);
-      if (pDiff === 0) {
-        return n1.name.localeCompare(n2.name);
-      }
-      return pDiff;
-    });
+    this.networks.sort(this.compareNetworks);
+  }
+
+  compareNetworks(n1: Network, n2: Network) {
+    const pDiff = n1.protocol.localeCompare(n2.protocol);
+    if (pDiff === 0) {
+      return n1.name.localeCompare(n2.name);
+    }
+    return pDiff;
   }
 }
 
