@@ -74,16 +74,6 @@ describe('SupportedNetworkComponent', () => {
     expect(h2?.textContent).toBe(`"Greeter" Smart Contract is deployed on:`);
   });
 
-  it('should contain <h3> tag', () => {
-    fixture.detectChanges();
-
-    const appElement: HTMLElement = fixture.nativeElement;
-    expect(appElement).toBeDefined();
-    const h3 = appElement.querySelector('h3');
-    expect(h3).toBeDefined();
-    expect(h3?.textContent).toContain(`Github sources`);
-  });
-
   it('should contain <table> tag with 7 rows : 1 header + 6 data', () => {
     fixture.detectChanges();
 

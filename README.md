@@ -6,9 +6,11 @@
 
 [![Test/Build Github Actions](https://github.com/trendev/greeting/actions/workflows/main.yml/badge.svg)](https://github.com/trendev/greeting/actions/workflows/main.yml)
 
-D-App using:
-* smart contracts (developed with `solidity` and minted on avalanche c-chain) for backend,
-* `angular` for frontend.
+### D-App using:
+* smart contracts (developed with `solidity` and minted on `avalanche` c-chain) for backend 🤖
+* `angular` for frontend 🌐
+
+### 📚 This repository can be used for learning purposes 👨🏻‍💻
 
 ## Build 
 

@@ -43,6 +43,10 @@ describe('AppComponent', () => {
       {
         tag: 'h3',
         msg: 'Other networks are not supported yet...'
+      },
+      {
+        tag: 'h4',
+        msg: 'All Github sources'
       }
     ];
 
