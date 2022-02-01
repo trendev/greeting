@@ -123,6 +123,7 @@
           "options": {
             "baseHref": "/greeting/",
             "noSilent": true,
+            "branch": "main",
             "dryRun": false
           }
         }
