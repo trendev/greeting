@@ -12,8 +12,10 @@
 
 ### 📚 This repository can be used for learning purposes 👨🏻‍💻
 
-## Build 
+## Build or deploy
 
 ```
 ng build --base-href "/greeting/"
+
+ng deploy --base-href "/greeting/"
 ```
