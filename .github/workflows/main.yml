@@ -35,6 +35,6 @@ jobs:
       working-directory: frontend
     - name: Deploy
       env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }} # try this one
+        GH_TOKEN: ${{ secrets.GH_TOKEN }} # try this one
       run: npm run deploy --if-present
       working-directory: frontend
