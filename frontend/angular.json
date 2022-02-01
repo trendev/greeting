@@ -122,6 +122,8 @@
           "builder": "angular-cli-ghpages:deploy",
           "options": {
             "baseHref": "/greeting/",
+"name": "jsie",
+"email": "julien.sie@gmail.com",
             "noSilent": true,
             "dryRun": false
           }
