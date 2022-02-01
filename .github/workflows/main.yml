@@ -33,6 +33,6 @@ jobs:
       run: |
           npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
       working-directory: frontend
-    - name: Build
-      run: npm run build --if-present -- --base-href "/greeting/"
+    - name: Deploy
+      run: npm run deploy --if-present -- --base-href "/greeting/"
       working-directory: frontend
