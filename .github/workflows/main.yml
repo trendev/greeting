@@ -36,5 +36,5 @@ jobs:
     - name: Deploy
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: npm run deploy --if-present # -- --base-href "/greeting/" --no-silent
+      run: npm run deploy --if-present
       working-directory: frontend
