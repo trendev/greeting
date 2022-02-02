@@ -1,5 +1,5 @@
 <div style="margin-top: 16px;">
     <label class="item" for="input">Update Greeting Message:</label>
-    <input class="item" type="text" id="input" size="64" #newMessage required [disabled]="disabled">
+    <input class="item" type="text" id="input" size="30" #newMessage required [disabled]="disabled">
     <button class="item" (click)="updateGreeting(newMessage.value); newMessage.value=''" [disabled]="disabled">Save in Blockchain</button>
 </div>
