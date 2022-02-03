@@ -8,6 +8,7 @@ import { UpdateGreetingComponent } from './greeting/update-greeting/update-greet
 import { LogsGreetingComponent } from './greeting/logs-greeting/logs-greeting.component';
 import { SupportedNetworkComponent } from './supported-network/supported-network.component';
 import { NetworkDetailsComponent } from './details/network-details/network-details.component';
+import { EthAddressComponent } from './details/eth-address/eth-address.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { NetworkDetailsComponent } from './details/network-details/network-detai
     UpdateGreetingComponent,
     LogsGreetingComponent,
     SupportedNetworkComponent,
-    NetworkDetailsComponent
+    NetworkDetailsComponent,
+    EthAddressComponent
   ],
   imports: [
     BrowserModule,
