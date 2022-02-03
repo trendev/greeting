@@ -34,7 +34,8 @@ jobs:
           npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
       working-directory: frontend
     - name: Deploy
+      if: github.event_name != 'pull_request'
       env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }} # try this one
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: npm run deploy --if-present
       working-directory: frontend
