@@ -1,6 +1,5 @@
 import { EthService } from './eth.service';
 import { Component, OnInit } from '@angular/core';
-import { utils } from 'ethers';
 
 @Component({
   selector: 'app-root',
@@ -9,28 +8,13 @@ import { utils } from 'ethers';
 })
 export class AppComponent implements OnInit {
 
-  balance: string;
-
-  private _canFetchData = false;
+  canFetchData = false;
 
   constructor(private ethService: EthService) { }
 
   ngOnInit() {
-    this.fetchData()
-      .then(result => this._canFetchData = result);
+    this.ethService.isInitialized();
   }
-
-  get canFetchData(): boolean {
-    return this.ethService.isConnected() && this._canFetchData;
-  }
-
-  private async fetchData() {
-    try {
-      this.balance = await this.ethService.getBalance()?.then(balance => utils.formatUnits(balance, 18)); //@TODO : create a Directive
-    } catch (err) {
-      return false;
-    }
-    return true;
-  }
+ 
 
 }
