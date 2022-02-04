@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BalanceComponent } from './balance.component';
 import { BigNumber, utils } from 'ethers';
-import { finalize, take } from 'rxjs';
+import { finalize, first, take } from 'rxjs';
 
 describe('BalanceComponent', () => {
   let component: BalanceComponent;
@@ -12,6 +12,7 @@ describe('BalanceComponent', () => {
   let ethServiceSpy: jasmine.SpyObj<EthService>;
   const input = '1234561234567890987654321';
   let balance: BigNumber = BigNumber.from(input);
+  const incr = 6789;
 
   beforeEach(async () => {
     ethServiceSpy = jasmine.createSpyObj<EthService>('EthService', ['getBalance']);
@@ -32,8 +33,8 @@ describe('BalanceComponent', () => {
     fixture.detectChanges();
   });
 
-  describe(`should format balance ${balance} tokens`, () => {
-    const decimals = [11, input.length, 3, 15, 18, 9, -1, 13, 4, 33, input.length - 1, 6, 20, 32, 2, 0, 8, 7, 5, 1]
+  describe(`should format balance ${balance} coins`, () => {
+    const decimals = [11, input.length, 3, 15, 18, 9, -1, 13, 33, input.length - 1, 20, 32, 2, 0, 8, 7, 5, 1]
       .filter(d => d >= 0)
       .sort((x, y) => x - y);
 
@@ -75,7 +76,7 @@ describe('BalanceComponent', () => {
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= 2; i++) {
       it(` do ${i} refresh`, (done: DoneFn) => {
         expect(component.balance$).toBeDefined();
         let count = 0;
@@ -99,6 +100,26 @@ describe('BalanceComponent', () => {
         });
       });
     }
+  });
+
+  it(`should display the new balance (+${incr} coins)`, (done: DoneFn) => {
+    const bal = balance.add(incr);
+    ethServiceSpy.getBalance.and.resolveTo(bal);
+
+    component.balance$.pipe(
+      first(),
+      finalize(done))
+      .subscribe(b => {
+        const s = utils.formatUnits(bal, component.decimal);
+        expect(b).toBe(s);
+
+        fixture.detectChanges();
+        const elmt: HTMLElement = fixture.nativeElement;
+        const c = elmt.querySelector('code');
+        expect(c).toBeTruthy();
+        expect(c?.textContent).toBeTruthy();
+        expect(c?.textContent).toBe(s);
+      });
   });
 
 });
