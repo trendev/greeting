@@ -1,3 +1,4 @@
+import { EthService } from './eth.service';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
@@ -7,33 +8,56 @@ import { Component } from '@angular/core';
 class SupportedNetworkStubComponent {
 }
 
+@Component({ selector: 'app-balance', template: '<h3>Balance</h3>' })
+class BalanceStubComponent {
+}
+
+@Component({ selector: 'app-eth-address', template: '<h3>Address</h3>' })
+class EthAddressStubComponent {
+}
+
+@Component({ selector: 'app-last-block-number', template: '<h3>Block</h3>' })
+class LastBlockNumberStubComponent {
+}
+
+@Component({ selector: 'app-network-details', template: '<h3>Network</h3>' })
+class NetworkDetailsStubComponent {
+}
+
+@Component({ selector: 'app-greeting', template: '<h3>Greeting</h3>' })
+class GreetingStubComponent {
+}
+
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        SupportedNetworkStubComponent,
-        AppComponent
-      ],
-    }).compileComponents();
-  }));
+  describe('is not initialized and', () => {
+    beforeEach(waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          RouterTestingModule
+        ],
+        declarations: [
+          SupportedNetworkStubComponent,
+          AppComponent
+        ],
+      }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AppComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+      fixture = TestBed.createComponent(AppComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
 
-  it('should create the app component', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create the app component', () => {
+      expect(component).toBeTruthy();
+    });
 
-  describe('is not initialized', () => {
+    it('can not fetch data', () => {
+      expect(component.canFetchData).toBeFalse();
+    });
 
     const tags = [
       {
@@ -69,8 +93,60 @@ describe('AppComponent', () => {
       expect(elmt.hasChildNodes()).toBeTrue();
       expect(elmt.childElementCount).toEqual(2); //<h2> + <table>
     });
-
   });
 
+  describe('is initialized and', () => {
 
+    let ethServiceSpy: jasmine.SpyObj<EthService>;
+
+    beforeEach(waitForAsync(() => {
+      ethServiceSpy = jasmine.createSpyObj<EthService>('EthService', ['isInitialized']);
+      ethServiceSpy.isInitialized.and.resolveTo(true);
+
+      TestBed.configureTestingModule({
+        imports: [
+          RouterTestingModule
+        ],
+        declarations: [
+          SupportedNetworkStubComponent,
+          BalanceStubComponent,
+          EthAddressStubComponent,
+          LastBlockNumberStubComponent,
+          NetworkDetailsStubComponent,
+          GreetingStubComponent,
+          AppComponent
+        ],
+        providers: [{
+          provide: EthService,
+          useValue: ethServiceSpy
+        }]
+      }).compileComponents();
+    }));
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(AppComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should create the app component', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('can fetch data with DoneFn', (done: DoneFn) => {
+      expect(ethServiceSpy.isInitialized).toHaveBeenCalled();
+      ethServiceSpy.isInitialized().then(_ => expect(component.canFetchData).toBeTrue())
+        .finally(done);
+    });
+
+    it('can fetch data with fakeAsync', waitForAsync(() => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(ethServiceSpy.isInitialized).toHaveBeenCalled();
+        expect(component.canFetchData).toBeTrue();
+      });
+    }));
+
+    xit('should contain XXX component', () => { });
+  });
 });
