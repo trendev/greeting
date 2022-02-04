@@ -35,7 +35,7 @@ describe('EthAddressComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should contain the stub address', waitForAsync(() => {
+  it('should contain the fake address', waitForAsync(() => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(ethServiceSpy.getAddress).toHaveBeenCalled();
