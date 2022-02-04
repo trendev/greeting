@@ -1,6 +1,6 @@
 import { EthService } from './eth.service';
 import { Component, OnInit } from '@angular/core';
-import { providers, utils } from 'ethers';
+import { utils } from 'ethers';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +9,8 @@ import { providers, utils } from 'ethers';
 })
 export class AppComponent implements OnInit {
 
-  blockNumber: number;
   balance: string;
-  
+
   private _canFetchData = false;
 
   constructor(private ethService: EthService) { }
@@ -27,7 +26,6 @@ export class AppComponent implements OnInit {
 
   private async fetchData() {
     try {
-      this.blockNumber = await this.ethService.getBlockNumber();
       this.balance = await this.ethService.getBalance()?.then(balance => utils.formatUnits(balance, 18)); //@TODO : create a Directive
     } catch (err) {
       return false;
