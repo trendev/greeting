@@ -2,7 +2,7 @@ import { EthService } from './eth.service';
 import { Injectable } from '@angular/core';
 import { ethers } from 'ethers';
 import GreeterContract from '../contracts/Greeter.json';
-import { from, map, Subject, switchMap, take, zipWith } from 'rxjs';
+import { map, Subject, switchMap, take, zipWith, from, of, EMPTY } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -78,18 +78,21 @@ export class GreeterContractService {
 
   logs() {
     const filter = this.contract?.filters.GreetingUpdated();
-    return from(this.contract.queryFilter(filter))
-      .pipe(
-        take(1)
-      );
+    if (this.contract) {
+      return from(this.contract.queryFilter(filter)).pipe(take(1));
+    }
+    return EMPTY;
   }
 
   isOwner() {
-    return from(this.contract.owner()).pipe(
-      zipWith(from(this.ethService.getAddress())),
-      map(v => v[0] === v[1]),
-      take(1)
-    );
+    if (this.contract) {
+      return from(this.contract.owner()).pipe(
+        zipWith(from(this.ethService.getAddress())),
+        map(v => v[0] === v[1]),
+        take(1)
+      );
+    }
+    return EMPTY;
   }
 
 }
