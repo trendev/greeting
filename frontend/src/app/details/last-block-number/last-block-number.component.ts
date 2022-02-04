@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { from, interval, Observable, switchMap, tap } from 'rxjs';
 import { EthService } from 'src/app';
 
 @Component({
@@ -7,12 +8,14 @@ import { EthService } from 'src/app';
   styleUrls: ['./last-block-number.component.sass']
 })
 export class LastBlockNumberComponent implements OnInit {
-  block: number;
+  block$: Observable<number>;
 
   constructor(private ethService: EthService) { }
 
   ngOnInit(): void {
-    this.ethService.getBlockNumber().then(b => this.block = b);
+    this.block$ = interval(3000).pipe(
+      switchMap(n => from(this.ethService.getBlockNumber())),
+    );
   }
 
 }
