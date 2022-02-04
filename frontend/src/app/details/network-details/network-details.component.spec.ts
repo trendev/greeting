@@ -35,7 +35,7 @@ describe('NetworkDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should contain the stub Network', waitForAsync(() => {
+  it('should contain the fake Network', waitForAsync(() => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(ethServiceSpy.getNetwork).toHaveBeenCalled();
