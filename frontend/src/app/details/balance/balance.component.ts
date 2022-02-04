@@ -10,13 +10,14 @@ import { EthService } from 'src/app';
 })
 export class BalanceComponent implements OnInit {
   balance$: Observable<string>;
+  decimal = 18;
 
   constructor(private ethService: EthService) { }
 
   ngOnInit(): void {
     this.balance$ = interval(3000).pipe(
       switchMap(_ => from(this.ethService.getBalance())),
-      map(n => utils.formatUnits(n, 18))
+      map(n => utils.formatUnits(n, this.decimal))
     );
   }
 

@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BalanceComponent } from './balance.component';
 import { BigNumber, utils } from 'ethers';
+import { finalize, take } from 'rxjs';
 
 describe('BalanceComponent', () => {
   let component: BalanceComponent;
@@ -13,8 +14,14 @@ describe('BalanceComponent', () => {
   let balance: BigNumber = BigNumber.from(input);
 
   beforeEach(async () => {
+    ethServiceSpy = jasmine.createSpyObj<EthService>('EthService', ['getBalance']);
+    ethServiceSpy.getBalance.and.resolveTo(balance);
     await TestBed.configureTestingModule({
-      declarations: [BalanceComponent]
+      declarations: [BalanceComponent],
+      providers: [{
+        provide: EthService,
+        useValue: ethServiceSpy
+      }]
     })
       .compileComponents();
   });
@@ -23,10 +30,6 @@ describe('BalanceComponent', () => {
     fixture = TestBed.createComponent(BalanceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 
   describe(`should format balance ${balance} tokens`, () => {
@@ -57,11 +60,45 @@ describe('BalanceComponent', () => {
 
   });
 
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
   it('should contain a <h3> tag', () => {
     const elmt: HTMLElement = fixture.nativeElement;
     const h3 = elmt.querySelector('h3');
     expect(h3).toBeTruthy();
     expect(h3?.textContent).toContain('Balance');
+  });
+
+  describe('should contain the fake balance in a <code> tag', () => {
+
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+
+    for (let i = 1; i <= 3; i++) {
+      it(` do ${i} refresh`, (done: DoneFn) => {
+        expect(component.balance$).toBeDefined();
+        let count = 0;
+
+        component.balance$.pipe(
+          take(i),
+          finalize(() => (count === i) ? done() : done.fail(`only ${count}/${i} refresh of balance`))
+        ).subscribe(b => {
+          expect(ethServiceSpy.getBalance).toHaveBeenCalled();
+
+          const bal = utils.formatUnits(balance, component.decimal);
+          expect(b).toBe(bal);
+
+          fixture.detectChanges();
+          const elmt: HTMLElement = fixture.nativeElement;
+          const c = elmt.querySelector('code');
+          expect(c).toBeTruthy();
+          expect(c?.textContent).toBeTruthy();
+          expect(c?.textContent).toEqual(`${bal}`);
+          count++;
+        });
+      });
+    }
   });
 
 });
