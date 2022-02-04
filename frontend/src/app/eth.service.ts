@@ -9,14 +9,14 @@ export class EthService {
 
   private _provider: providers.Web3Provider;
 
-  private initialized = false;
+  private _initialized = false;
   private _connected = false;
 
   constructor(private ngZone: NgZone) { }
 
   private async init() {
-    if (!this.initialized) {
-      this.initialized = true;
+    if (!this._initialized) {
+      this._initialized = true;
       const provider = await detectEthereumProvider() as any;
 
       if (provider) {
@@ -46,8 +46,11 @@ export class EthService {
     return this._provider;
   }
 
-  isInitialized() {
-    return this.initialized;
+  async isInitialized() {
+    if (this._initialized) {
+      return true;
+    }
+    return this.init().then(provider => provider ? true : false);
   }
 
   isConnected() {

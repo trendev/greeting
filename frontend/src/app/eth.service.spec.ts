@@ -24,98 +24,103 @@ describe('EthService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should not be initialized', () => {
-    expect(service.isInitialized()).toBeFalsy();
+  it('should not be initialized at first call of isInitialized()', (done: DoneFn) => {
+    testGetter(
+      () => service.isInitialized().then(v => expect(v).toBeTrue())
+        .finally(() => done()),
+      () => service.isInitialized().then(v => expect(v).toBeFalse())
+        .finally(() => done())
+    );
+
+  });
+
+  it('should be initialized at second call of isInitialized()', (done: DoneFn) => {
+    expect(service.isInitialized()).toBeDefined(); // force to initialize
+    service.isInitialized().then(v => expect(v).toBeTrue())
+      .finally(() => done());
   });
 
   it('should be disconnected', () => {
     expect(service.isConnected()).toBeFalsy();
   });
 
-  describe('is initialized/connected', () => {
 
-    it('and should get a valid Provider', (done: DoneFn) => {
-      testGetter(
-        () => {
-          service.getProvider()
-            .then(v => {
-              expect(v).toBeTruthy();
-              expect(service.isInitialized()).toBeTrue();
-              expect(service.isConnected()).toBeTrue();
-            })
-            .finally(() => done());
-        },
-        () => {
-          service.getProvider()
-            .then(v => expect(v).toBeFalsy())
-            .finally(() => {
-              expect(service.isInitialized()).toBeTrue();
-              expect(service.isConnected()).toBeFalse();
-              done();
-            });
-        }
-      );
-    });
-
-    it('and should get a valid Signer', (done: DoneFn) => {
-      testGetter(
-        () => {
-          service.getSigner()
-            .then(v => {
-              expect(v).toBeTruthy();
-              expect(service.isInitialized()).toBeTrue();
-              expect(service.isConnected()).toBeTrue();
-            })
-            .finally(() => done());
-        },
-        () => {
-          service.getSigner()
-            .catch(err => {
-              expect(err).toBeTruthy();
-              expect(err).toBeInstanceOf(TypeError);
-              if (err instanceof TypeError) {
-                expect(err.message).toContain(`Cannot read properties of undefined`);
-              }
-            })
-            .finally(() => {
-              expect(service.isInitialized()).toBeTrue();
-              expect(service.isConnected()).toBeFalse();
-              done();
-            });
-        }
-      );
-    });
-
-    it('and should get a valid BlockNumber', (done: DoneFn) => {
-      testGetter(
-        () => {
-          service.getBlockNumber()
-            .then(v => {
-              expect(v).toBeTruthy();
-              expect(v).toBeGreaterThanOrEqual(1); // even with a fresh Ganache setup, you may have more than 1 block...
-              expect(service.isInitialized()).toBeTrue();
-              expect(service.isConnected()).toBeTrue();
-            })
-            .finally(() => done());
-        },
-        () => {
-          service.getBlockNumber()
-            .catch(err => {
-              expect(err).toBeTruthy();
-              expect(err).toBeInstanceOf(TypeError);
-              if (err instanceof TypeError) {
-                expect(err.message).toContain(`Cannot read properties of undefined`);
-              }
-            })
-            .finally(() => {
-              expect(service.isInitialized()).toBeTrue();
-              expect(service.isConnected()).toBeFalse();
-              done();
-            });
-        }
-      );
-    });
+  it('and should get a valid Provider', (done: DoneFn) => {
+    testGetter(
+      () => {
+        service.getProvider()
+          .then(v => {
+            expect(v).toBeTruthy();
+            expect(service.isConnected()).toBeTrue();
+          })
+          .finally(() => done());
+      },
+      () => {
+        service.getProvider()
+          .then(v => expect(v).toBeFalsy())
+          .finally(() => {
+            expect(service.isConnected()).toBeFalse();
+            done();
+          });
+      }
+    );
   });
+
+  it('and should get a valid Signer', (done: DoneFn) => {
+    testGetter(
+      () => {
+        service.getSigner()
+          .then(v => {
+            expect(v).toBeTruthy();
+            expect(service.isConnected()).toBeTrue();
+          })
+          .finally(() => done());
+      },
+      () => {
+        service.getSigner()
+          .catch(err => {
+            expect(err).toBeTruthy();
+            expect(err).toBeInstanceOf(TypeError);
+            if (err instanceof TypeError) {
+              expect(err.message).toContain(`Cannot read properties of undefined`);
+            }
+          })
+          .finally(() => {
+            expect(service.isConnected()).toBeFalse();
+            done();
+          });
+      }
+    );
+  });
+
+  it('and should get a valid BlockNumber', (done: DoneFn) => {
+    testGetter(
+      () => {
+        service.getBlockNumber()
+          .then(v => {
+            expect(v).toBeTruthy();
+            expect(v).toBeGreaterThanOrEqual(1); // even with a fresh Ganache setup, you may have more than 1 block...
+            expect(service.isConnected()).toBeTrue();
+          })
+          .finally(() => done());
+      },
+      () => {
+        service.getBlockNumber()
+          .catch(err => {
+            expect(err).toBeTruthy();
+            expect(err).toBeInstanceOf(TypeError);
+            if (err instanceof TypeError) {
+              expect(err.message).toContain(`Cannot read properties of undefined`);
+            }
+          })
+          .finally(() => {
+            expect(service.isConnected()).toBeFalse();
+            done();
+          });
+      }
+    );
+  });
+
 
   it('and should get a valid Network', (done: DoneFn) => {
     testGetter(
@@ -125,7 +130,6 @@ describe('EthService', () => {
             expect(v).toBeTruthy();
             expect(v.chainId).toBeGreaterThanOrEqual(1);
             expect(v.name).toBeTruthy(); //unknown is truthy
-            expect(service.isInitialized()).toBeTrue();
             expect(service.isConnected()).toBeTrue();
           })
           .finally(() => done());
@@ -140,7 +144,6 @@ describe('EthService', () => {
             }
           })
           .finally(() => {
-            expect(service.isInitialized()).toBeTrue();
             expect(service.isConnected()).toBeFalse();
             done();
           });
@@ -155,7 +158,6 @@ describe('EthService', () => {
           .then(v => {
             expect(v).toBeTruthy();
             expect(v._isBigNumber).toBeTrue();
-            expect(service.isInitialized()).toBeTrue();
             expect(service.isConnected()).toBeTrue();
           })
           .finally(() => done());
@@ -170,7 +172,6 @@ describe('EthService', () => {
             }
           })
           .finally(() => {
-            expect(service.isInitialized()).toBeTrue();
             expect(service.isConnected()).toBeFalse();
             done();
           });
@@ -186,7 +187,6 @@ describe('EthService', () => {
             expect(v).toBeTruthy();
             expect(v).toContain('0x');
             expect(v.length).toBeLessThanOrEqual(42); //Ethereum address has a maximum length of 42 characters
-            expect(service.isInitialized()).toBeTrue();
             expect(service.isConnected()).toBeTrue();
           })
           .finally(() => done());
@@ -201,7 +201,6 @@ describe('EthService', () => {
             }
           })
           .finally(() => {
-            expect(service.isInitialized()).toBeTrue();
             expect(service.isConnected()).toBeFalse();
             done();
           });

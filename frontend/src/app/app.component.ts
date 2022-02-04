@@ -13,8 +13,8 @@ export class AppComponent implements OnInit {
   constructor(private ethService: EthService) { }
 
   ngOnInit() {
-    this.ethService.isInitialized();
+    this.ethService.isInitialized().then(v => this.canFetchData = v);
   }
- 
+
 
 }
