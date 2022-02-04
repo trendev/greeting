@@ -9,6 +9,7 @@ import { LogsGreetingComponent } from './greeting/logs-greeting/logs-greeting.co
 import { SupportedNetworkComponent } from './supported-network/supported-network.component';
 import { NetworkDetailsComponent } from './details/network-details/network-details.component';
 import { EthAddressComponent } from './details/eth-address/eth-address.component';
+import { LastBlockNumberComponent } from './details/last-block-number/last-block-number.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { EthAddressComponent } from './details/eth-address/eth-address.component
     LogsGreetingComponent,
     SupportedNetworkComponent,
     NetworkDetailsComponent,
-    EthAddressComponent
+    EthAddressComponent,
+    LastBlockNumberComponent
   ],
   imports: [
     BrowserModule,
