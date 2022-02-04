@@ -14,7 +14,7 @@ export class LastBlockNumberComponent implements OnInit {
 
   ngOnInit(): void {
     this.block$ = interval(3000).pipe(
-      switchMap(n => from(this.ethService.getBlockNumber())),
+      switchMap(_ => from(this.ethService.getBlockNumber())),
     );
   }
 
