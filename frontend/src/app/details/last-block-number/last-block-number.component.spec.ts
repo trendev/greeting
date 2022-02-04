@@ -9,7 +9,7 @@ describe('LastBlockNumberComponent', () => {
   let fixture: ComponentFixture<LastBlockNumberComponent>;
 
   let ethServiceSpy: jasmine.SpyObj<EthService>;
-  let block = 123456789;
+  const block = 123456789;
 
   beforeEach(async () => {
     ethServiceSpy = jasmine.createSpyObj<EthService>('EthService', ['getBlockNumber']);
