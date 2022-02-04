@@ -10,6 +10,7 @@ import { SupportedNetworkComponent } from './supported-network/supported-network
 import { NetworkDetailsComponent } from './details/network-details/network-details.component';
 import { EthAddressComponent } from './details/eth-address/eth-address.component';
 import { LastBlockNumberComponent } from './details/last-block-number/last-block-number.component';
+import { BalanceComponent } from './details/balance/balance.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LastBlockNumberComponent } from './details/last-block-number/last-block
     SupportedNetworkComponent,
     NetworkDetailsComponent,
     EthAddressComponent,
-    LastBlockNumberComponent
+    LastBlockNumberComponent,
+    BalanceComponent
   ],
   imports: [
     BrowserModule,
