@@ -8,23 +8,23 @@ import { Component } from '@angular/core';
 class SupportedNetworkStubComponent {
 }
 
-@Component({ selector: 'app-balance', template: '<h3>Balance</h3>' })
+@Component({ selector: 'app-balance', template: '<h3>balance</h3>' })
 class BalanceStubComponent {
 }
 
-@Component({ selector: 'app-eth-address', template: '<h3>Address</h3>' })
+@Component({ selector: 'app-eth-address', template: '<h3>eth-address</h3>' })
 class EthAddressStubComponent {
 }
 
-@Component({ selector: 'app-last-block-number', template: '<h3>Block</h3>' })
+@Component({ selector: 'app-last-block-number', template: '<h3>last-block-number</h3>' })
 class LastBlockNumberStubComponent {
 }
 
-@Component({ selector: 'app-network-details', template: '<h3>Network</h3>' })
+@Component({ selector: 'app-network-details', template: '<h3>network-details</h3>' })
 class NetworkDetailsStubComponent {
 }
 
-@Component({ selector: 'app-greeting', template: '<h3>Greeting</h3>' })
+@Component({ selector: 'app-greeting', template: '<h3>greeting</h3>' })
 class GreetingStubComponent {
 }
 
@@ -62,26 +62,26 @@ describe('AppComponent', () => {
     const tags = [
       {
         tag: 'h1',
-        msg: 'Metamask Authentication REQUIRED'
+        txt: 'Metamask Authentication REQUIRED'
       },
       {
         tag: 'h3',
-        msg: 'Other networks are not supported yet...'
+        txt: 'Other networks are not supported yet...'
       },
       {
         tag: 'h4',
-        msg: 'All Github sources'
+        txt: 'All Github sources'
       }
     ];
 
     tags.forEach(t => {
-      it(`should have <${t.tag}> with text "${t.msg}"`, () => {
+      it(`should have <${t.tag}> with text "${t.txt}"`, () => {
         const appElement: HTMLElement = fixture.nativeElement;
         expect(appElement).toBeDefined();
         const elmt = appElement.querySelector(t.tag)!;
         expect(elmt).toBeDefined();
         expect(elmt.textContent).toBeDefined();
-        expect(elmt.textContent).toContain(t.msg);
+        expect(elmt.textContent).toContain(t.txt);
       });
     });
 
@@ -147,6 +147,40 @@ describe('AppComponent', () => {
       });
     }));
 
-    xit('should contain XXX component', () => { });
+    it('should not contain <app-supported-network>', waitForAsync(() => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const appElement: HTMLElement = fixture.nativeElement;
+        expect(appElement).toBeDefined();
+        const elmt = appElement.querySelector('app-supported-network')!;
+        expect(elmt).toBeFalsy();
+      });
+    }));
+
+    const tags = [
+      'app-balance',
+      'app-eth-address',
+      'app-last-block-number',
+      'app-network-details',
+      'app-greeting'
+    ];
+
+    tags.forEach(tag => {
+      const t = { tag: tag, txt: tag.substring(4) };
+
+      it(`should contain <${t.tag}>`, waitForAsync(() => {
+        fixture.whenStable().then(() => {
+          fixture.detectChanges();
+          const appElement: HTMLElement = fixture.nativeElement;
+          expect(appElement).toBeDefined();
+          const elmt = appElement.querySelector(t.tag)!;
+          expect(elmt).toBeTruthy();
+          const h3 = elmt.querySelector('h3');
+          expect(h3).toBeTruthy();
+          expect(h3?.textContent).toContain(t.txt);
+        });
+      }));
+    });
+
   });
 });
