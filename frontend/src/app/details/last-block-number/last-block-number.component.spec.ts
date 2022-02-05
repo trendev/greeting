@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { finalize, take } from 'rxjs';
+import { finalize, first, take } from 'rxjs';
 import { EthService } from 'src/app';
 
 import { LastBlockNumberComponent } from './last-block-number.component';
@@ -10,6 +10,8 @@ describe('LastBlockNumberComponent', () => {
 
   let ethServiceSpy: jasmine.SpyObj<EthService>;
   const block = 123456789;
+  const incr = 11;
+  const nblock = block + incr;
 
   beforeEach(async () => {
     ethServiceSpy = jasmine.createSpyObj<EthService>('EthService', ['getBlockNumber']);
@@ -41,7 +43,7 @@ describe('LastBlockNumberComponent', () => {
   });
 
   describe('should contain the fake block in a <code> tag', () => {
-    
+
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
     for (let i = 1; i <= 3; i++) {
@@ -68,6 +70,25 @@ describe('LastBlockNumberComponent', () => {
         });
       });
     }
+
+    it(`should display the latest block number ${nblock}`, (done: DoneFn) => {
+      ethServiceSpy.getBlockNumber.and.resolveTo(nblock);
+
+      component.block$.pipe(
+        first(),
+        finalize(done))
+        .subscribe(b => {
+          expect(b).toBe(nblock);
+
+          fixture.detectChanges();
+          const elmt: HTMLElement = fixture.nativeElement;
+          const c = elmt.querySelector('code');
+          expect(c).toBeTruthy();
+          expect(c?.textContent).toBeTruthy();
+          expect(c?.textContent).toContain(nblock);
+        });
+    });
+
   });
 
 });

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { from, interval, Observable, switchMap, tap } from 'rxjs';
+import { concatMap, from, Observable, timer } from 'rxjs';
 import { EthService } from 'src/app';
 
 @Component({
@@ -13,8 +13,8 @@ export class LastBlockNumberComponent implements OnInit {
   constructor(private ethService: EthService) { }
 
   ngOnInit(): void {
-    this.block$ = interval(3000).pipe(
-      switchMap(_ => from(this.ethService.getBlockNumber())),
+    this.block$ = timer(0, 3000).pipe(
+      concatMap(_ => from(this.ethService.getBlockNumber())),
     );
   }
 
