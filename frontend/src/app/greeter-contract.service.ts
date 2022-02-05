@@ -10,9 +10,9 @@ import { map, Subject, switchMap, take, zipWith, from, of, EMPTY } from 'rxjs';
 export class GreeterContractService {
   private initialized: boolean;
   private _deployed: boolean;
-  private contract: ethers.Contract;
-
   private greetingUpdate$ = new Subject<string[]>();
+  
+  contract: ethers.Contract;
 
   constructor(private ethService: EthService) { }
 
@@ -63,13 +63,16 @@ export class GreeterContractService {
   }
 
   setGreeting(message: string) {
-    const tx = this.contract.setGreeting(message) as Promise<ethers.providers.TransactionResponse>;
+    const tx = this.contract?.setGreeting(message) as Promise<ethers.providers.TransactionResponse>;
 
-    return from(tx).pipe(
-      take(1),
-      switchMap(t => t.wait()),
-      map(r => r.status),
-    );
+    if(tx){
+      return from(tx).pipe(
+        take(1),
+        switchMap(t => t.wait()),
+        map(r => r.status),
+      );
+    }
+    return EMPTY;
   }
 
   greetingUpdates() {
