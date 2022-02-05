@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { utils } from 'ethers';
-import { Observable, interval, switchMap, from, map } from 'rxjs';
+import { Observable, from, map, timer, concatMap } from 'rxjs';
 import { EthService } from 'src/app';
 
 @Component({
@@ -15,10 +15,10 @@ export class BalanceComponent implements OnInit {
   constructor(private ethService: EthService) { }
 
   ngOnInit(): void {
-    this.balance$ = interval(3000).pipe(
-      switchMap(_ => from(this.ethService.getBalance())),
+    this.balance$ = timer(0, 3000).pipe(
+      concatMap(_ => from(this.ethService.getBalance())),
       map(n => utils.formatUnits(n, this.decimal))
-    );
+    )
   }
 
 }

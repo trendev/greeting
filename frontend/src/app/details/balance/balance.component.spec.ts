@@ -12,7 +12,7 @@ describe('BalanceComponent', () => {
   let ethServiceSpy: jasmine.SpyObj<EthService>;
   const input = '1234561234567890987654321';
   let balance: BigNumber = BigNumber.from(input);
-  const incr = 6789;
+  const incr = 111;
 
   beforeEach(async () => {
     ethServiceSpy = jasmine.createSpyObj<EthService>('EthService', ['getBalance']);
