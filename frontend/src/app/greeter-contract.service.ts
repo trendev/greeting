@@ -18,6 +18,8 @@ export class GreeterContractService {
 
   async init() {
     if (!this._initialized) {
+      this._initialized = true; // no re-entrancy
+      
       const [{ chainId }, signer] = await Promise.all([
         this.ethService.getNetwork(),
         this.ethService.getSigner()
@@ -46,7 +48,6 @@ export class GreeterContractService {
           console.warn(err); // contract not deployed
         }
       }
-      this._initialized = true;
     } // else; already initialized
   }
 
@@ -65,7 +66,7 @@ export class GreeterContractService {
   setGreeting(message: string) {
     const tx = this.contract?.setGreeting(message) as Promise<ethers.providers.TransactionResponse>;
 
-    if(tx){
+    if (tx) {
       return from(tx).pipe(
         take(1),
         switchMap(t => t.wait()),

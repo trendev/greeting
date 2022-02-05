@@ -1,3 +1,4 @@
+import { EthService } from './eth.service';
 import { catchError, EMPTY, finalize, of, tap } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 
@@ -61,8 +62,32 @@ describe('GreeterContractService', () => {
         })
         .finally(done);
     });
+  });
 
-    //TODO : use stub contract and fake eth service
+  //TODO : use stub contract and fake eth service
+  describe('is not deployed', () => {
+    let ethServiceSpy: jasmine.SpyObj<EthService>;
+
+    beforeEach(() => {
+      ethServiceSpy = jasmine.createSpyObj<EthService>('EthService', ['getNetwork','getSigner','getAddress']);
+      // ethServiceSpy.isInitialized.and.resolveTo(true);
+
+      TestBed.configureTestingModule({
+        providers: [{
+          provide: EthService,
+          useValue: ethServiceSpy
+        }]
+      });
+      service = TestBed.inject(GreeterContractService);
+    });
+
+    it('should be created', () => {
+      expect(service).toBeTruthy();
+    });
+
+    it('should not be deployed', () => {
+      expect(service.isDeployed()).toBeFalsy();
+    });
 
   });
 });
