@@ -8,16 +8,16 @@ import { map, Subject, switchMap, take, zipWith, from, of, EMPTY } from 'rxjs';
   providedIn: 'root'
 })
 export class GreeterContractService {
-  private initialized: boolean;
+  private _initialized: boolean;
   private _deployed: boolean;
-  private greetingUpdate$ = new Subject<string[]>();
-  
+  private _greetingUpdate$ = new Subject<string[]>();
+
   contract: ethers.Contract;
 
   constructor(private ethService: EthService) { }
 
   async init() {
-    if (!this.initialized) {
+    if (!this._initialized) {
       const [{ chainId }, signer] = await Promise.all([
         this.ethService.getNetwork(),
         this.ethService.getSigner()
@@ -40,13 +40,13 @@ export class GreeterContractService {
           this.contract = contract;
 
           this.contract.on('GreetingUpdated',
-            (address, oldGreeting, greeting) => this.greetingUpdate$.next([oldGreeting, greeting]));
+            (address, oldGreeting, greeting) => this._greetingUpdate$.next([oldGreeting, greeting]));
 
         } catch (err) {
           console.warn(err); // contract not deployed
         }
       }
-      this.initialized = true;
+      this._initialized = true;
     } // else; already initialized
   }
 
@@ -76,7 +76,7 @@ export class GreeterContractService {
   }
 
   greetingUpdates() {
-    return this.greetingUpdate$;
+    return this._greetingUpdate$;
   }
 
   logs() {

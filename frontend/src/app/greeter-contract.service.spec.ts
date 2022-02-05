@@ -53,9 +53,16 @@ describe('GreeterContractService', () => {
 
     it('should throw an Exception', (done: DoneFn) => {
       service.init()
-        .catch(err => expect(err).toBeTruthy())
+        .catch(err => {
+          expect(err).toBeTruthy();
+          if (err instanceof TypeError) {
+            expect(err.message.includes('getSigner') || err.message.includes('getNetwork')).toBeTrue();
+          }
+        })
         .finally(done);
     });
+
+    //TODO : use stub contract and fake eth service
 
   });
 });
