@@ -3,8 +3,14 @@ import { catchError, EMPTY, finalize, first, from, of, switchMap, tap } from 'rx
 import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { GreeterContractService } from './greeter-contract.service';
-import { ethers } from 'ethers';
+import { ethers, BigNumber } from 'ethers';
 import { BaseProvider } from '@ethersproject/providers';
+
+import GreeterContract from '../contracts/Greeter.json';
+
+class FakeContract extends ethers.Contract {
+  setGreeting?: (msg: string) => Promise<ethers.providers.TransactionResponse>;
+}
 
 describe('GreeterContractService', () => {
   let service: GreeterContractService;
@@ -142,6 +148,53 @@ describe('GreeterContractService', () => {
       }).finally(done);
     });
 
+    it('should fake a TransactionResponse', (done: DoneFn) => {
+      const status = -666;
+      from(service.init()).pipe(
+        tap(_ => {
+
+          // remove setGreeting definition from ABI
+          let abi = GreeterContract.abi.filter(prop => prop.name !== "setGreeting");
+
+          // create a fake Greeter contract without setGreeting definition
+          const fakeContract: FakeContract = new ethers.Contract(
+            service.contract.address,
+            abi,
+            wallet
+          );
+
+          // hack setGreeting behavior
+          fakeContract.setGreeting = (msg: string) => Promise.resolve({
+            hash: 'hash',
+            confirmations: 0,
+            from: 'from',
+            wait: (confirmations?: number) => Promise.resolve({
+              to: '0xto',
+              from: '0xfrom',
+              contractAddress: service.contract.address,
+              transactionIndex: 0,
+              gasUsed: BigNumber.from(0),
+              logsBloom: 'bloom',
+              blockHash: 'blockhash',
+              transactionHash: 'thash',
+              logs: [],
+              blockNumber: 12,
+              confirmations: confirmations,
+              cumulativeGasUsed: BigNumber.from(0),
+              effectiveGasPrice: BigNumber.from(0),
+              byzantium: false,
+              type: 1,
+              status: status,
+            } as ethers.providers.TransactionReceipt)
+          } as ethers.providers.TransactionResponse);
+
+          service.contract = fakeContract;
+        }),
+        switchMap(_ => service.setGreeting('new')),
+        finalize(done)
+      ).subscribe(s => expect(s).toEqual(status));
+    });
+
     it('should provide a greet', (done: DoneFn) => {
       service.init().then(_ => {
         expect(service.contract).toBeTruthy();
@@ -213,4 +266,39 @@ describe('GreeterContractService', () => {
     });
 
   });
+
+  describe('is using a stub EthService but with no Provider', () => {
+    // avalanche fuji testnet
+    const net = {
+      name: "fuji",
+      chainId: 43113
+    };
+
+    let ethServiceSpy: jasmine.SpyObj<EthService>;
+    let wallet = ethers.Wallet.createRandom();
+    beforeEach(() => {
+      ethServiceSpy = jasmine.createSpyObj<EthService>('EthService', ['getNetwork', 'getSigner', 'getAddress']);
+
+      ethServiceSpy.getNetwork.and.resolveTo(net);
+      ethServiceSpy.getSigner.and.resolveTo(wallet);
+      ethServiceSpy.getAddress.and.returnValue(wallet.getAddress());
+
+      TestBed.configureTestingModule({
+        providers: [{
+          provide: EthService,
+          useValue: ethServiceSpy
+        }]
+      });
+      service = TestBed.inject(GreeterContractService);
+    });
+
+    it('should be initialized but not deployed', (done: DoneFn) => {
+      service.init().then(_ => {
+        expect(service.isDeployed()).toBeFalsy();
+        expect(service.contract).toBeFalsy();
+      }).finally(done);
+    });
+
+  });
+
 });
