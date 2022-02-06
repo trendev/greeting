@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import detectEthereumProvider from '@metamask/detect-provider';
-import { providers } from 'ethers';
+import { providers, Signer } from 'ethers';
 
 @Injectable({
   providedIn: 'root',
@@ -61,7 +61,7 @@ export class EthService {
     return this.init();
   }
 
-  getSigner() {
+  getSigner(): Promise<Signer> {
     return this.getProvider()
       .then(p => p.getSigner());
   }
