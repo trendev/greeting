@@ -1,5 +1,5 @@
 import { EthService } from './eth.service';
-import { EMPTY } from 'rxjs';
+import { catchError, EMPTY, finalize, from, of, switchMap } from 'rxjs';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { GreeterContractService } from './greeter-contract.service';
@@ -134,13 +134,54 @@ describe('GreeterContractService', () => {
       expect(wallet.provider).toBeTruthy();
     });
 
-    it('should initialize and use a deployed contract', (done: DoneFn) => {
-      service.init()
-        .then(_ => {
-          expect(service.isDeployed()).toBeTrue();
-          expect(service.contract).toBeTruthy();
-        })
-        .finally(done);
+    it('should be initialized and use a deployed contract', (done: DoneFn) => {
+      service.init().then(_ => {
+        expect(service.isDeployed()).toBeTrue();
+        expect(service.contract).toBeTruthy();
+      }).finally(done);
+    });
+
+    it('should provide a greet', (done: DoneFn) => {
+      service.init().then(_ => {
+        expect(service.contract).toBeTruthy();
+        expect(service.greet()).toBeTruthy();
+      }).finally(done);
+    });
+
+    it('should provide the address of the smart contract', (done: DoneFn) => {
+      service.init().then(_ => {
+        expect(service.contract).toBeTruthy();
+        expect(service.getAddress()).toBeTruthy();
+      }).finally(done);
+    });
+
+    it('should fail updating greet (no fund and no gaz fees settings)', (done: DoneFn) => {
+      const msg = "Hello TRENDev Consulting";
+      from(service.init()).pipe(
+        switchMap(_ => service.setGreeting(msg)),
+        catchError(err => {
+          expect(err).toBeTruthy();
+          return of(-1); //The status of a transaction is 1 is successful or 0 if it was reverted.
+        }),
+        finalize(done)
+      ).subscribe(s => expect(s).toEqual(-1));
+    });
+
+    it('should get the smart contract logs, filtering GreetingUpdated events', (done: DoneFn) => {
+      from(service.init()).pipe(
+        switchMap(_ => service.logs()),
+        finalize(done)
+      ).subscribe(logs => {
+        expect(logs).toBeTruthy();
+        expect(logs.length).toBeGreaterThan(0);
+      });
+    });
+
+    it('wallet owner should not be the contract owner', (done: DoneFn) => {
+      from(service.init()).pipe(
+        switchMap(_ => service.isOwner()),
+        finalize(done)
+      ).subscribe(r => expect(r).toBeFalse());
     });
 
   });
