@@ -1,10 +1,25 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { of, Subject, throwError, finalize, tap } from 'rxjs';
+import { ethers } from 'ethers';
+import { Result } from 'ethers/lib/utils';
+import { from, of, Subject, throwError } from 'rxjs';
 import { GreeterContractService } from '../greeter-contract.service';
 
 import { GreetingComponent } from './greeting.component';
 
 const _greetingUpdates$ = new Subject<string[]>();
+
+const count = 3;
+const events: ethers.Event[] = [];
+
+for (let i = 0; i < count; i++) {
+  events.push({
+    event: 'GreetingUpdated',
+    args: {
+      oldGreeting: `event-${i}`
+    } as Partial<Result>,
+    blockNumber: i
+  } as ethers.Event);
+}
 
 const service: Partial<GreeterContractService> = {
   init: () => Promise.resolve(),
@@ -13,7 +28,7 @@ const service: Partial<GreeterContractService> = {
   getAddress: () => '0x123456789abcdef',
   setGreeting: (message: string) => of(1),
   greetingUpdates: () => _greetingUpdates$,
-  logs: () => of([]),
+  logs: () => of(events),
   isOwner: () => of(true)
 };
 
@@ -51,7 +66,7 @@ describe('GreetingComponent', () => {
         expect(component.greetClass).toBe('done');
         expect(component.disabled).toBeFalse();
         expect(component.isDeployed).toBeTrue();
-        expect(component.previousGreets).toHaveSize(0);
+        expect(component.previousGreets).toHaveSize(count);
         expect(component.isOwner$).toBeTruthy();
       });
     }));
@@ -73,7 +88,7 @@ describe('GreetingComponent', () => {
 
       fixture.whenStable().then(() => {
         service.greetingUpdates!().next(log);
-        expect(component.previousGreets).toHaveSize(1);
+        expect(component.previousGreets).toHaveSize(count + 1);
         expect(component.previousGreets).toContain(log[0]);
         expect(component.greet).toEqual(log[1]);
       });
