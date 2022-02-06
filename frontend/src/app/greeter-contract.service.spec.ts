@@ -1,9 +1,10 @@
 import { EthService } from './eth.service';
-import { catchError, EMPTY, finalize, from, of, switchMap } from 'rxjs';
+import { catchError, EMPTY, finalize, first, from, of, switchMap, tap } from 'rxjs';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { GreeterContractService } from './greeter-contract.service';
 import { ethers } from 'ethers';
+import { BaseProvider } from '@ethersproject/providers';
 
 describe('GreeterContractService', () => {
   let service: GreeterContractService;
@@ -76,7 +77,7 @@ describe('GreeterContractService', () => {
 
     let ethServiceSpy: jasmine.SpyObj<EthService>;
     let wallet = ethers.Wallet.createRandom(); //Wallet is a Signer, let's create a random one
-    let provider;
+    let provider: BaseProvider;
 
     beforeEach(waitForAsync(() => {
       provider = ethers.getDefaultProvider(url);
@@ -155,7 +156,7 @@ describe('GreeterContractService', () => {
       }).finally(done);
     });
 
-    it('should fail updating greet (no fund and no gaz fees settings)', (done: DoneFn) => {
+    it('should fail updating greet (no fund + no gaz fees settings)', (done: DoneFn) => {
       const msg = "Hello TRENDev Consulting";
       from(service.init()).pipe(
         switchMap(_ => service.setGreeting(msg)),
@@ -182,6 +183,33 @@ describe('GreeterContractService', () => {
         switchMap(_ => service.isOwner()),
         finalize(done)
       ).subscribe(r => expect(r).toBeFalse());
+    });
+
+    it('should emit GreetingUpdated event', (done: DoneFn) => {
+      from(service.init()).pipe(
+        tap(_ => {
+          expect(service.contract.listeners()).toBeTruthy();
+          expect(service.contract.emit('GreetingUpdated', 'address', 'old', 'new')).toBeTrue();
+        }),
+        finalize(done)).subscribe();
+    });
+
+    it('should emit and catch GreetingUpdated event', (done: DoneFn) => {
+
+      const messages = ['old', 'new'];
+
+      from(service.init()).pipe(
+        tap(_ => {
+          expect(service.contract.listeners()).toBeTruthy();
+          setTimeout(() => service.contract.emit('GreetingUpdated', wallet.address, ...messages));
+        }),
+        switchMap(_ => service.greetingUpdates()),
+        first(),
+        finalize(done)
+      ).subscribe(events => {
+        expect(events).toBeTruthy();
+        expect(events).toEqual(messages);
+      });
     });
 
   });

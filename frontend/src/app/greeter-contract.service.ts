@@ -42,7 +42,7 @@ export class GreeterContractService {
           this.contract = contract;
 
           this.contract.on('GreetingUpdated',
-            (address, oldGreeting, greeting) => this._greetingUpdate$.next([oldGreeting, greeting]));
+            (_, oldGreeting, greeting) => this._greetingUpdate$.next([oldGreeting, greeting]));
 
         } catch (err) {
           console.warn(err); // contract not deployed
