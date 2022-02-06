@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of, Subject } from 'rxjs';
 import { GreeterContractService } from '../greeter-contract.service';
 
@@ -39,4 +39,14 @@ describe('GreetingComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should be initialized', waitForAsync(() => {
+    fixture.whenStable().then(() => {
+      expect(component.greet).toBe('greet');
+      expect(component.greetClass).toBe('done');
+      expect(component.isOwner$).toBeTruthy();
+      expect(component.isDeployed).toBeTrue();
+      expect(component.isDeployed).toBeTruthy();
+    });
+  }));
 });
