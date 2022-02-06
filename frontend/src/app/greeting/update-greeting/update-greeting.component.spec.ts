@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { first, finalize } from 'rxjs';
 
 import { UpdateGreetingComponent } from './update-greeting.component';
 
@@ -8,9 +9,9 @@ describe('UpdateGreetingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UpdateGreetingComponent ]
+      declarations: [UpdateGreetingComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -21,5 +22,29 @@ describe('UpdateGreetingComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should be disabled', () => {
+    expect(component.disabled).toBeTrue();
+  });
+
+  it('should emit if message is not empty', (done: DoneFn) => {
+    const msg = 'message'.trim();
+    const spy = spyOn(component.message, 'emit').and.callThrough();
+    component.message.pipe(
+      first(),
+      finalize(done)
+    ).subscribe(m => {
+      expect(m).toBeTruthy();
+      expect(m).toBe(msg);
+    })
+    component.updateGreeting(`   ${msg}    `);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should not emit if message is falsy', () => {
+    const spy = spyOn(component.message, 'emit').and.callThrough();
+    component.updateGreeting('');
+    expect(spy).not.toHaveBeenCalled();
   });
 });
