@@ -66,8 +66,8 @@ export class GreeterContractService {
 
     if (tx) {
       return from(tx).pipe(
-        take(1),
         switchMap(t => t.wait()),
+        take(1),
         map(r => r.status),
       );
     }
