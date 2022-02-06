@@ -35,6 +35,9 @@ const service: Partial<GreeterContractService> = {
 let serviceSetGreetingError = { ...service };
 serviceSetGreetingError.setGreeting = (message: string) => throwError(() => new Error('setGreeting() failed'));
 
+let serviceLogsError = { ...service };
+serviceLogsError.logs = () => throwError(() => new Error('logs() failed'));
+
 describe('GreetingComponent', () => {
   let component: GreetingComponent;
   let fixture: ComponentFixture<GreetingComponent>;
@@ -124,4 +127,28 @@ describe('GreetingComponent', () => {
     }));
   });
 
+  describe('using fake GreeterContractService with logs() Error', () => {
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        declarations: [GreetingComponent],
+        providers: [{
+          provide: GreeterContractService,
+          useValue: serviceLogsError
+        }]
+      }).compileComponents();
+    });
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(GreetingComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should have empty previous greets', waitForAsync(() => {
+      fixture.whenStable().then(() => {
+        expect(component.previousGreets).toBeDefined();
+        expect(component.previousGreets).toHaveSize(0);
+      });
+    }));
+  });
 });
