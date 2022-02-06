@@ -8,9 +8,9 @@ describe('LogsGreetingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LogsGreetingComponent ]
+      declarations: [LogsGreetingComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -21,5 +21,10 @@ describe('LogsGreetingComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should have empty logs', () => {
+    expect(component.logs).toBeDefined();
+    expect(component.logs).toHaveSize(0);
   });
 });
