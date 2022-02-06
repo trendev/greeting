@@ -2,7 +2,7 @@ import { EthService } from './eth.service';
 import { Injectable } from '@angular/core';
 import { ethers } from 'ethers';
 import GreeterContract from '../contracts/Greeter.json';
-import { map, Subject, switchMap, take, zipWith, from, of, EMPTY } from 'rxjs';
+import { map, Subject, switchMap, take, zipWith, from, EMPTY } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class GreeterContractService {
   async init() {
     if (!this._initialized) {
       this._initialized = true; // no re-entrancy
-      
+
       const [{ chainId }, signer] = await Promise.all([
         this.ethService.getNetwork(),
         this.ethService.getSigner()
