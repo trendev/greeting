@@ -33,7 +33,7 @@ describe('BalanceComponent', () => {
     fixture.detectChanges();
   });
 
-  describe(`should format balance ${balance} coins`, () => {
+  describe(`should format balance ${balance}`, () => {
     const decimals = [11, input.length, 3, 15, 18, 9, -1, 13, 33, input.length - 1, 20, 32, 2, 0, 8, 7, 5, 1]
       .filter(d => d >= 0)
       .sort((x, y) => x - y);
@@ -42,6 +42,7 @@ describe('BalanceComponent', () => {
       let value: string;
       const l = input.length;
       let delta = l - d;
+      const b = utils.formatUnits(balance, d);
 
       if (delta > 0) {
         value = input.substring(0, l - d) + (d ? '.' + input.substring(l - d) : '');
@@ -54,8 +55,17 @@ describe('BalanceComponent', () => {
         value += input;
       }
 
-      it(`${d} decimals : ${value}`, () => {
-        expect(utils.formatUnits(balance, d)).toBe(value);
+      describe(`value ${value}`, () => {
+
+        it(`contains ${d} decimals`, () => {
+          const rexp = new RegExp(`^\\d*.?(\\d){${d}}`, 'g');
+          const i = b.search(rexp);
+          expect(i).not.toEqual(-1);
+        });
+
+        it('is the expected value', () => {
+          expect(b).toBe(value);
+        });
       });
     });
 
