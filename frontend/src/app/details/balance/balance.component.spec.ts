@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BalanceComponent } from './balance.component';
 import { BigNumber, utils } from 'ethers';
 import { finalize, first, take } from 'rxjs';
+import { MatCardModule } from '@angular/material/card';
 
 describe('BalanceComponent', () => {
   let component: BalanceComponent;
@@ -18,6 +19,9 @@ describe('BalanceComponent', () => {
     ethServiceSpy = jasmine.createSpyObj<EthService>('EthService', ['getBalance']);
     ethServiceSpy.getBalance.and.resolveTo(balance);
     await TestBed.configureTestingModule({
+      imports: [
+        MatCardModule
+      ],
       declarations: [BalanceComponent],
       providers: [{
         provide: EthService,
@@ -75,11 +79,11 @@ describe('BalanceComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should contain a <h3> tag', () => {
+  it('should contain a <mat-card-title> tag', () => {
     const elmt: HTMLElement = fixture.nativeElement;
-    const h3 = elmt.querySelector('h3');
-    expect(h3).toBeTruthy();
-    expect(h3?.textContent).toContain('Balance');
+    const title = elmt.querySelector('mat-card-title');
+    expect(title).toBeTruthy();
+    expect(title?.textContent).toContain('Balance');
   });
 
   describe('should contain the fake balance in a <code> tag', () => {
