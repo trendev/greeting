@@ -1,15 +1,14 @@
 <div *ngIf="canFetchData; else notConnected">
-    <div>
-        <h1><strong>TRENDev's Greeting &Dstrok;App 😘</strong></h1>
+    <h1 class="card"><strong>TRENDev's Greeting &Dstrok;App 😘</strong></h1>
+    <div class="card mat-elevation-z2">
         <app-network-details></app-network-details>
         <app-last-block-number></app-last-block-number>
         <app-eth-address></app-eth-address>
         <app-balance></app-balance>
     </div>
-    <div class="info">
+    <div class="card mat-elevation-z2">
         <app-greeting></app-greeting>
     </div>
-
 </div>
 <ng-template #notConnected>
     <h1 style="color: red; text-align: center; background-color: lightsalmon;">Metamask Authentication REQUIRED</h1>

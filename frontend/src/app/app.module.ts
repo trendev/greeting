@@ -11,6 +11,7 @@ import { NetworkDetailsComponent } from './details/network-details/network-detai
 import { EthAddressComponent } from './details/eth-address/eth-address.component';
 import { LastBlockNumberComponent } from './details/last-block-number/last-block-number.component';
 import { BalanceComponent } from './details/balance/balance.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { BalanceComponent } from './details/balance/balance.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
