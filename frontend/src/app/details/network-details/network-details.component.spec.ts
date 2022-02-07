@@ -1,3 +1,4 @@
+import { MatCardModule } from '@angular/material/card';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { providers } from 'ethers';
 import { EthService } from 'src/app';
@@ -16,6 +17,9 @@ describe('NetworkDetailsComponent', () => {
     ethServiceSpy.getNetwork.and.resolveTo(network);
 
     await TestBed.configureTestingModule({
+      imports: [
+        MatCardModule
+      ],
       declarations: [NetworkDetailsComponent],
       providers: [{
         provide: EthService,
@@ -43,11 +47,11 @@ describe('NetworkDetailsComponent', () => {
     });
   }));
 
-  it('should contain a <h3> tag', () => {
+  it('should contain a <mat-card-title> tag', () => {
     const elmt: HTMLElement = fixture.nativeElement;
-    const h3 = elmt.querySelector('h3');
-    expect(h3).toBeTruthy();
-    expect(h3?.textContent).toContain('Network');
+    const title = elmt.querySelector('mat-card-title');
+    expect(title).toBeTruthy();
+    expect(title?.textContent).toContain('Network');
   });
 
   it('should contain a <code> tag', waitForAsync(() => {
