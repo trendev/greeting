@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
 import { finalize, first, take } from 'rxjs';
 import { EthService } from 'src/app';
 
@@ -17,6 +18,9 @@ describe('LastBlockNumberComponent', () => {
     ethServiceSpy = jasmine.createSpyObj<EthService>('EthService', ['getBlockNumber']);
     ethServiceSpy.getBlockNumber.and.resolveTo(block);
     await TestBed.configureTestingModule({
+      imports: [
+        MatCardModule
+      ],
       declarations: [LastBlockNumberComponent],
       providers: [{
         provide: EthService,
@@ -35,11 +39,11 @@ describe('LastBlockNumberComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should contain a <h3> tag', () => {
+  it('should contain a <mat-card-title> tag', () => {
     const elmt: HTMLElement = fixture.nativeElement;
-    const h3 = elmt.querySelector('h3');
-    expect(h3).toBeTruthy();
-    expect(h3?.textContent).toContain('Last Block Number');
+    const title = elmt.querySelector('mat-card-title');
+    expect(title).toBeTruthy();
+    expect(title?.textContent).toContain('Block');
   });
 
   describe('should contain the fake block in a <code> tag', () => {
