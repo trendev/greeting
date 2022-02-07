@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
 import { providers } from 'ethers';
 import { EthService } from 'src/app';
 
@@ -17,6 +18,9 @@ describe('EthAddressComponent', () => {
     ethServiceSpy.getAddress.and.resolveTo(address);
 
     await TestBed.configureTestingModule({
+      imports: [
+        MatCardModule
+      ],
       declarations: [EthAddressComponent],
       providers: [{
         provide: EthService,
@@ -43,11 +47,11 @@ describe('EthAddressComponent', () => {
     });
   }));
 
-  it('should contain a <h3> tag', () => {
+  it('should contain a <mat-card-title> tag', () => {
     const elmt: HTMLElement = fixture.nativeElement;
-    const h3 = elmt.querySelector('h3');
-    expect(h3).toBeTruthy();
-    expect(h3?.textContent).toContain('Your Ethereum Address');
+    const title = elmt.querySelector('mat-card-title');
+    expect(title).toBeTruthy();
+    expect(title?.textContent).toContain('Address');
   });
 
   it('should contain a <code> tag', waitForAsync(() => {
