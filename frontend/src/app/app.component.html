@@ -1,5 +1,10 @@
 <div *ngIf="canFetchData; else notConnected">
-    <mat-toolbar color="primary">TRENDev's Greeting &Dstrok;App 🤗</mat-toolbar>
+    <mat-toolbar color="primary">
+        <div class="toolbar-content">
+            <span>TRENDev's Greeting &Dstrok;App 🤗</span>
+            <app-theme-switch></app-theme-switch>
+        </div>
+    </mat-toolbar>
     <app-network-details></app-network-details>
     <app-last-block-number></app-last-block-number>
     <app-eth-address></app-eth-address>

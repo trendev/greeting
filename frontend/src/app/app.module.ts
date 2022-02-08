@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,12 +12,14 @@ import { NetworkDetailsComponent } from './details/network-details/network-detai
 import { EthAddressComponent } from './details/eth-address/eth-address.component';
 import { LastBlockNumberComponent } from './details/last-block-number/last-block-number.component';
 import { BalanceComponent } from './details/balance/balance.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ThemeSwitchComponent } from './theme-switch/theme-switch.component';
 
-import {MatCardModule} from '@angular/material/card';
-import {MatButtonModule} from '@angular/material/button';
-import {MatInputModule} from '@angular/material/input';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+
 
 
 @NgModule({
@@ -29,7 +32,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     NetworkDetailsComponent,
     EthAddressComponent,
     LastBlockNumberComponent,
-    BalanceComponent
+    BalanceComponent,
+    ThemeSwitchComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +42,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     MatCardModule,
     MatButtonModule,
     MatInputModule,
+    MatIconModule,
     MatToolbarModule
   ],
   providers: [],
