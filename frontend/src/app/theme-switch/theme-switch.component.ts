@@ -17,7 +17,11 @@ export class ThemeSwitchComponent implements OnInit {
   }
 
   switchMode() {
-    this.mode = this.mode === 'light_mode' ? 'dark_mode' : 'light_mode';
+    this.mode = this.convert(this.mode);
     this.modeChange.emit(this.mode);
+  }
+
+  convert(mode: 'dark_mode' | 'light_mode') {
+    return this.mode === 'light_mode' ? 'dark_mode' : 'light_mode';
   }
 }

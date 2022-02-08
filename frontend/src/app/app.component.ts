@@ -1,7 +1,8 @@
 import { EthService } from './eth.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Event } from '@angular/router';
+
+const KEY_MODE = '_mode_';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +12,10 @@ import { Event } from '@angular/router';
 export class AppComponent implements OnInit {
 
   canFetchData = false;
-  mode: 'dark_mode' | 'light_mode' = 'light_mode';
+  mode: 'dark_mode' | 'light_mode';
 
   constructor(private ethService: EthService, @Inject(DOCUMENT) private document: Document) {
+    this.mode = localStorage.getItem(KEY_MODE) as 'dark_mode' | 'light_mode' || 'light_mode'; // default is light_mode
     this.switchMode(this.mode);
   }
 
@@ -23,6 +25,7 @@ export class AppComponent implements OnInit {
 
   switchMode(mode: 'dark_mode' | 'light_mode') {
     this.mode = mode;
+    localStorage.setItem(KEY_MODE, mode); //store theme mode in local storage
 
     switch (mode) {
       case 'dark_mode': {
