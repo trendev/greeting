@@ -92,14 +92,12 @@ describe('SupportedNetworkComponent', () => {
         expect(headers?.length).toBe(3);
       } else {
         const dataRow = rows?.item(i);
-        expect(window.getComputedStyle(dataRow as Element).backgroundColor) // background color of even row is rgb(242, 242, 242)
-          .toBe(i % 2 ? 'rgb(242, 242, 242)' : 'rgba(0, 0, 0, 0)');
         const data = dataRow?.querySelectorAll('code');
         expect(data?.length).toBe(3);
 
         expect(data?.item(0).textContent).toBe(component.networks[i - 1].protocol);
         expect(data?.item(1).textContent).toBe(component.networks[i - 1].name);
-        expect(data?.item(2).textContent).toBe(component.networks[i - 1].testnet ? '✔️' : '');
+        expect(data?.item(2).textContent).toBe(component.networks[i - 1].testnet ? '🟢' : '');
       }
     }
   });
