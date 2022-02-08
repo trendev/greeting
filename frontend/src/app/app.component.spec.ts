@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 @Component({ selector: 'app-supported-network', template: '<h2>Networks</h2><table></table>' })
 class SupportedNetworkStubComponent {
@@ -38,6 +39,7 @@ describe('AppComponent', () => {
       TestBed.configureTestingModule({
         imports: [
           MatCardModule,
+          MatToolbarModule,
           RouterTestingModule
         ],
         declarations: [
@@ -69,10 +71,6 @@ describe('AppComponent', () => {
       {
         tag: 'h3',
         txt: 'Other networks are not supported yet...'
-      },
-      {
-        tag: 'h4',
-        txt: 'All Github sources'
       }
     ];
 
@@ -108,6 +106,7 @@ describe('AppComponent', () => {
       TestBed.configureTestingModule({
         imports: [
           MatCardModule,
+          MatToolbarModule,
           RouterTestingModule
         ],
         declarations: [
