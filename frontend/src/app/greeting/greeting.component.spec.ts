@@ -68,7 +68,7 @@ describe('GreetingComponent', () => {
     it('should be initialized', waitForAsync(() => {
       fixture.whenStable().then(() => {
         expect(component.greet).toBe('greet');
-        expect(component.greetClass).toBe('done');
+        expect(component.status).toBe('done');
         expect(component.disabled).toBeFalse();
         expect(component.isDeployed).toBeTrue();
         expect(component.previousGreets).toHaveSize(count);
@@ -84,7 +84,7 @@ describe('GreetingComponent', () => {
       tick();
 
       expect(component.disabled).toBeFalse();
-      expect(component.greetClass).toBe('done');
+      expect(component.status).toBe('done');
       expect(component.greet).toBe(msg);
     }));
 
@@ -124,7 +124,7 @@ describe('GreetingComponent', () => {
       component.setGreeting(msg);
       fixture.whenStable().then(() => {
         expect(component.disabled).toBeFalse();
-        expect(component.greetClass).toBe('done');
+        expect(component.status).toBe('done');
         expect(component.greet).toBe('greet');
       });
     }));

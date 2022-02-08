@@ -1,8 +1,7 @@
 <div style="margin-top: 16px;">
     <mat-form-field class="item" appearance="fill">
         <mat-label>Update Greeting Message</mat-label>
-        <input matInput placeholder="this is a new message" type="text" id="input" #newMessage required
-            [disabled]="disabled">
+        <input matInput placeholder="this is a new message" type="text" id="input" #newMessage [disabled]="disabled">
     </mat-form-field>
     <button mat-stroked-button color="primary" (click)="updateGreeting(newMessage.value); newMessage.value=''"
         [disabled]="disabled || !newMessage.value">Save in Blockchain</button>

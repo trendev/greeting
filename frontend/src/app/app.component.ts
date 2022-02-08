@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
   canFetchData = false;
 
   constructor(private ethService: EthService, @Inject(DOCUMENT) private document: Document) {
-    // this.document.documentElement.classList.add('dark-theme', 'mat-app-background');
+    this.document.documentElement.classList.add('dark-theme', 'mat-app-background');
   }
 
   ngOnInit() {
