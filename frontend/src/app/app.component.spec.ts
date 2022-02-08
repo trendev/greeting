@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { Component } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({ selector: 'app-supported-network', template: '<h2>Networks</h2><table></table>' })
 class SupportedNetworkStubComponent {
@@ -36,6 +37,7 @@ describe('AppComponent', () => {
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
+          MatCardModule,
           RouterTestingModule
         ],
         declarations: [
@@ -105,6 +107,7 @@ describe('AppComponent', () => {
 
       TestBed.configureTestingModule({
         imports: [
+          MatCardModule,
           RouterTestingModule
         ],
         declarations: [
