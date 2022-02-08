@@ -1,9 +1,10 @@
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { first, finalize } from 'rxjs';
 
 import { UpdateGreetingComponent } from './update-greeting.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UpdateGreetingComponent', () => {
   let component: UpdateGreetingComponent;
@@ -12,6 +13,7 @@ describe('UpdateGreetingComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        NoopAnimationsModule,
         MatButtonModule,
         MatInputModule
       ],
