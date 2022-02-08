@@ -4,11 +4,13 @@
         <mat-card-subtitle>{{address}}</mat-card-subtitle>
         <mat-card-content>
             <mat-card>
-                <h3>📩 Greeting message:</h3>
-                <code [class]="greetClass">{{greet}}</code>
+                <mat-card-content>
+                    <h3>📩 Greeting message:</h3>
+                    <code [class]="greetClass">{{greet}}</code>
+                    <app-update-greeting *ngIf="isOwner$ | async" (message)="setGreeting($event)" [disabled]="disabled">
+                    </app-update-greeting>
+                </mat-card-content>
             </mat-card>
-            <app-update-greeting *ngIf="isOwner$ | async" (message)="setGreeting($event)" [disabled]="disabled">
-            </app-update-greeting>
             <app-logs-greeting *ngIf="previousGreets.length" [logs]="previousGreets"></app-logs-greeting>
         </mat-card-content>
     </div>
