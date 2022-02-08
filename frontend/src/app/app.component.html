@@ -2,7 +2,7 @@
     <mat-toolbar color="primary">
         <div class="toolbar-content">
             <span>TRENDev's Greeting &Dstrok;App 🤗</span>
-            <app-theme-switch></app-theme-switch>
+            <app-theme-switch [mode]="mode" (modeChange)="switchMode($event)"></app-theme-switch>
         </div>
     </mat-toolbar>
     <app-network-details></app-network-details>
