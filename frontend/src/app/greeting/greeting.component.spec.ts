@@ -1,3 +1,4 @@
+import { MatCardModule } from '@angular/material/card';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ethers } from 'ethers';
 import { Result } from 'ethers/lib/utils';
@@ -45,6 +46,7 @@ describe('GreetingComponent', () => {
   describe('using fake GreeterContractService', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
+        imports:[MatCardModule],
         declarations: [GreetingComponent],
         providers: [{
           provide: GreeterContractService,
@@ -102,6 +104,7 @@ describe('GreetingComponent', () => {
   describe('using fake GreeterContractService with setGreeting() Error', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
+        imports:[MatCardModule],
         declarations: [GreetingComponent],
         providers: [{
           provide: GreeterContractService,
@@ -130,6 +133,7 @@ describe('GreetingComponent', () => {
   describe('using fake GreeterContractService with logs() Error', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
+        imports:[MatCardModule],
         declarations: [GreetingComponent],
         providers: [{
           provide: GreeterContractService,
