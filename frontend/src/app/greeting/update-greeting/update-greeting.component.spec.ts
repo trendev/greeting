@@ -1,3 +1,4 @@
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { first, finalize } from 'rxjs';
@@ -10,7 +11,10 @@ describe('UpdateGreetingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatButtonModule],
+      imports: [
+        MatButtonModule,
+        MatInputModule
+      ],
       declarations: [UpdateGreetingComponent]
     })
       .compileComponents();
