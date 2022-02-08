@@ -1,12 +1,14 @@
 <mat-card class="mat-elelvation-z8">
     <div *ngIf="isDeployed; else notDeployed">
-        <h3>Smart Contract</h3>
-        <h4>Address: {{address}}</h4>
-        <h3>Greeting:</h3>
-        <code [class]="greetClass">{{greet}}</code>
-        <app-update-greeting *ngIf="isOwner$ | async" (message)="setGreeting($event)" [disabled]="disabled">
-        </app-update-greeting>
-        <app-logs-greeting *ngIf="previousGreets.length" [logs]="previousGreets"></app-logs-greeting>
+        <mat-card-title>Smart Contract</mat-card-title>
+        <mat-card-subtitle>{{address}}</mat-card-subtitle>
+        <mat-card-content>
+            <h3>📩 Greeting message:</h3>
+            <code [class]="greetClass">{{greet}}</code>
+            <app-update-greeting *ngIf="isOwner$ | async" (message)="setGreeting($event)" [disabled]="disabled">
+            </app-update-greeting>
+            <app-logs-greeting *ngIf="previousGreets.length" [logs]="previousGreets"></app-logs-greeting>
+        </mat-card-content>
     </div>
     <ng-template #notDeployed>
         <h3 style="color: lightcoral;">No Smart Contract deployed</h3>
