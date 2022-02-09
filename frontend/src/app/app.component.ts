@@ -3,7 +3,7 @@ import { EthService } from './eth.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
-const KEY_MODE = '_mode_';
+export const KEY_MODE = '_mode_';
 
 @Component({
   selector: 'app-root',
@@ -17,14 +17,14 @@ export class AppComponent implements OnInit {
 
   constructor(private ethService: EthService, @Inject(DOCUMENT) private document: Document) {
     this.mode = localStorage.getItem(KEY_MODE) as ThemeMode || ThemeMode.Light;
-    this.switchMode(this.mode);
+    this.enableMode(this.mode);
   }
 
   ngOnInit() {
     this.ethService.isInitialized().then(v => this.canFetchData = v);
   }
 
-  switchMode(mode: ThemeMode) {
+  enableMode(mode: ThemeMode) {
     this.mode = mode;
     localStorage.setItem(KEY_MODE, mode); //store theme mode in local storage
 
@@ -35,11 +35,8 @@ export class AppComponent implements OnInit {
       }
       case ThemeMode.Light: {
         this.document.documentElement.classList.remove('dark-theme', 'mat-app-background');
-
         break;
       }
-      default:
-        throw new TypeError(`Unsupported switch mode : ${mode}`);
     }
   }
 

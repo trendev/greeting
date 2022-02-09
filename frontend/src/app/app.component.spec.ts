@@ -1,10 +1,11 @@
+import { ThemeMode } from './theme-switch/theme-switch.component';
 import { EthService } from './eth.service';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
-import { Component } from '@angular/core';
+import { AppComponent, KEY_MODE } from './app.component';
+import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({ selector: 'app-supported-network', template: '<h2>Networks</h2><table></table>' })
 class SupportedNetworkStubComponent {
@@ -30,9 +31,16 @@ class NetworkDetailsStubComponent {
 class GreetingStubComponent {
 }
 
+@Component({ selector: 'app-theme-switch', template: '<h3>switch</h3>' })
+class ThemeSwitchStubComponent {
+  @Input() mode: ThemeMode;
+}
+
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+
+  afterEach(() => localStorage.clear());
 
   describe('is not initialized and', () => {
     beforeEach(waitForAsync(() => {
@@ -46,6 +54,10 @@ describe('AppComponent', () => {
           SupportedNetworkStubComponent,
           AppComponent
         ],
+        providers: [{
+          provide: Document,
+          useValue: document
+        }]
       }).compileComponents();
     }));
 
@@ -57,6 +69,27 @@ describe('AppComponent', () => {
 
     it('should create the app component', () => {
       expect(component).toBeTruthy();
+    });
+
+    it(`should use ${ThemeMode.Light} as default mode`, () => {
+      expect(component.mode).toEqual(ThemeMode.Light);
+      expect(component.mode).toEqual(localStorage.getItem(KEY_MODE) as ThemeMode);
+    });
+
+    it('should enable dark mode', () => {
+      component.enableMode(ThemeMode.Dark);
+      expect(component.mode).toEqual(ThemeMode.Dark);
+      expect(localStorage.getItem(KEY_MODE) as ThemeMode).toEqual(ThemeMode.Dark);
+      expect(document.documentElement.classList.contains('dark-theme')).toBeTrue();
+      expect(document.documentElement.classList.contains('mat-app-background')).toBeTrue();
+    });
+
+    it('should enable light mode', () => {
+      component.enableMode(ThemeMode.Light);
+      expect(component.mode).toEqual(ThemeMode.Light);
+      expect(localStorage.getItem(KEY_MODE) as ThemeMode).toEqual(ThemeMode.Light);
+      expect(document.documentElement.classList.contains('dark-theme')).toBeFalse();
+      expect(document.documentElement.classList.contains('mat-app-background')).toBeFalse();
     });
 
     it('can not fetch data', () => {
@@ -116,6 +149,7 @@ describe('AppComponent', () => {
           LastBlockNumberStubComponent,
           NetworkDetailsStubComponent,
           GreetingStubComponent,
+          ThemeSwitchStubComponent,
           AppComponent
         ],
         providers: [{
@@ -183,6 +217,16 @@ describe('AppComponent', () => {
         });
       }));
     });
+
+    it('should not contain <app-supported-network>', waitForAsync(() => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const appElement: HTMLElement = fixture.nativeElement;
+        expect(appElement).toBeDefined();
+        const elmt = appElement.querySelector('app-supported-network')!;
+        expect(elmt).toBeFalsy();
+      });
+    }));
 
   });
 });
