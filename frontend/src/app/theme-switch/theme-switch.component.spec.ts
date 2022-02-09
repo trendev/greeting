@@ -22,4 +22,5 @@ describe('ThemeSwitchComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });

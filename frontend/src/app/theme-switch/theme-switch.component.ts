@@ -7,8 +7,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ThemeSwitchComponent implements OnInit {
 
-  @Input() mode: 'dark_mode' | 'light_mode' = 'light_mode';
-  @Output() modeChange = new EventEmitter<'dark_mode' | 'light_mode'>();
+  @Input() mode: ThemeMode = ThemeMode.Light;
+  @Output() modeChange = new EventEmitter<ThemeMode>();
 
   constructor() {
   }
@@ -21,7 +21,12 @@ export class ThemeSwitchComponent implements OnInit {
     this.modeChange.emit(this.mode);
   }
 
-  convert(mode: 'dark_mode' | 'light_mode') {
-    return this.mode === 'light_mode' ? 'dark_mode' : 'light_mode';
+  convert(mode: ThemeMode) {
+    return mode === ThemeMode.Light ? ThemeMode.Dark :  ThemeMode.Light;
   }
+}
+
+export enum ThemeMode {
+  Light = 'light_mode',
+  Dark = 'dark_mode'
 }
