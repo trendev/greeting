@@ -47,6 +47,7 @@ describe('SupportedNetworkComponent', () => {
   it('should contain unsorted networks before ngOnInit()', () => {
     expect(component.networks).toBeTruthy();
     const networks = [...component.networks];
+    expect(networks.slice(1).every((e, i) => component.compareNetworks(e, networks[i]) >= 0)).toBeFalsy(); // stop not ordered
     expect(networks).toEqual(component.networks);
     expect(networks.sort(component.compareNetworks)).not.toEqual(component.networks);
   });
@@ -61,6 +62,7 @@ describe('SupportedNetworkComponent', () => {
     expect(component.compareNetworks).toHaveBeenCalled();
 
     expect(networks).not.toEqual(component.networks);
+    expect(component.networks.slice(1).every((e, i) => component.compareNetworks(e, component.networks[i]) >= 0)).toBeTrue(); // should be ordered
     expect(networks.sort(component.compareNetworks)).toEqual(component.networks);
   });
 
