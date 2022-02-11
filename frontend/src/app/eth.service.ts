@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { providers, Signer } from 'ethers';
+import { customNetworks } from './eth-net';
 
 @Injectable({
   providedIn: 'root',
@@ -85,4 +86,34 @@ export class EthService {
     return this.getSigner()
       .then(s => s.getAddress());
   }
+
+  //@TODO : to test
+  getCustomNetworks() {
+    return customNetworks;
+  }
+
+  //@TODO : to test
+  getCustomNetworksNames() {
+    return this.getCustomNetworks().map(n => n.chainName).sort();
+  }
+
+  //@TODO : to test
+  addEthNetwork(chainName: string) {
+    return this.getProvider().then(p => {
+      if (p && p.provider.isMetaMask) {
+        const provider = p.provider;
+        const net = this.getCustomNetworks().filter(n => n.chainName === chainName).pop();
+        if (net) {
+          return provider.request!({
+            method: 'wallet_addEthereumChain',
+            params: [net]
+          });
+        } else {
+          throw new Error("Unsupported Ethereum Network definition");
+        }
+      }
+      throw new Error("Provider is not MetaMask");
+    });
+  }
 }
+

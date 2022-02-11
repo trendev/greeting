@@ -16,4 +16,10 @@ export class NetworkDetailsComponent implements OnInit {
     this.ethService.getNetwork().then(net => this.network = net);
   }
 
+  //@TODO : improve with chainName coming from Dialog (select box)
+  addEthNetwork(chainName: string = 'Avalanche Testnet C-Chain') {
+    this.ethService.addEthNetwork(chainName)
+      .catch(console.error);
+  }
+
 }
