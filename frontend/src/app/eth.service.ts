@@ -95,7 +95,6 @@ export class EthService {
     return this.getCustomNetworks().map(n => n.chainName).sort();
   }
 
-  //@TODO : to test
   addEthNetwork(chainName: string) {
     return this.getProvider().then(p => {
       if (p?.provider.isMetaMask) {
@@ -107,10 +106,10 @@ export class EthService {
             params: [net]
           });
         } else {
-          throw new Error("Unsupported Ethereum Network definition");
+          throw new Error('Unsupported Ethereum Network definition');
         }
       }
-      throw new Error("No Provider or Provider is not MetaMask");
+      throw new Error('No Provider or Provider is not MetaMask');
     });
   }
 }
