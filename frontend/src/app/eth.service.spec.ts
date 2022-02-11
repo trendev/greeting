@@ -45,7 +45,7 @@ describe('EthService', () => {
   });
 
 
-  it('and should get a valid Provider', (done: DoneFn) => {
+  it('should get a valid Provider', (done: DoneFn) => {
     testGetter(
       () => {
         service.getProvider()
@@ -66,7 +66,7 @@ describe('EthService', () => {
     );
   });
 
-  it('and should get a valid Signer', (done: DoneFn) => {
+  it('should get a valid Signer', (done: DoneFn) => {
     testGetter(
       () => {
         service.getSigner()
@@ -93,7 +93,7 @@ describe('EthService', () => {
     );
   });
 
-  it('and should get a valid BlockNumber', (done: DoneFn) => {
+  it('should get a valid BlockNumber', (done: DoneFn) => {
     testGetter(
       () => {
         service.getBlockNumber()
@@ -122,7 +122,7 @@ describe('EthService', () => {
   });
 
 
-  it('and should get a valid Network', (done: DoneFn) => {
+  it('should get a valid Network', (done: DoneFn) => {
     testGetter(
       () => {
         service.getNetwork()
@@ -151,7 +151,7 @@ describe('EthService', () => {
     );
   });
 
-  it('and should get a valid Balance', (done: DoneFn) => {
+  it('should get a valid Balance', (done: DoneFn) => {
     testGetter(
       () => {
         service.getBalance()
@@ -179,7 +179,7 @@ describe('EthService', () => {
     );
   });
 
-  it('and should get a valid Address', (done: DoneFn) => {
+  it('should get a valid Address', (done: DoneFn) => {
     testGetter(
       () => {
         service.getAddress()
@@ -206,5 +206,18 @@ describe('EthService', () => {
           });
       }
     );
+  });
+
+  it('should get custom networks', () => {
+    const networks = service.getCustomNetworks();
+    expect(networks).toBeTruthy();
+    expect(networks.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('should get custom networks names', () => {
+    const networks = service.getCustomNetworksNames();
+    expect(networks).toBeTruthy();
+    expect(networks.length).toBeGreaterThanOrEqual(1);
+    expect(networks.slice(1).every((e, i) => e.localeCompare(networks[i]))).toBeTrue();
   });
 });

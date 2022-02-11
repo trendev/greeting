@@ -87,12 +87,10 @@ export class EthService {
       .then(s => s.getAddress());
   }
 
-  //@TODO : to test
   getCustomNetworks() {
     return customNetworks;
   }
 
-  //@TODO : to test
   getCustomNetworksNames() {
     return this.getCustomNetworks().map(n => n.chainName).sort();
   }
@@ -100,7 +98,7 @@ export class EthService {
   //@TODO : to test
   addEthNetwork(chainName: string) {
     return this.getProvider().then(p => {
-      if (p && p.provider.isMetaMask) {
+      if (p?.provider.isMetaMask) {
         const provider = p.provider;
         const net = this.getCustomNetworks().filter(n => n.chainName === chainName).pop();
         if (net) {
@@ -112,7 +110,7 @@ export class EthService {
           throw new Error("Unsupported Ethereum Network definition");
         }
       }
-      throw new Error("Provider is not MetaMask");
+      throw new Error("No Provider or Provider is not MetaMask");
     });
   }
 }
