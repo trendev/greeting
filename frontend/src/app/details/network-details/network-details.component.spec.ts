@@ -13,8 +13,9 @@ describe('NetworkDetailsComponent', () => {
   const network: providers.Network = { name: "net", chainId: 7777, ensAddress: '0xab01234cd56789ef' };
 
   beforeEach(async () => {
-    ethServiceSpy = jasmine.createSpyObj<EthService>('EthService', ['getNetwork']);
+    ethServiceSpy = jasmine.createSpyObj<EthService>('EthService', ['getNetwork', 'addEthNetwork']);
     ethServiceSpy.getNetwork.and.resolveTo(network);
+    ethServiceSpy.addEthNetwork.and.resolveTo(true);
 
     await TestBed.configureTestingModule({
       imports: [
@@ -63,6 +64,16 @@ describe('NetworkDetailsComponent', () => {
       expect(c).toBeTruthy();
       expect(c?.textContent).toBeTruthy();
       expect(network).toEqual(JSON.parse(`${c?.textContent}`));
+    });
+  }));
+
+  it('should add/switch ethereum network', waitForAsync(() => {
+    const spy = spyOn(console,'error');
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      component.addEthNetwork();
+      expect(ethServiceSpy.addEthNetwork).toHaveBeenCalled();
+      expect(spy).not.toHaveBeenCalled();
     });
   }));
 
