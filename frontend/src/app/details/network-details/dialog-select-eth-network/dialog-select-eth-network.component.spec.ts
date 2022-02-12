@@ -1,3 +1,6 @@
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DialogSelectEthNetworkComponent } from './dialog-select-eth-network.component';
@@ -8,9 +11,24 @@ describe('DialogSelectEthNetworkComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DialogSelectEthNetworkComponent ]
+      imports: [
+        MatDialogModule, 
+        MatSelectModule,
+        NoopAnimationsModule
+      ],
+      declarations: [DialogSelectEthNetworkComponent],
+      providers: [
+        {
+          provide: MatDialogRef,
+          useValue: {}
+        },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: {}
+        },
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
