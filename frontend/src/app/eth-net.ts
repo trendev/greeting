@@ -12,7 +12,7 @@ export const customNetworks = [
     },
     {
         chainId: '0xA869',
-        chainName: 'Avalanche Testnet C-Chain',
+        chainName: 'Avalanche Testnet Fuji C-Chain',
         nativeCurrency: {
             name: 'Avalanche',
             symbol: 'AVAX',
@@ -42,5 +42,27 @@ export const customNetworks = [
         },
         rpcUrls: ['https://bsc-dataseed.binance.org/'],
         blockExplorerUrls: ['https://bscscan.com/']
+    },
+    {
+        chainId: '0x13881',
+        chainName: 'Polygon Testnet Matic Mumbai',
+        nativeCurrency: {
+            name: 'Polygon',
+            symbol: 'MATIC',
+            decimals: 18
+        },
+        rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
+        blockExplorerUrls: ['https://mumbai.polygonscan.com/']
+    },
+    {
+        chainId: '0x89',
+        chainName: 'Polygon Mainnet',
+        nativeCurrency: {
+            name: 'Polygon',
+            symbol: 'MATIC',
+            decimals: 18
+        },
+        rpcUrls: ['https://polygon-rpc.com/'],
+        blockExplorerUrls: ['https://polygonscan.com/']
     }
 ];
