@@ -18,9 +18,4 @@ export class DialogSelectEthNetworkComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  onClick(chainName: string) {
-    this.network = chainName;
-  }
-
 }

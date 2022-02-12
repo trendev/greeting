@@ -21,6 +21,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogSelectEthNetworkComponent } from './details/network-details/dialog-select-eth-network/dialog-select-eth-network.component';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -47,7 +48,8 @@ import { DialogSelectEthNetworkComponent } from './details/network-details/dialo
     MatInputModule,
     MatIconModule,
     MatToolbarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
