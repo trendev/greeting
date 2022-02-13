@@ -26,6 +26,7 @@ const mnemonic = process.env["MNEMONIC"];
 
 const etherscan_api_key = process.env["ETHERSCAN_API"];
 const snowtrace_api_key = process.env["SNOWTRACE_API"];
+const polygonscan_api_key = process.env["POLYGONSCAN_API"];
 
 module.exports = {
   /**
@@ -46,11 +47,11 @@ module.exports = {
     // options below to some value.
     //
     development: {
-       host: "127.0.0.1",     // Localhost (default: none)
-       port: 8545,            // Standard Ethereum port (default: none)
-       network_id: "*",       // Any network (default: none)
-     },
-     
+      host: "127.0.0.1",     // Localhost (default: none)
+      port: 8545,            // Standard Ethereum port (default: none)
+      network_id: "*",       // Any network (default: none)
+    },
+
     rinkeby: {
       provider: () => {
         const project_id = process.env["INFURA_PROJECT_ID"]
@@ -105,7 +106,27 @@ module.exports = {
       network_id: 43113,
       timeoutBlocks: 200,
       skipDryRun: true
-    }
+    },
+
+    bnbt: {
+      provider: () => new HDWalletProvider(
+        mnemonic,
+        `wss://data-seed-prebsc-1-s1.binance.org:8545`),
+      network_id: 97,
+      confirmations: 10,
+      timeoutBlocks: 200,
+      skipDryRun: true
+    },
+
+    mumbai: {
+      provider: () => new HDWalletProvider(
+        mnemonic,
+        `https://rpc-mumbai.matic.today`),
+      network_id: 80001,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true
+    },
   },
 
   // Set default mocha options here, use special reporters etc.
@@ -132,7 +153,8 @@ module.exports = {
   ],
   api_keys: {
     etherscan: etherscan_api_key,
-    snowtrace: snowtrace_api_key
+    snowtrace: snowtrace_api_key,
+    polygonscan: polygonscan_api_key,
   }
 
   // Truffle DB is currently disabled by default; to enable it, change enabled:

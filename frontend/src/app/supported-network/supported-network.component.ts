@@ -32,6 +32,11 @@ export class SupportedNetworkComponent implements OnInit {
       protocol: 'AVALANCHE',
       name: 'Fuji',
       testnet: true
+    },
+    {
+      protocol: 'POLYGON/MATIC',
+      name: 'Mumbai',
+      testnet: true
     }
   ];
 
