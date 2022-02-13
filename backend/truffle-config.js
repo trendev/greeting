@@ -27,6 +27,7 @@ const mnemonic = process.env["MNEMONIC"];
 const etherscan_api_key = process.env["ETHERSCAN_API"];
 const snowtrace_api_key = process.env["SNOWTRACE_API"];
 const polygonscan_api_key = process.env["POLYGONSCAN_API"];
+const bscscan_api_key = process.env["BSCSCAN_API"];
 
 module.exports = {
   /**
@@ -155,6 +156,7 @@ module.exports = {
     etherscan: etherscan_api_key,
     snowtrace: snowtrace_api_key,
     polygonscan: polygonscan_api_key,
+    bscscan: bscscan_api_key
   }
 
   // Truffle DB is currently disabled by default; to enable it, change enabled:

@@ -37,6 +37,11 @@ export class SupportedNetworkComponent implements OnInit {
       protocol: 'POLYGON/MATIC',
       name: 'Mumbai',
       testnet: true
+    },
+    {
+      protocol: 'BINANCE',
+      name: 'bnbt',
+      testnet: true
     }
   ];
 
