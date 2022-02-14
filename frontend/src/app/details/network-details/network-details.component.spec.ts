@@ -9,10 +9,16 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
 import { DialogSelectEthNetworkComponent } from './dialog-select-eth-network/dialog-select-eth-network.component';
 
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { MatDialogHarness } from '@angular/material/dialog/testing';
+import { MatButtonHarness } from '@angular/material/button/testing';
+
 
 describe('NetworkDetailsComponent', () => {
   let component: NetworkDetailsComponent;
   let fixture: ComponentFixture<NetworkDetailsComponent>;
+  let loader: HarnessLoader;
 
   let ethServiceSpy: jasmine.SpyObj<EthService>;
   const network: providers.Network = { name: "net", chainId: 7777, ensAddress: '0xab01234cd56789ef' };
@@ -34,7 +40,7 @@ describe('NetworkDetailsComponent', () => {
       }, {
         provide: MatDialog,
         useValue: {
-          open: (component: ComponentType<DialogSelectEthNetworkComponent>, config: MatDialogConfig | undefined) => {
+          open: () => {
             return {
               afterClosed: () => of(network.name)
             }
@@ -49,6 +55,7 @@ describe('NetworkDetailsComponent', () => {
     fixture = TestBed.createComponent(NetworkDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    loader = TestbedHarnessEnvironment.loader(fixture);
   });
 
   it('should create', () => {
@@ -91,5 +98,15 @@ describe('NetworkDetailsComponent', () => {
       expect(spy).not.toHaveBeenCalled();
     });
   }));
+
+  it('should call addNetwork() clicking on button', async () => {
+    const button = await loader.getHarness(MatButtonHarness);
+    expect(button).toBeTruthy();
+    expect(await button.getText()).toBe('Add/Switch Custom Network');
+
+    const spy = spyOn(component, 'addEthNetwork');
+    await button.click();
+    expect(spy).toHaveBeenCalled();
+  });
 
 });
