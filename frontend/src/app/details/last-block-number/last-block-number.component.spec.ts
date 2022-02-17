@@ -48,30 +48,53 @@ describe('LastBlockNumberComponent', () => {
     expect(title?.textContent).toContain('Block');
   });
 
+  it('should have a default state', () => {
+    expect(component.state).toBeTruthy();
+    expect(component.state).toBe('set');
+  });
+
+  it('should change the state', () => {
+    const spy = spyOn(component, 'onDone').and.callThrough();
+    component.state = 'updating';
+    component.onDone({ toState: 'updating' } as any);
+    expect(spy).toHaveBeenCalled();
+    expect(component.state).toBe('set');
+  });
+
   describe('should contain the fake block in a <code> tag', () => {
+    const N = 3;
 
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    for (let i = 1; i <= N; i++) {
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = 3000 * N + 1000;
 
-    for (let i = 1; i <= 3; i++) {
-      xit(` do ${i} refresh`, (done: DoneFn) => {
+      it(` do ${i} update${i > 1 ? 's' : ''} `, (done: DoneFn) => {
+
         expect(component.block$).toBeDefined();
         let count = 0;
 
+        const blocks: number[] = [];
+        for (let j = 0; j < i; j++) {
+          blocks.push(block + j);
+          blocks.push(block + j); // 2x subscription : this test + async pipe in html template
+        }
+        const promises = blocks.map(b => Promise.resolve(b));
+        ethServiceSpy.getBlockNumber.and.returnValues(...promises);
+
         component.block$.pipe(
           take(i),
-          finalize(() => (count === i) ? done() : done.fail(`only ${count}/${i} refresh of last block number`))
+          finalize(() => (count === i) ? done() : done.fail(`only ${count} /${i} refresh of last block number`))
         ).subscribe(b => {
           expect(ethServiceSpy.getBlockNumber).toHaveBeenCalled();
 
           expect(b).toBeGreaterThan(0);
-          expect(b).toEqual(block);
+          expect(b).toEqual(blocks[count * 2]);
 
           fixture.detectChanges();
           const elmt: HTMLElement = fixture.nativeElement;
           const c = elmt.querySelector('code');
           expect(c).toBeTruthy();
           expect(c?.textContent).toBeTruthy();
-          expect(c?.textContent).toEqual(`${block}`);
+          expect(c?.textContent).toEqual(`${blocks[count * 2]}`);
           count++;
         });
       });
