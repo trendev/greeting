@@ -1,4 +1,4 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { animate, state, style, transition, trigger, AnimationEvent } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { concatMap, from, Observable, tap, timer, distinctUntilChanged } from 'rxjs';
 import { EthService } from 'src/app';
@@ -25,7 +25,7 @@ export const delay = 500;
 })
 export class LastBlockNumberComponent implements OnInit {
   block$: Observable<number>;
-  updating = false;
+  state: 'updating' | 'set' = 'set';
   private _block: number;
 
   constructor(private ethService: EthService) { }
@@ -34,14 +34,14 @@ export class LastBlockNumberComponent implements OnInit {
     this.block$ = timer(0, 3000).pipe(
       concatMap(_ => from(this.ethService.getBlockNumber())),
       distinctUntilChanged(),
-      tap(b => {
-        if (b !== this._block) {
-          this.updating = true;
-          this._block = b;
-          setTimeout(() => this.updating = false, delay); // delay to change the state
-        }
-      })
+      tap(_ => this.state = 'updating')
     );
+  }
+
+  onDone(event: AnimationEvent) {
+    if (event.toState === 'updating') { // changes the state when update animation is done
+      this.state = 'set';
+    }
   }
 
 }
