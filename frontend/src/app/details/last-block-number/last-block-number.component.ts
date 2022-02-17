@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { concatMap, from, Observable, tap, timer, distinctUntilChanged } from 'rxjs';
 import { EthService } from 'src/app';
 
-export const delay = 500;
+const delay = 500;
 
 @Component({
   selector: 'app-last-block-number',
@@ -26,7 +26,6 @@ export const delay = 500;
 export class LastBlockNumberComponent implements OnInit {
   block$: Observable<number>;
   state: 'updating' | 'set' = 'set';
-  private _block: number;
 
   constructor(private ethService: EthService) { }
 
