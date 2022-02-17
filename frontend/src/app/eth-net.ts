@@ -51,7 +51,7 @@ export const customNetworks = [
             symbol: 'MATIC',
             decimals: 18
         },
-        rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
+        rpcUrls: ['https://matic-testnet-archive-rpc.bwarelabs.com'],
         blockExplorerUrls: ['https://mumbai.polygonscan.com/']
     },
     {
