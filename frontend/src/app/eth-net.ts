@@ -29,7 +29,7 @@ export const customNetworks = [
             symbol: 'BNB',
             decimals: 18
         },
-        rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
+        rpcUrls: ['https://data-seed-prebsc-1-s2.binance.org:8545/'],
         blockExplorerUrls: ['https://testnet.bscscan.com']
     },
     {
@@ -51,7 +51,7 @@ export const customNetworks = [
             symbol: 'MATIC',
             decimals: 18
         },
-        rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
+        rpcUrls: ['https://matic-testnet-archive-rpc.bwarelabs.com'],
         blockExplorerUrls: ['https://mumbai.polygonscan.com/']
     },
     {
