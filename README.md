@@ -22,6 +22,7 @@ ng deploy --base-href "/greeting/"
 
 ## Go contract binding
 ```
-solc --abi contracts/Greeter.sol --include-path node_modules --base-path contracts -o build
-abigen --abi=./build/Greeter.abi --pkg=greeter --out=Greeter.go
+solc --abi backend/contracts/Greeter.sol --include-path backend/node_modules --base-path backend/contracts -o backend/go-greeting/build
+mkdir -p backend/go-greeting/contracts
+abigen --abi=backend/go-greeting/build/Greeter.abi --pkg=greeter --out=backend/go-greeting/contracts/Greeter.go
 ```
