@@ -45,6 +45,8 @@ func main() {
 
 	if iter.Error() != nil {
 		log.Fatalf("error: %s\n", iter.Error())
+	} else {
+		fmt.Println("😎 That's all folks")
 	}
 
 }
