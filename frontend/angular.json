@@ -123,8 +123,8 @@
           "builder": "angular-cli-ghpages:deploy",
           "options": {
             "baseHref": "/greeting/",
-            "name": "_juliensie",
-            "email": "julien.sie@gmail.com",
+            "name": "_whyvrafvr",
+            "email": "jsie@trendev.fr",
             "noSilent": true,
             "dryRun": false
           }
