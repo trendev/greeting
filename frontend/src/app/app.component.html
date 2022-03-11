@@ -12,12 +12,19 @@
     <app-greeting></app-greeting>
 </div>
 <ng-template #notConnected>
-    <h1 class="error">Metamask Authentication REQUIRED</h1>
-    <mat-card>
-        <mat-card-content>
-            <app-supported-network></app-supported-network>
-            <h3 style="font-style: italic;">Other networks are not supported yet...</h3>
-        </mat-card-content>
-    </mat-card>
+    <h1 class="error">Access Restricted to Metamask or Coinbase Wallet</h1>
+    <div class="networks_card">
+        <mat-card>
+            <mat-card-title>💎 Greeter Smart Contract is deployed on the following networks</mat-card-title>
+            <mat-card-subtitle>Other networks are not yet supported...</mat-card-subtitle>
+            <mat-card-content>
+                <div class="networks">
+                    <app-supported-network></app-supported-network>
+                </div>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <a mat-button href="https://github.com/trendev/greeting" target="_blank" color="accent">All Github Sources</a>
+            </mat-card-actions>
+        </mat-card>
+    </div>
 </ng-template>
-<a mat-button href="https://github.com/trendev/greeting" target="_blank" color="accent">All Github Sources</a>

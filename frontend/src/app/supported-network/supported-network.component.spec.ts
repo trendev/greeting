@@ -66,16 +66,6 @@ describe('SupportedNetworkComponent', () => {
     expect(networks.sort(component.compareNetworks)).toEqual(component.networks);
   });
 
-  it('should contain <h2> tag', () => {
-    fixture.detectChanges();
-
-    const appElement: HTMLElement = fixture.nativeElement;
-    expect(appElement).toBeDefined();
-    const h2 = appElement.querySelector('h2');
-    expect(h2).toBeDefined();
-    expect(h2?.textContent).toBe(`"Greeter" Smart Contract is deployed on:`);
-  });
-
   it('should contain <table> tag with 7 rows : 1 header + 6 data', () => {
     fixture.detectChanges();
 

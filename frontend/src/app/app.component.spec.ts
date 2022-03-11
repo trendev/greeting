@@ -96,26 +96,13 @@ describe('AppComponent', () => {
       expect(component.canFetchData).toBeFalse();
     });
 
-    const tags = [
-      {
-        tag: 'h1',
-        txt: 'Metamask Authentication REQUIRED'
-      },
-      {
-        tag: 'h3',
-        txt: 'Other networks are not supported yet...'
-      }
-    ];
-
-    tags.forEach(t => {
-      it(`should have <${t.tag}> with text "${t.txt}"`, () => {
-        const appElement: HTMLElement = fixture.nativeElement;
-        expect(appElement).toBeDefined();
-        const elmt = appElement.querySelector(t.tag)!;
-        expect(elmt).toBeDefined();
-        expect(elmt.textContent).toBeDefined();
-        expect(elmt.textContent).toContain(t.txt);
-      });
+    it(`should contain metamask`, () => {
+      const appElement: HTMLElement = fixture.nativeElement;
+      expect(appElement).toBeDefined();
+      const elmt = appElement.querySelector('h1')!;
+      expect(elmt).toBeDefined();
+      expect(elmt.textContent).toBeDefined();
+      expect(elmt.textContent?.toLowerCase()).toContain('metamask');
     });
 
     it('should have <app-supported-network> with 2 Elements', () => {
