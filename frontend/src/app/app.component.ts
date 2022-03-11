@@ -3,7 +3,7 @@ import { EthService } from './eth.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
-export const KEY_MODE = '_mode_';
+export const KEY_MODE = btoa('trendev-app-theme-mode');
 
 @Component({
   selector: 'app-root',
