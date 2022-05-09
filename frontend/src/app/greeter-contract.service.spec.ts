@@ -74,11 +74,10 @@ describe('GreeterContractService', () => {
   });
 
   describe('is using a stub EthService using a real Provider/Signer', () => {
-    // avalanche fuji testnet
-    const url = 'https://api.avax-test.network/ext/bc/C/rpc';
+    const url = `https://goerli.infura.io/v3/8140c22a0f7143d696cda61064e29cbe`;
     const net = {
-      name: "fuji",
-      chainId: 43113
+      name: "goerli",
+      chainId: 5
     };
 
     let ethServiceSpy: jasmine.SpyObj<EthService>;
@@ -268,10 +267,9 @@ describe('GreeterContractService', () => {
   });
 
   describe('is using a stub EthService but with no Provider', () => {
-    // avalanche fuji testnet
     const net = {
-      name: "fuji",
-      chainId: 43113
+      name: "goerli",
+      chainId: 5
     };
 
     let ethServiceSpy: jasmine.SpyObj<EthService>;
