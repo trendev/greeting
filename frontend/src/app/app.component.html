@@ -5,11 +5,12 @@
             <app-theme-switch [mode]="mode" (modeChange)="enableMode($event)"></app-theme-switch>
         </div>
     </mat-toolbar>
+    <app-greeting></app-greeting>
     <app-network-details></app-network-details>
     <app-last-block-number></app-last-block-number>
     <app-eth-address></app-eth-address>
     <app-balance></app-balance>
-    <app-greeting></app-greeting>
+
 </div>
 <ng-template #notConnected>
     <h1 class="error">Access Restricted to Metamask or Coinbase Wallet</h1>
@@ -23,7 +24,8 @@
                 </div>
             </mat-card-content>
             <mat-card-actions align="end">
-                <a mat-button href="https://github.com/trendev/greeting" target="_blank" color="accent">All Github Sources</a>
+                <a mat-button href="https://github.com/trendev/greeting" target="_blank" color="accent">All Github
+                    Sources</a>
             </mat-card-actions>
         </mat-card>
     </div>
