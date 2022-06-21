@@ -5,6 +5,7 @@ import (
 	"fmt"
 	greeter "go-greeting/contracts"
 	"log"
+	"os"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
@@ -39,6 +40,11 @@ func main() {
 	}
 
 	iter, err := instance.GreeterFilterer.FilterGreetingUpdated(opts, []common.Address{})
+	if err != nil {
+		fmt.Printf("🤯 error collecting logs and previous greetings: %s\n", err)
+		os.Exit(1)
+	}
+
 	for iter.Next() {
 		fmt.Printf(" 💬 %s\n", iter.Event.OldGreeting)
 	}
