@@ -18,12 +18,12 @@ func main() {
 		log.Fatalln("INFURA_PROJECT_ID must be set")
 	}
 
-	client, err := ethclient.Dial(fmt.Sprintf("https://goerli.infura.io/v3/%s", id))
+	client, err := ethclient.Dial(fmt.Sprintf("https://ropsten.infura.io/v3/%s", id))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	a := "0x7a3Ace07788C42214Db961aa270e5dF19aA27893"
+	a := "0xD1441e1Cb432568B6a1D42aEBd9Ce73b2CE4f475"
 	address := common.HexToAddress(a)
 
 	instance, err := greeter.NewGreeter(address, client)
