@@ -36,6 +36,10 @@ class ThemeSwitchStubComponent {
   @Input() mode: ThemeMode;
 }
 
+@Component({ selector: 'app-donation', template: '<h3>donation</h3>' })
+class DonationStubComponent {
+}
+
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
@@ -52,6 +56,7 @@ describe('AppComponent', () => {
         ],
         declarations: [
           SupportedNetworkStubComponent,
+          DonationStubComponent,
           AppComponent
         ],
         providers: [{
@@ -137,6 +142,7 @@ describe('AppComponent', () => {
           NetworkDetailsStubComponent,
           GreetingStubComponent,
           ThemeSwitchStubComponent,
+          DonationStubComponent,
           AppComponent
         ],
         providers: [{

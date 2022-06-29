@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
 
 import { DonationComponent } from './donation.component';
 
@@ -8,9 +9,10 @@ describe('DonationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DonationComponent ]
+      imports: [MatCardModule],
+      declarations: [DonationComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(DonationComponent);
     component = fixture.componentInstance;
