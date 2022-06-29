@@ -22,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogSelectEthNetworkComponent } from './details/network-details/dialog-select-eth-network/dialog-select-eth-network.component';
 import { MatSelectModule } from '@angular/material/select';
+import { DonationComponent } from './donation/donation.component';
 
 
 
@@ -37,7 +38,8 @@ import { MatSelectModule } from '@angular/material/select';
     LastBlockNumberComponent,
     BalanceComponent,
     ThemeSwitchComponent,
-    DialogSelectEthNetworkComponent
+    DialogSelectEthNetworkComponent,
+    DonationComponent
   ],
   imports: [
     BrowserModule,
