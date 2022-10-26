@@ -29,9 +29,9 @@ describe('SupportedNetworkComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should contain multiple testnets', () => {
+  it('should contain 4 testnets', () => {
     expect(component.networks).toBeTruthy();
-    expect(component.networks.length).toBeGreaterThanOrEqual(5);
+    expect(component.networks.length).toEqual(4);
   });
 
   it('should contain avalanche fuji network', () => {
@@ -66,7 +66,7 @@ describe('SupportedNetworkComponent', () => {
     expect(networks.sort(component.compareNetworks)).toEqual(component.networks);
   });
 
-  it('should contain <table> tag with 7 rows : 1 header + 6 data', () => {
+  it('should contain <table> tag with multiple rows', () => {
     fixture.detectChanges();
 
     const appElement: HTMLElement = fixture.nativeElement;
@@ -89,7 +89,7 @@ describe('SupportedNetworkComponent', () => {
 
         expect(data?.item(0).textContent).toBe(component.networks[i - 1].protocol);
         expect(data?.item(1).textContent).toBe(component.networks[i - 1].name);
-        expect(data?.item(2).textContent).toBe(component.networks[i - 1].testnet ? '🟢' : '');
+        expect(data?.item(2).textContent).toBe(component.networks[i - 1].testnet ? '🔵' : '');
       }
     }
   });
