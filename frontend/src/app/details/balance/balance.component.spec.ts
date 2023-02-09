@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BalanceComponent } from './balance.component';
 import { BigNumber, utils } from 'ethers';
 import { finalize, first, take } from 'rxjs';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 
 describe('BalanceComponent', () => {
   let component: BalanceComponent;

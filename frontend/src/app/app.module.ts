@@ -14,14 +14,14 @@ import { LastBlockNumberComponent } from './details/last-block-number/last-block
 import { BalanceComponent } from './details/balance/balance.component';
 import { ThemeSwitchComponent } from './theme-switch/theme-switch.component';
 
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { DialogSelectEthNetworkComponent } from './details/network-details/dialog-select-eth-network/dialog-select-eth-network.component';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { DonationComponent } from './donation/donation.component';
 
 
