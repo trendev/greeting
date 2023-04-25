@@ -7,6 +7,7 @@ on:
 
 jobs:
   test:
+    name: Test & Export code coverage
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -31,6 +32,7 @@ jobs:
           name: angular-coverage-node-${{ matrix.node-version }}
           path: frontend/coverage
   deploy:
+    name: Build & Deploy to GitHub pages
     if: github.event_name != 'pull_request'
     needs: test
     runs-on: ubuntu-latest
