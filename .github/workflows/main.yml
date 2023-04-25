@@ -58,7 +58,7 @@ jobs:
         run: npm ci
         working-directory: frontend
       - name: Build
-        run: npm run build --output-path dist-node-${{ matrix.node-version }}/ --verbose
+        run: npm run build --output-path=dist-node-${{ matrix.node-version }}/ --verbose
         working-directory: frontend
   deploy:
     if: github.event_name != 'pull_request'
