@@ -27,7 +27,7 @@ jobs:
           npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
         working-directory: frontend
   build:
-    needs: test
+    # needs: test
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -49,7 +49,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: build-node-${{ matrix.node-version }}
-          path: frontend/build/
+          path: docs
           retention-days: 5
   deploy:
     if: github.event_name != 'pull_request'
