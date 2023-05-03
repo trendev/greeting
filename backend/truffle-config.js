@@ -75,6 +75,23 @@ module.exports = {
       network_id: '11155111',
     },
 
+    linea: {
+      networkCheckTimeout: 999999, 
+      // poolingInterval: 30000,
+      provider: () => {
+        return new HDWalletProvider(
+          mnemonic,
+          `https://rpc.goerli.linea.build`,
+        );
+      },
+      verify: {
+        apiUrl: "https://explorer.goerli.linea.build/api",
+        apiKey: etherscan_api_key,
+        explorerUrl: "https://explorer.goerli.linea.build/",
+      },
+      network_id: '59140',
+    },
+
     // ropsten: {
     //   provider: () => {
     //     const project_id = process.env["ALCHEMY_PROJECT_ID"]
