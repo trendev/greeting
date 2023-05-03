@@ -47,33 +47,11 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     //
-    development: {
-      host: "127.0.0.1",     // Localhost (default: none)
-      port: 8545,            // Standard Ethereum port (default: none)
-      network_id: "*",       // Any network (default: none)
-    },
-
-    rinkeby: {
-      provider: () => {
-        const project_id = process.env["INFURA_PROJECT_ID"]
-
-        return new HDWalletProvider(
-          mnemonic,
-          `https://rinkeby.infura.io/v3/${project_id}`);
-      },
-      network_id: 4
-    },
-
-    kovan: {
-      provider: () => {
-        const project_id = process.env["INFURA_PROJECT_ID"]
-
-        return new HDWalletProvider(
-          mnemonic,
-          `https://kovan.infura.io/v3/${project_id}`);
-      },
-      network_id: 42
-    },
+    // development: {
+    //   host: "127.0.0.1",     // Localhost (default: none)
+    //   port: 8545,            // Standard Ethereum port (default: none)
+    //   network_id: "*",       // Any network (default: none)
+    // },
 
     goerli: {
       provider: () => {
@@ -86,16 +64,27 @@ module.exports = {
       network_id: 5
     },
 
-    ropsten: {
+    sepolia: {
       provider: () => {
-        const project_id = process.env["ALCHEMY_PROJECT_ID"]
+        const project_id = process.env["INFURA_PROJECT_ID"]
 
         return new HDWalletProvider(
           mnemonic,
-          `https://eth-ropsten.alchemyapi.io/v2/${project_id}`);
+          `https://sepolia.infura.io/v3/${project_id}`);
       },
-      network_id: 3
+      network_id: '11155111',
     },
+
+    // ropsten: {
+    //   provider: () => {
+    //     const project_id = process.env["ALCHEMY_PROJECT_ID"]
+
+    //     return new HDWalletProvider(
+    //       mnemonic,
+    //       `https://eth-ropsten.alchemyapi.io/v2/${project_id}`);
+    //   },
+    //   network_id: 3
+    // },
 
     // avalanche testnet
     fuji: {
