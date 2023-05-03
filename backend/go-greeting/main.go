@@ -16,10 +16,9 @@ var networks = map[string]struct {
 	url     string
 	address string
 }{
-	"ropsten": {"https://ropsten.infura.io/v3", "0xD1441e1Cb432568B6a1D42aEBd9Ce73b2CE4f475"},
 	"fuji":    {"https://avalanche-fuji.infura.io/v3", "0x97365BecdD17ed5A9E2489c121775AFC88E21260"},
-	"rinkeby": {"https://rinkeby.infura.io/v3", "0x55c31e32f3c12117CEAeAe78c4b30f86F61F493d"},
 	"goerli":  {"https://goerli.infura.io/v3", "0x7a3Ace07788C42214Db961aa270e5dF19aA27893"},
+	"sepolia": {"https://sepolia.infura.io/v3", "0xb3d3D851661ca42CB2dE66E3E446C3C38D072cdB"},
 }
 
 func main() {
@@ -28,7 +27,7 @@ func main() {
 		log.Fatalln("INFURA_PROJECT_ID must be set")
 	}
 
-	net := "goerli"
+	net := "sepolia"
 	fmt.Printf("🔗 Network %q\n", net)
 
 	client, err := ethclient.Dial(fmt.Sprintf("%s/%s", networks[net].url, id))
