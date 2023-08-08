@@ -19,6 +19,11 @@ export class SupportedNetworkComponent implements OnInit {
       testnet: true
     },
     {
+      protocol: 'ETH',
+      name: 'Linea',
+      testnet: true
+    },
+    {
       protocol: 'AVALANCHE',
       name: 'Fuji',
       testnet: true
