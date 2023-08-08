@@ -76,8 +76,6 @@ module.exports = {
     },
 
     linea: {
-      networkCheckTimeout: 999999, 
-      // poolingInterval: 30000,
       provider: () => {
         return new HDWalletProvider(
           mnemonic,
@@ -91,17 +89,6 @@ module.exports = {
       },
       network_id: '59140',
     },
-
-    // ropsten: {
-    //   provider: () => {
-    //     const project_id = process.env["ALCHEMY_PROJECT_ID"]
-
-    //     return new HDWalletProvider(
-    //       mnemonic,
-    //       `https://eth-ropsten.alchemyapi.io/v2/${project_id}`);
-    //   },
-    //   network_id: 3
-    // },
 
     // avalanche testnet
     fuji: {
