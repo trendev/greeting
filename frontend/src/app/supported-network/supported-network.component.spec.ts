@@ -29,9 +29,9 @@ describe('SupportedNetworkComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should contain 6 testnets', () => {
+  it('should contain 7 testnets', () => {
     expect(component.networks).toBeTruthy();
-    expect(component.networks.length).toEqual(6);
+    expect(component.networks.length).toEqual(7);
   });
 
   it('should contain avalanche fuji network', () => {

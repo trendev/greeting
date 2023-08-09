@@ -29,6 +29,7 @@ const lineascan_api_key = process.env["LINEASCAN_API"];
 const snowtrace_api_key = process.env["SNOWTRACE_API"];
 const polygonscan_api_key = process.env["POLYGONSCAN_API"];
 const bscscan_api_key = process.env["BSCSCAN_API"];
+const celoscan_api_key = process.env["CELOSCAN_API"];
 
 module.exports = {
   /**
@@ -126,6 +127,17 @@ module.exports = {
       timeoutBlocks: 200,
       skipDryRun: true
     },
+
+    celo: {
+      provider: () => {
+        const project_id = process.env["INFURA_PROJECT_ID"]
+
+        return new HDWalletProvider(
+          mnemonic,
+          `https://celo-alfajores.infura.io/v3/${project_id}`);
+      },
+      network_id: 44787
+    },
   },
 
   // Set default mocha options here, use special reporters etc.
@@ -154,7 +166,8 @@ module.exports = {
     etherscan: etherscan_api_key,
     snowtrace: snowtrace_api_key,
     polygonscan: polygonscan_api_key,
-    bscscan: bscscan_api_key
+    bscscan: bscscan_api_key,
+    celoscan: celoscan_api_key,
   }
 
   // Truffle DB is currently disabled by default; to enable it, change enabled:

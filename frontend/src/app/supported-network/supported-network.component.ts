@@ -29,6 +29,11 @@ export class SupportedNetworkComponent implements OnInit {
       testnet: true
     },
     {
+      protocol: 'CELO',
+      name: 'alfajores',
+      testnet: true
+    },
+    {
       protocol: 'POLYGON/MATIC',
       name: 'Mumbai',
       testnet: true
