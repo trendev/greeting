@@ -114,9 +114,13 @@ module.exports = {
     },
 
     mumbai: {
-      provider: () => new HDWalletProvider(
-        mnemonic,
-        `https://polygon-mumbai.g.alchemy.com/v2/VszYhreoXvbz-GEVbPk_qvn0BbqGYMki`),
+
+      provider: () => {
+        const project_id = process.env["ALCHEMY_PROJECT_ID"];
+        return new HDWalletProvider(
+          mnemonic,
+          `https://polygon-mumbai.g.alchemy.com/v2/${project_id}`)
+      },
       network_id: 80001,
       confirmations: 2,
       timeoutBlocks: 200,
