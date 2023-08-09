@@ -25,6 +25,7 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 const mnemonic = process.env["MNEMONIC"];
 
 const etherscan_api_key = process.env["ETHERSCAN_API"];
+const lineascan_api_key = process.env["LINEASCAN_API"];
 const snowtrace_api_key = process.env["SNOWTRACE_API"];
 const polygonscan_api_key = process.env["POLYGONSCAN_API"];
 const bscscan_api_key = process.env["BSCSCAN_API"];
@@ -83,9 +84,9 @@ module.exports = {
         );
       },
       verify: {
-        apiUrl: "https://explorer.goerli.linea.build/api",
-        apiKey: etherscan_api_key,
-        explorerUrl: "https://explorer.goerli.linea.build/",
+        apiUrl: "https://api-testnet.lineascan.build/api",
+        apiKey: lineascan_api_key,
+        explorerUrl: "https://goerli.lineascan.build/address",
       },
       network_id: '59140',
     },
@@ -115,7 +116,7 @@ module.exports = {
     mumbai: {
       provider: () => new HDWalletProvider(
         mnemonic,
-        `https://rpc-mumbai.matic.today`),
+        `https://polygon-mumbai.g.alchemy.com/v2/VszYhreoXvbz-GEVbPk_qvn0BbqGYMki`),
       network_id: 80001,
       confirmations: 2,
       timeoutBlocks: 200,

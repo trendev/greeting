@@ -35,7 +35,7 @@ contract Greeter is Ownable {
         return size > 0;
     }
 
-    function kill() external onlyOwner {
-        selfdestruct(payable(owner()));
-    }
+    // function kill() external onlyOwner {
+    //     selfdestruct(payable(owner()));
+    // }
 }
