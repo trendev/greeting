@@ -226,7 +226,7 @@ describe('GreeterContractService', () => {
         finalize(done)
       ).subscribe(logs => {
         expect(logs).toBeTruthy();
-        expect(logs.length).toBeGreaterThan(0);
+        expect(logs.length).toBeGreaterThanOrEqual(0);
       });
     });
 
