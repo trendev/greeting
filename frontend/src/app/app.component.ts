@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   mode: ThemeMode;
 
   constructor(private ethService: EthService, @Inject(DOCUMENT) private document: Document) {
-    this.mode = localStorage.getItem(KEY_MODE) as ThemeMode || ThemeMode.Light;
+    this.mode = localStorage.getItem(KEY_MODE) as ThemeMode || ThemeMode.Dark;
     this.enableMode(this.mode);
   }
 

@@ -76,8 +76,8 @@ describe('AppComponent', () => {
       expect(component).toBeTruthy();
     });
 
-    it(`should use ${ThemeMode.Light} as default mode`, () => {
-      expect(component.mode).toEqual(ThemeMode.Light);
+    it(`should use ${ThemeMode.Dark} as default mode`, () => {
+      expect(component.mode).toEqual(ThemeMode.Dark);
       expect(component.mode).toEqual(localStorage.getItem(KEY_MODE) as ThemeMode);
     });
 
