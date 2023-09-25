@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ethService.isInitialized().then(v => this.canFetchData = false);
+    this.ethService.isInitialized().then(v => this.canFetchData = v);
   }
 
   enableMode(mode: ThemeMode) {
