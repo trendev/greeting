@@ -32,6 +32,8 @@ $frontend-dark-theme: mat.define-dark-theme((color: (primary: mat.define-palette
 .dark-theme {
   @include mat.all-legacy-component-colors($frontend-dark-theme);
   @include message.theme($frontend-dark-theme);
+  background-image: url(./assets/dark-background.png);
+  background-size: cover;
 }
 
 html,
