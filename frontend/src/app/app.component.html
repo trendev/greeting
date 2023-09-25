@@ -1,25 +1,29 @@
-<div *ngIf="canFetchData; else notConnected">
+<div *ngIf="canFetchData; else notConnected" class="activated">
     <mat-toolbar color="primary">
         <div class="toolbar-content">
             <span>TRENDev's Greeting &Dstrok;App 🤗</span>
             <app-theme-switch [mode]="mode" (modeChange)="enableMode($event)"></app-theme-switch>
         </div>
     </mat-toolbar>
-    <app-donation></app-donation>
-    <app-greeting></app-greeting>
-    <app-network-details></app-network-details>
-    <app-last-block-number></app-last-block-number>
-    <app-eth-address></app-eth-address>
-    <app-balance></app-balance>
-
+    <div class="content">
+        <app-donation></app-donation>
+        <app-greeting></app-greeting>
+        <app-network-details></app-network-details>
+        <app-last-block-number></app-last-block-number>
+        <app-eth-address></app-eth-address>
+        <app-balance></app-balance>
+    </div>
 </div>
 <ng-template #notConnected>
     <h1 class="error">Access Restricted to Metamask or Coinbase Wallet</h1>
-    <div class="networks_card">
+    <div class="content">
         <app-donation></app-donation>
         <mat-card>
-            <mat-card-title>💎 Greeter Smart Contract is deployed on the following networks</mat-card-title>
-            <mat-card-subtitle>Other networks are not yet supported...</mat-card-subtitle>
+            <mat-card-header>
+                <mat-card-title>💎 The Greeter Smart Contract has been deployed on the following
+                    networks</mat-card-title>
+                <mat-card-subtitle>Other networks are not yet supported...</mat-card-subtitle>
+            </mat-card-header>
             <mat-card-content>
                 <div class="networks">
                     <app-supported-network></app-supported-network>
