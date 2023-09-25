@@ -1,5 +1,5 @@
 @use '@angular/material'as mat;
-@use './app/greeting/greeting-theme.scss' as message;
+@use './app/greeting/greeting-theme.scss'as message;
 
 // TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
 //  The following line adds:
@@ -32,8 +32,7 @@ $frontend-dark-theme: mat.define-dark-theme((color: (primary: mat.define-palette
 .dark-theme {
   @include mat.all-legacy-component-colors($frontend-dark-theme);
   @include message.theme($frontend-dark-theme);
-  background-image: url(./assets/dark-background.png);
-  background-size: cover;
+  background-image: url(./assets/dark-background2.png);
 }
 
 html,
