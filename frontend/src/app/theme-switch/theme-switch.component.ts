@@ -22,7 +22,7 @@ export class ThemeSwitchComponent implements OnInit {
   }
 
   convert(mode: ThemeMode) {
-    return mode === ThemeMode.Light ? ThemeMode.Dark :  ThemeMode.Light;
+    return mode === ThemeMode.Light ? ThemeMode.Dark : ThemeMode.Light;
   }
 }
 
