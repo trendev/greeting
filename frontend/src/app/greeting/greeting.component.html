@@ -1,7 +1,11 @@
 <mat-card class="mat-elelvation-z8">
+
     <div *ngIf="isDeployed; else notDeployed">
-        <mat-card-title>💎 Smart Contract</mat-card-title>
-        <mat-card-subtitle>{{address}}</mat-card-subtitle>
+        <mat-card-header>
+            <mat-card-title>💎 Smart Contract</mat-card-title>
+            <mat-card-subtitle>{{address}}</mat-card-subtitle>
+        </mat-card-header>
+
         <mat-card-content>
             <h3>📩 Greeting message:</h3>
             <div id="message" [class]="status">
