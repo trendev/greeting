@@ -1,5 +1,5 @@
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { first, finalize } from 'rxjs';
 

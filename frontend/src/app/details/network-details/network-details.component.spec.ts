@@ -1,18 +1,15 @@
 import { of } from 'rxjs';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatCardModule } from '@angular/material/card';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { providers } from 'ethers';
 import { EthService } from 'src/app';
 
 import { NetworkDetailsComponent } from './network-details.component';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
-import { ComponentType } from '@angular/cdk/portal';
-import { DialogSelectEthNetworkComponent } from './dialog-select-eth-network/dialog-select-eth-network.component';
+import { MatDialog } from '@angular/material/dialog';
 
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { MatLegacyDialogHarness as MatDialogHarness } from '@angular/material/legacy-dialog/testing';
-import { MatLegacyButtonHarness as MatButtonHarness } from '@angular/material/legacy-button/testing';
+import {  MatButtonHarness } from '@angular/material/button/testing';
 
 
 describe('NetworkDetailsComponent', () => {

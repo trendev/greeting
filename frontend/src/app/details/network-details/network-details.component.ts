@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { providers } from 'ethers';
 import { EthService } from 'src/app'; ``
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DialogSelectEthNetworkComponent } from './dialog-select-eth-network/dialog-select-eth-network.component';
 
 @Component({

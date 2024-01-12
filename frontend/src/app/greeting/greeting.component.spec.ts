@@ -1,4 +1,4 @@
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatCardModule } from '@angular/material/card';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ethers } from 'ethers';
 import { Result } from 'ethers/lib/utils';
