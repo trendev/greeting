@@ -42,6 +42,11 @@ export class SupportedNetworkComponent implements OnInit {
       protocol: 'BINANCE',
       name: 'bnbt',
       testnet: true
+    },
+    {
+      protocol: 'JUMBO',
+      name: 'proto',
+      testnet: true
     }
   ];
 
