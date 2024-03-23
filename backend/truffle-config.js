@@ -128,6 +128,13 @@ module.exports = {
       skipDryRun: true
     },
 
+    jumbochain: {
+      provider: () =>
+        new HDWalletProvider(mnemonic, "https://testnode.jumbochain.org"),
+      network_id: "234",
+      skipDryRun: true,
+    },
+
     celo: {
       provider: () => {
         const project_id = process.env["INFURA_PROJECT_ID"]
@@ -148,7 +155,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.10",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.8.24",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {
