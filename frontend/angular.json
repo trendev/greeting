@@ -121,7 +121,7 @@
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
           "options": {
-            "baseHref": "/",
+            "baseHref": "/greeting/",
             "name": "_whyvrafvr",
             "email": "jsie@trendev.fr",
             "noSilent": true,
